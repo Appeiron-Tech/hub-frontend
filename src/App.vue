@@ -1,12 +1,21 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
+  <app-toolbar  />
   <router-view/>
 </template>
 
+
+<script>
+import Toolbar from "@/components/toolbar/toolbar";
+export default {
+  components: {
+    'app-toolbar':Toolbar
+  }
+}
+</script>
+
+
 <style>
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

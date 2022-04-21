@@ -4,19 +4,31 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build"
+    "build": "vue-cli-service build",
+    "i18n:report": "vue-cli-service i18n:report --src \\\"./src/**/*.?(js|vue)\\\" --locales \\\"src/plugins/i18n/locales/**/*.json\\\""
   },
   "dependencies": {
+    "@quasar/extras": "^1.0.0",
+    "axios": "^0.26.1",
     "core-js": "^3.8.3",
+    "quasar": "^2.0.0",
     "vue": "^3.2.13",
     "vue-class-component": "^8.0.0-0",
-    "vue-router": "^4.0.3"
+    "vue-i18n": "^9.1.0",
+    "vue-router": "^4.0.3",
+    "vue-sidebar-menu": "^5.2.2",
+    "vuesax": "^4.0.1-alpha.25"
   },
   "devDependencies": {
+    "@intlify/vue-i18n-loader": "^3.0.0",
     "@vue/cli-plugin-babel": "~5.0.0",
     "@vue/cli-plugin-router": "~5.0.0",
     "@vue/cli-plugin-typescript": "~5.0.0",
     "@vue/cli-service": "~5.0.0",
-    "typescript": "~4.5.5"
+    "sass": "1.32.12",
+    "sass-loader": "^12.0.0",
+    "typescript": "~4.5.5",
+    "vue-cli-plugin-i18n": "~2.3.1",
+    "vue-cli-plugin-quasar": "~5.0.1"
   }
 }
