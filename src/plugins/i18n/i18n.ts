@@ -4,6 +4,7 @@ import {createI18n} from "vue-i18n";
  * import locale messages resource from json for global scope
  */
  import es from "@/plugins/i18n/locales/es.json";
+import en from "@/plugins/i18n/locales/en.json";
  import { DEFAULT_LANGUAGE } from "@/constants";
 
 // TODO
@@ -26,6 +27,7 @@ const i18n = createI18n({
   fallbackLocale: ["es", "en"],
   messages: {
     es: es,
+    en: en
   },
   globalInjection: true,
 })

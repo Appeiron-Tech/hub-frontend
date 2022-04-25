@@ -44,6 +44,21 @@ const routes: Array<RouteRecordRaw> = [
     path:'/productsconfig',
     name: 'productsconfig',
     component: () => import('@/views/products/Products.vue')
+  },
+  {
+    path: '/historic',
+    name:'historic',
+    component: () => import('@/views/historic/Historic.vue')
+  },
+  {
+    path:'/login',
+    name: 'login',
+    component: () => import('@/views/login/Login.vue')
+  },
+  {
+    path:'/settings',
+    name:'settings',
+    component: () => import('@/views/settings/Settings.vue')
   }
 ]
 

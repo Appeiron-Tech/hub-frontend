@@ -1,3 +1,14 @@
 {
-  "message": "hello i18n !!"
+  "message": "hello i18n !!",
+
+  "toolbar-enterprise-stats": "Estadística",
+  "toolbar-enterprise-my-page": "Mi Pígina",
+  "toolbar-enterprise-products": "Productos",
+  "toolbar-enterprise-clients": "Clientes",
+  "toolbar-enterprise-orders": "Pedidos",
+  "toolbar-enterprise-historic": "Histórico",
+  "toolbar-enterprise-inventory": "Inventario",
+  "toolbar-settings": "Ajustes",
+  "toolbar-settings-dropdown": "Ajustes de cuenta"
+
 }
