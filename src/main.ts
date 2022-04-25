@@ -1,15 +1,27 @@
 import { createApp } from 'vue'
-import App from './App.vue'
-import router from './router'
 import { Quasar } from 'quasar'
+
+import App from './App.vue'
+
+// Plugins
+import router from './plugins/router'
+import quasarUserOptions from './plugins/quasar/quasar-user-options'
+import i18n from './plugins/i18n/i18n'
 
 import VueSidebarMenu from 'vue-sidebar-menu'
 import 'vue-sidebar-menu/dist/vue-sidebar-menu.css'
 
-// @ts-ignore
-import quasarUserOptions from './quasar-user-options.ts'
+// main Controllers
+import appController from '@/controller/Controller';
 
-import i18n from './plugins/i18n/i18n'
+// Style
+import '@/styles/base.css';
 
+const app = createApp(App)
 
-createApp(App).use(i18n).use(Quasar, quasarUserOptions).use(VueSidebarMenu).use(router).mount('#app')
+app.use(router)
+app.use(Quasar, quasarUserOptions)
+app.use(i18n)
+app.use(VueSidebarMenu)
+app.provide('appController', appController )
+app.mount('#app')

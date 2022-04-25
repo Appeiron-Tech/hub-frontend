@@ -2,10 +2,7 @@
   <h2>stats</h2>
 </template>
 
-<script>
-export default {
-  name: "Stats"
-}
+<script setup lang="ts">
 </script>
 
 <style scoped>

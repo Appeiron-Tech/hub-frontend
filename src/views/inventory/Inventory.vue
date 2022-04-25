@@ -2,10 +2,7 @@
   <h2>Inventario</h2>
 </template>
 
-<script>
-export default {
-  name: "Inventory"
-}
+<script setup lang="ts">
 </script>
 
 <style scoped>
