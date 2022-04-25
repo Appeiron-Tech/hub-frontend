@@ -2,10 +2,7 @@
   <h2>Clients</h2>
 </template>
 
-<script>
-export default {
-  name: "Clients"
-}
+<script setup lang="ts">
 </script>
 
 <style scoped>

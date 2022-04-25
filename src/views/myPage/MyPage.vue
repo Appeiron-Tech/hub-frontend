@@ -2,10 +2,7 @@
   <h2>mi pagina </h2>
 </template>
 
-<script>
-export default {
-  name: "MyPage"
-}
+<script setup lang="ts">
 </script>
 
 <style scoped>

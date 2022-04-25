@@ -1,16 +1,12 @@
 <template>
-  <app-toolbar  />
+  <Toolbar  />
   <router-view/>
 </template>
 
 
-<script>
-import Toolbar from "@/components/toolbar/toolbar";
-export default {
-  components: {
-    'app-toolbar':Toolbar
-  }
-}
+<script setup lang="ts">
+import Toolbar from "@/components/toolbar/toolbar.vue";
+
 </script>
 
 
