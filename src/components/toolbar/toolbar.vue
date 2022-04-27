@@ -1,75 +1,49 @@
 <template>
-  <q-toolbar class="text-primary my-toolbar">
-    <q-btn flat round dense icon="menu" />
-    <q-toolbar-title> Nombre de la empresa </q-toolbar-title>
+  <div class="q-pa-md">
+    <q-layout view="hHh Lpr lff" container style="height: 300px" class="shadow-2 rounded-borders">
+      <q-header elevated class="bg-black">
+        <q-toolbar>
+          <q-btn flat @click="drawer = !drawer" round dense icon="menu" />
+          <q-toolbar-title>Header</q-toolbar-title>
+        </q-toolbar>
+      </q-header>
 
-    <q-menu
-      :persistent="persistanceMenu"
-      @show="onMenuShowen"
-      @hide="onMenuHidden"
-    >
-      <sidebar-menu
-        class="my-sidebar"
-        :menu="menu"
-        :collapsed="isMobile"
-        @item-click="onItemClick"
-      />
-    </q-menu>
+      <q-drawer
+        v-model="drawer"
+        show-if-above
+        :width="200"
+        :breakpoint="500"
+        bordered
+        class="bg-grey-3"
+      >
+        <q-scroll-area class="fit">
+          <q-list>
 
-    <q-tabs shrink>
-      <img
-        :src="userProfileImage"
-        loading="eager"
-        color="secondary"
-        text-color="white"
-        style="height: 55px; width: 85px; border-radius: 5px"
-        alt="Profile Image"
-      />
-      <div style="display: inline-block" class="informationContainer">
-        <div class="informationItems">
-          <div>
-            <q-chip class="email-chip" square>{{ userEmail }}</q-chip>
-          </div>
-          <div>
-            <q-btn-dropdown stretch flat :label="userName">
-              <q-list>
-                <q-item-label header>{{ t("toolbar-settings") }}</q-item-label>
-                <q-item
-                  clickable
-                  v-close-popup
-                  tabindex="0"
-                  v-on:click="goToSetting"
-                >
-                  <q-item-section avatar>
-                    <q-avatar
-                      icon="settings"
-                      color="secondary"
-                      text-color="white"
-                    ></q-avatar>
-                  </q-item-section>
-                  <q-item-section>
-                    <q-item-label>{{ t("toolbar-settings") }}</q-item-label>
-                    <q-item-label caption>{{
-                      t("toolbar-settings-dropdown")
-                    }}</q-item-label>
-                  </q-item-section>
-                  <q-item-section side>
-                    <q-icon name="info"></q-icon>
-                  </q-item-section>
-                </q-item>
-                <q-separator inset spaced></q-separator>
-                <q-item-section>
-                  <q-item clickable @click="doLogout()">
-                    <q-item-section>{{ t("toolbar-logout") }} </q-item-section>
-                  </q-item>
+            <template v-for="(menuItem, index) in menuList" :key="index">
+              <q-item clickable :active="menuItem.label === 'Outbox'" v-ripple>
+                <q-item-section avatar>
+                  <q-icon :name="menuItem.icon" />
                 </q-item-section>
-              </q-list>
-            </q-btn-dropdown>
-          </div>
-        </div>
-      </div>
-    </q-tabs>
-  </q-toolbar>
+                <q-item-section>
+                  {{ menuItem.label }}
+                </q-item-section>
+              </q-item>
+              <q-separator :key="'sep' + index"  v-if="menuItem.separator" />
+            </template>
+
+          </q-list>
+        </q-scroll-area>
+      </q-drawer>
+
+      <q-page-container>
+        <q-page padding>
+          <p v-for="n in 15" :key="n">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit nihil praesentium molestias a adipisci, dolore vitae odit, quidem consequatur optio voluptates asperiores pariatur eos numquam rerum delectus commodi perferendis voluptate?
+          </p>
+        </q-page>
+      </q-page-container>
+    </q-layout>
+  </div>
 </template>
 <script setup lang="ts">
 //LINK: https://github.com/yaminncco/vue-sidebar-menu/tree/next
@@ -85,72 +59,44 @@ import sharedAttributes from "./shared";
 //const app: Controller = injectStrict("appController");
 const { t } = useI18n();
 
-let menu = [
+const menuList = [
   {
-    header: false,
-    title: "AppName",
-    hiddenOnCollapse: true,
+    icon: 'inbox',
+    label: 'Inbox',
+    separator: true
   },
   {
-    href: "/stats",
-    title: t("toolbar-enterprise-stats"),
-    icon: "fa fa-chart-line",
+    icon: 'send',
+    label: 'Outbox',
+    separator: false
   },
   {
-    href: "/mypage",
-    title: t("toolbar-enterprise-my-page"),
-    icon: "fa fa-star",
-    child: [
-      {
-        href: "/productsconfig",
-        title: t("toolbar-enterprise-products"),
-        icon: "fa fa-briefcase",
-      },
-    ],
+    icon: 'delete',
+    label: 'Trash',
+    separator: false
   },
   {
-    href: "/clients",
-    title: t("toolbar-enterprise-clients"),
-    icon: "fa fa-handshake",
+    icon: 'error',
+    label: 'Spam',
+    separator: true
   },
   {
-    header: false,
-    title: "Divider",
+    icon: 'settings',
+    label: 'Settings',
+    separator: false
   },
   {
-    href: "/orders",
-    title: t("toolbar-enterprise-orders"),
-    icon: "fa fa-arrow-down",
-    child: [
-      {
-        href: "/historic",
-        title: t("toolbar-enterprise-historic"),
-        icon: "fa fa-certificate",
-      },
-    ],
+    icon: 'feedback',
+    label: 'Send Feedback',
+    separator: false
   },
   {
-    href: "/inventoryprd",
-    title: t("toolbar-enterprise-inventory"),
-    icon: "fa fa-barcode",
-  },
-  {
-    header: false,
-    title: t("sidebar-account"),
-  },
-  {
-    href: "/settings",
-    title: t("toolbar-settings"),
-    icon: "fa fa-user",
-    child: [
-      {
-        href: "/myenterprise",
-        title: t("toolbar-settings-enterprise"),
-        icon: "fa fa-briefcase",
-      },
-    ],
-  },
-];
+    icon: 'help',
+    iconColor: 'primary',
+    label: 'Help',
+    separator: false
+  }
+]
 
 // TODO: Borrar esto
 //menu = menu.filter((e) => e.title != t("toolbar-enterprise-my-page"));
@@ -173,6 +119,7 @@ const doLogout = async () => {
   //await app.user.logout();
   //router.push("/login");
 };
+const drawer = ref(false);
 
 const onItemClick = (event: any, item: any) => {
   console.log("%c⧭", "color: #ff0000", event);
