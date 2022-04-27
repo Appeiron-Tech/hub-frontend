@@ -13,7 +13,7 @@
     "axios": "^0.26.1",
     "http-status-codes": "^2.2.0",
     "quasar": "^2.6.6",
-    "vue": "^3.2.31",
+    "vue": "^3.2.33",
     "vue-i18n": "^9.1.9",
     "vue-router": "^4.0.14",
     "vue-sidebar-menu": "^5.2.2",

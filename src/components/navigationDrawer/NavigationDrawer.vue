@@ -24,7 +24,7 @@
             :to="route.path"
           >
             <q-item-section avatar>
-              <q-icon :name="route.meta.icon" />
+              <q-icon :name="typeof route.meta.icon == 'string' ? route.meta.icon : ''" />
             </q-item-section>
             <q-item-section>
               {{ route.name ? $t(route.name.toString()) : "" }}
