@@ -9,6 +9,10 @@
   "toolbar-enterprise-historic": "Histórico",
   "toolbar-enterprise-inventory": "Inventario",
   "toolbar-settings": "Ajustes",
-  "toolbar-settings-dropdown": "Ajustes de cuenta"
+  "toolbar-settings-dropdown": "Ajustes de cuenta",
+  "toolbar-logout": "Cerrar sesion",
+  "toolbar-settings-enterprise": "Mi empresa",
+
+  "sidebar-account" : "Cuenta"
 
 }

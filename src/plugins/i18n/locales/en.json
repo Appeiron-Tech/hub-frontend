@@ -8,5 +8,9 @@
   "toolbar-enterprise-historic": "Historic",
   "toolbar-enterprise-inventory": "Inventory",
   "toolbar-settings": "Settings",
-  "toolbar-settings-dropdown": "Account settings"
+  "toolbar-settings-dropdown": "Account settings",
+  "toolbar-logout": "Logout",
+  "toolbar-settings-enterprise": "My enterprise",
+
+  "sidebar-account" : "Account"
 }
