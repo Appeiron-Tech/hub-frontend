@@ -1,66 +1,74 @@
 <template>
-  <div class="q-pa-md">
-    <q-layout view="hHh Lpr lff" container style="height: 300px" class="shadow-2 rounded-borders">
+  <div class="q-pa-md all-page-cnt">
+    <q-layout
+      view="hHh Lpr lff"
+      container
+      style="height: 100vh"
+      class="shadow-2 rounded-borders"
+    >
       <q-header elevated class="bg-black">
         <q-toolbar>
-          <q-btn flat @click="drawer = !drawer" round dense icon="menu" />
+          <q-btn flat @click="menuCliker" round dense icon="menu" />
           <q-toolbar-title>Header</q-toolbar-title>
         </q-toolbar>
       </q-header>
 
       <q-drawer
         v-model="drawer"
-        show-if-above
-
-        :mini="!drawer || miniState"
-        @click.capture="drawerClick"
-
+        :show-if-above="!isMobile"
+        @mouseover="miniState = false"
+        @mouseout="miniState = true"
+        :mini="miniState"
         :width="200"
-        :breakpoint="500"
+        :breakpoint="100"
         bordered
         class="bg-grey-3"
       >
+          <q-list padding>
+            <template
+              v-slot:mini
+              v-for="(route, index) in routes"
+              :key="'for_'+index"
+            >
+              <q-item
+                clickable
+                :to="route.path"
+              >
+                <q-item-section avatar>
+                  <q-icon :name="route.meta.icon" />
+                </q-item-section>
+                <q-item-section>
+                  {{ route.name ? $t((route.name).toString()) : '' }}
+                </q-item-section>
+              </q-item>
+
+            </template>
+
+          </q-list>
+
+
+
+
         <q-scroll-area class="fit">
           <q-list padding>
-            <q-item clickable>
-              <q-item-section avatar>
-                <q-icon name="inbox" />
-              </q-item-section>
+            <template
+            v-for="(route, index) in routes"
+            :key="'for_'+index"
+            >
+              <q-item
+                clickable
+                :to="route.path"
+              >
+                <q-item-section avatar>
+                  <q-icon :name="route.meta.icon" />
+                </q-item-section>
+                <q-item-section>
+                  {{ route.name ? $t((route.name).toString()) : '' }}
+                </q-item-section>
+              </q-item>
 
-              <q-item-section>
-                Inbox
-              </q-item-section>
-            </q-item>
+            </template>
 
-            <q-item active clickable >
-              <q-item-section avatar>
-                <q-icon name="star" />
-              </q-item-section>
-
-              <q-item-section>
-                Star
-              </q-item-section>
-            </q-item>
-
-            <q-item clickable>
-              <q-item-section avatar>
-                <q-icon name="send" />
-              </q-item-section>
-
-              <q-item-section>
-                Send
-              </q-item-section>
-            </q-item>
-
-            <q-item clickable>
-              <q-item-section avatar>
-                <q-icon name="drafts" />
-              </q-item-section>
-
-              <q-item-section>
-                Drafts
-              </q-item-section>
-            </q-item>
           </q-list>
         </q-scroll-area>
 
@@ -68,8 +76,11 @@
           in this case, we use a button (can be anything)
           so that user can switch back
           to mini-mode
-        -->
-        <div class="q-mini-drawer-hide absolute" style="top: 15px; right: -17px">
+
+        <div
+          class="q-mini-drawer-hide absolute"
+          style="top: 15px; right: -17px"
+        >
           <q-btn
             dense
             round
@@ -78,14 +89,12 @@
             icon="chevron_left"
             @click="miniState = true"
           />
-        </div>
+        </div>-->
       </q-drawer>
 
       <q-page-container>
-        <q-page class="q-px-lg q-py-md">
-          <p v-for="n in 15" :key="n">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit nihil praesentium molestias a adipisci, dolore vitae odit, quidem consequatur optio voluptates asperiores pariatur eos numquam rerum delectus commodi perferendis voluptate?
-          </p>
+        <q-page class="q-px-lg q-py-md page-cnt">
+          <router-view />
         </q-page>
       </q-page-container>
     </q-layout>
@@ -93,70 +102,52 @@
 </template>
 
 <script setup lang="ts">
-import Toolbar from "@/components/toolbar/toolbar.vue";
 import { ref } from "vue";
+import {useRoute} from "vue-router";
+import router from "@/plugins/router";
 
-const miniState = ref(false)
-const menuList = [
-  {
-    icon: 'inbox',
-    label: 'Inbox',
-    separator: true
-  },
-  {
-    icon: 'send',
-    label: 'Outbox',
-    separator: false
-  },
-  {
-    icon: 'delete',
-    label: 'Trash',
-    separator: false
-  },
-  {
-    icon: 'error',
-    label: 'Spam',
-    separator: true
-  },
-  {
-    icon: 'settings',
-    label: 'Settings',
-    separator: false
-  },
-  {
-    icon: 'feedback',
-    label: 'Send Feedback',
-    separator: false
-  },
-  {
-    icon: 'help',
-    iconColor: 'primary',
-    label: 'Help',
-    separator: false
-  }
-]
-
+const isMobile: boolean = window.innerWidth < 500;
+const miniState = isMobile ?  ref(true) : ref(false);
 const drawer = ref(false);
-const  drawerClick = (e: any)=> {
-  // if in "mini" state and user
-  // click on drawer, we switch it to "normal" mode
-  if (miniState.value) {
-    miniState.value = false
 
-    // notice we have registered an event with capture flag;
-    // we need to stop further propagation as this click is
-    // intended for switching drawer to "normal" mode only
-    e.stopPropagation()
+
+const menuCliker=()=>{
+  drawer.value = !drawer.value;
+  if (isMobile){
+    miniState.value = true;
   }
+  else {
+    miniState.value = false;
+  }
+
 }
+
+const routes= router.options.routes;
+const route = useRoute();
+
 </script>
 
-<style >
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<style lang="sass" scoped>
+.mini-slot
+  transition: background-color .28s
+  &:hover
+    background-color: rgba(0, 0, 0, .04)
+
+.mini-icon
+  font-size: 1.718em
+
+  & + &
+    margin-top: 18px
+
+.headerTool
+  padding-top: 0px !important
+
+.all-page-cnt
+  padding-top: 0
+  padding-left: 0
+  padding-right: 0
+
+
+.page-cnt
+  background-color: #2a2a2e
 </style>

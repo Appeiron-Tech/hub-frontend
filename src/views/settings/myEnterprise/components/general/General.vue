@@ -22,25 +22,15 @@
           <div class="text-overline subgroupsTittle">Numeros telefonicos</div>
           <q-separator spaced dark color="teal-10" />
           <br />
-          <q-input
-            filled
-            v-model="ordersWsp"
-            label="Whatsapp para pedidos"
-            lazy-rules
-            :rules="[
-              (val) => (val && val.length > 0) || 'Please type something',
-            ]"
-          />
+          <div class="row phoneNumsCtn">
+            <div class="col-4 ">
+              <vue-tel-input inputOptions.placeholder="Orders num" v-model="ordersWsp"></vue-tel-input>
+            </div>
+            <div class="col-4">
+              <vue-tel-input v-model="principalNum"></vue-tel-input>
+            </div>
+          </div>
           <br />
-          <q-input
-            filled
-            v-model="principalNum"
-            label="Telefono fijo principal"
-            lazy-rules
-            :rules="[
-              (val) => (val && val.length > 0) || 'Please type something',
-            ]"
-          />
         </q-card-section>
       </q-card>
 
@@ -74,6 +64,79 @@
         </q-card-section>
       </q-card>
 
+
+      <q-card class="my-cardd" bordered>
+        <q-card-section>
+          <div class="text-overline subgroupsTittle">Datos de la empresa</div>
+          <div class=" enterpriseSelectData">
+            <div class="enterpriseSelectDataChild">
+              <q-select
+                label="Scale"
+                transition-show="scale"
+                transition-hide="scale"
+                filled
+                v-model="language"
+                :options="availableLanguages"
+              />
+            </div>
+            <div class="enterpriseSelectDataChild">
+              <q-select
+                label="Scale"
+                transition-show="scale"
+                transition-hide="scale"
+                filled
+                v-model="language"
+                :options="availableLanguages"
+              />
+            </div>
+            <div class="enterpriseSelectDataChild">
+              <q-select
+                label="Scale"
+                transition-show="scale"
+                transition-hide="scale"
+                filled
+                v-model="language"
+                :options="availableLanguages"
+              />
+            </div>
+          </div>
+          <div class=" enterprisescndSelectData">
+            <div class="enterpriseSelectDataChild">
+              <q-select
+                label="Scale"
+                transition-show="scale"
+                transition-hide="scale"
+                filled
+                v-model="language"
+                :options="availableLanguages"
+              />
+            </div>
+            <div class="enterpriseSelectDataChild">
+              <q-select
+                label="Scale"
+                transition-show="scale"
+                transition-hide="scale"
+                filled
+                v-model="language"
+                :options="availableLanguages"
+              />
+            </div>
+            <div class="enterpriseSelectDataChild">
+              <q-select
+                label="Scale"
+                transition-show="scale"
+                transition-hide="scale"
+                filled
+                v-model="language"
+                :options="availableLanguages"
+              />
+            </div>
+
+          </div>
+          <q-separator dark />
+        </q-card-section>
+      </q-card>
+
       <div>
         <q-btn label="Submit" type="submit" color="primary" />
         <q-btn
@@ -92,11 +155,11 @@
 import { useQuasar } from "quasar";
 import { ref, type Ref } from "vue";
 import generalSettings from "./general";
-
+import { VueTelInput } from "vue-tel-input"
 const $q = useQuasar();
 const enterpriseName: Ref<string | null> = ref(null);
-const ordersWsp: Ref<string | null> = ref(null);
-const principalNum = ref(null);
+const ordersWsp: Ref<number | null> = ref(null);
+const principalNum: Ref<number | null> = ref(null);
 const currency = ref("PEN");
 const availableCurrency: Array<string> = ["PEN", "USD", "EUR"];
 const language: Ref<string> = ref("Español");
@@ -117,5 +180,26 @@ const availableLanguages: Array<string> = ["Español", "English"];
   align-items: center;
   justify-content: center;
   height: 100%;
+}
+.enterpriseSelectData{
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+.enterpriseSelectDataChild{
+  width: 30vw;
+}
+
+.enterprisescndSelectData{
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+.phoneNumsCtn{
+  margin-left: 15%;
+  margin-right: 15%;
+  gap: 15px;
+  width: 90%;
 }
 </style>

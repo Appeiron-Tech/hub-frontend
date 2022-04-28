@@ -5,8 +5,8 @@
         v-model="tab"
         align="justify"
         narrow-indicator
-        active-color="teal-10"
-        active-bg-color="primary"
+        active-color="pink-13"
+        active-bg-color="indigo-10"
         mobile-arrows
       >
         <q-tab
@@ -14,6 +14,12 @@
           class="text-purple individual-tab"
           name="general"
           label="General"
+        ></q-tab>
+        <q-tab
+          icon="calendar_month"
+          class="text-blue individual-tab"
+          name="direction"
+          label="Direction"
         ></q-tab>
         <q-tab
           icon="calendar_month"
@@ -55,16 +61,27 @@
             <Team />
           </q-tab-panel>
         </q-tab-panels>
+        <q-tab-panels
+          v-model="tab"
+          animated
+          transition-prev="fade"
+          transition-next="fade"
+          class="text-white text-center firstTab"
+        >
+          <q-tab-panel name="direction">
+            <Direction />
+          </q-tab-panel>
+        </q-tab-panels>
 
         <q-tab-panels
           v-model="tab"
           animated
           transition-prev="jump-up"
           transition-next="jump-down"
-          class="bg-teal text-white text-center"
+          class="text-white text-center firstTab"
         >
           <q-tab-panel name="horario">
-            <Horario />
+            <Schedule />
           </q-tab-panel>
         </q-tab-panels>
       </div>
@@ -74,9 +91,11 @@
 
 <script setup lang="ts">
 import { ref, type Ref } from "vue";
-import Horario from "./components/horarios/Horarios.vue";
+
 import General from "./components/general/General.vue";
 import Team from "./components/team/Team.vue";
+import Schedule from "@/views/settings/myEnterprise/components/schedule/Schedule.vue";
+import Direction from "@/views/settings/myEnterprise/components/direction/Direction.vue";
 const tab: Ref<string> = ref("general");
 </script>
 
@@ -93,17 +112,7 @@ const tab: Ref<string> = ref("general");
   background-color: #2a2a2e;
   padding-bottom: 0px;
 }
-.tabs-posl {
-  height: 10vh;
-  max-height: 10vh;
-  margin-top: 3.2vh;
-  margin-bottom: 0px !important;
-  padding-bottom: 0px !important;
-  background-color: aqua;
-}
-.individual-tabl {
-  margin-top: 4%;
-}
+
 .contains-all {
   min-height: 100%;
   position: relative;
