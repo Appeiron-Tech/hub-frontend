@@ -6,30 +6,31 @@
         align="justify"
         narrow-indicator
         active-color="pink-13"
-        active-bg-color="indigo-10"
+        active-bg-color="grey-1"
         mobile-arrows
+        style="margin-left: -23px; margin-right: -22px; height: 60px"
       >
         <q-tab
-          icon="account_circle"
-          class="text-purple individual-tab"
+          icon="power_settings_new"
+          class="text-purple individual-tab generalTab"
           name="general"
           label="General"
         ></q-tab>
         <q-tab
-          icon="calendar_month"
-          class="text-blue individual-tab"
+          icon="location_on"
+          class="text-blue individual-tab directionTab"
           name="direction"
           label="Direction"
         ></q-tab>
         <q-tab
-          icon="calendar_month"
-          class="text-orange individual-tab"
+          icon="schedule"
+          class="text-orange individual-tab horarioTab"
           name="horario"
           label="Horario"
         ></q-tab>
         <q-tab
-          icon="groups"
-          class="text-teal individual-tab"
+          icon="group_add"
+          class="text-teal individual-tab equipoTab"
           name="equipo"
           label="Equipo"
         ></q-tab>
@@ -55,7 +56,7 @@
           animated
           transition-prev="fade"
           transition-next="fade"
-          class="bg-orange text-white text-center"
+          class="text-white text-center firstTab"
         >
           <q-tab-panel name="equipo">
             <Team />
@@ -109,14 +110,15 @@ const tab: Ref<string> = ref("general");
   background-color: aqua !important;
 }
 .firstTab {
-  background-color: #2a2a2e;
+  background-color: #ffffff;
   padding-bottom: 0px;
 }
 
 .contains-all {
   min-height: 100%;
   position: relative;
-  background-color: #2a2a2e;
+  background-color: #ffffff;
+  margin-top: -15px;
 }
 
 .form-stl {
@@ -126,11 +128,31 @@ const tab: Ref<string> = ref("general");
 }
 
 .tabs-pos {
-  background-color: #2a2a2e;
+  background-color: #ffffff;
   top: 0;
   height: 70px;
   left: 0;
   position: absolute;
   right: 0;
+}
+
+.directionTab {
+  background-color: #faead5;
+}
+
+.horarioTab {
+  background-color: #fdf6d1;
+}
+
+.equipoTab {
+  background-color: #d1e7c3;
+}
+.generalTab {
+  background-color: rgb(249, 205, 255);
+}
+
+.individual-tab {
+  height: 50px;
+  padding-top: 5px;
 }
 </style>

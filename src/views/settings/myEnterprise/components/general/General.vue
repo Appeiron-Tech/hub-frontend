@@ -1,161 +1,153 @@
 <template>
-  <div class="mainContainer">
-    <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
-      <q-card class="my-cardd" bordered>
-        <q-card-section>
-          <div class="text-overline subgroupsTittle">Nombre del negocio</div>
-          <q-input
-            filled
-            v-model="enterpriseName"
-            label="Enterprise name"
-            lazy-rules
-            :rules="[
-              (val) => (val && val.length > 0) || 'Please type something',
-            ]"
-          />
-          <q-separator dark />
-        </q-card-section>
-      </q-card>
+  <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
+    <div class="mainContainer">
+      <div class="selected-options-child"></div>
+      <div class="form-cnt">
+        <div class="row">
+          <div class="col-1"></div>
 
-      <q-card class="my-cardd" flat bordered>
-        <q-card-section>
-          <div class="text-overline subgroupsTittle">Numeros telefonicos</div>
-          <q-separator spaced dark color="teal-10" />
-          <br />
-          <div class="row phoneNumsCtn">
-            <div class="col-4 ">
-              <vue-tel-input inputOptions.placeholder="Orders num" v-model="ordersWsp"></vue-tel-input>
-            </div>
-            <div class="col-4">
-              <vue-tel-input v-model="principalNum"></vue-tel-input>
-            </div>
+          <div class="col-10">
+            <q-input
+              outlined
+              label="Nombre del negocio"
+              v-model="enterpriseName"
+              lazy-rules
+              :rules="[
+                (val) => (val && val.length > 0) || 'Please type something',
+              ]"
+            />
           </div>
-          <br />
-        </q-card-section>
-      </q-card>
+          <div class="col-1"></div>
+        </div>
+        <br />
+        <div class="row phoneNumsCtn">
+          <div class="col-1"></div>
 
-      <q-card class="my-cardd" bordered>
-        <q-card-section>
-          <div class="text-overline subgroupsTittle">Moneda</div>
-          <q-select
-            label="Scale"
-            transition-show="scale"
-            transition-hide="scale"
-            filled
-            v-model="currency"
-            :options="availableCurrency"
-          />
-          <q-separator dark />
-        </q-card-section>
-      </q-card>
-
-      <q-card class="my-cardd" bordered>
-        <q-card-section>
-          <div class="text-overline subgroupsTittle">Idioma</div>
-          <q-select
-            label="Scale"
-            transition-show="scale"
-            transition-hide="scale"
-            filled
-            v-model="language"
-            :options="availableLanguages"
-          />
-          <q-separator dark />
-        </q-card-section>
-      </q-card>
-
-
-      <q-card class="my-cardd" bordered>
-        <q-card-section>
-          <div class="text-overline subgroupsTittle">Datos de la empresa</div>
-          <div class=" enterpriseSelectData">
-            <div class="enterpriseSelectDataChild">
-              <q-select
-                label="Scale"
-                transition-show="scale"
-                transition-hide="scale"
-                filled
-                v-model="language"
-                :options="availableLanguages"
-              />
-            </div>
-            <div class="enterpriseSelectDataChild">
-              <q-select
-                label="Scale"
-                transition-show="scale"
-                transition-hide="scale"
-                filled
-                v-model="language"
-                :options="availableLanguages"
-              />
-            </div>
-            <div class="enterpriseSelectDataChild">
-              <q-select
-                label="Scale"
-                transition-show="scale"
-                transition-hide="scale"
-                filled
-                v-model="language"
-                :options="availableLanguages"
-              />
-            </div>
+          <div class="col-10">
+            <vue-tel-input v-model="ordersWsp"></vue-tel-input>
           </div>
-          <div class=" enterprisescndSelectData">
-            <div class="enterpriseSelectDataChild">
-              <q-select
-                label="Scale"
-                transition-show="scale"
-                transition-hide="scale"
-                filled
-                v-model="language"
-                :options="availableLanguages"
-              />
-            </div>
-            <div class="enterpriseSelectDataChild">
-              <q-select
-                label="Scale"
-                transition-show="scale"
-                transition-hide="scale"
-                filled
-                v-model="language"
-                :options="availableLanguages"
-              />
-            </div>
-            <div class="enterpriseSelectDataChild">
-              <q-select
-                label="Scale"
-                transition-show="scale"
-                transition-hide="scale"
-                filled
-                v-model="language"
-                :options="availableLanguages"
-              />
-            </div>
-
+          <div class="col-1"></div>
+          <div class="col-1"></div>
+          <div class="col-10" style="margin-top: 15px">
+            <vue-tel-input v-model="principalNum"></vue-tel-input>
           </div>
-          <q-separator dark />
-        </q-card-section>
-      </q-card>
+        </div>
+        <br />
 
-      <div>
-        <q-btn label="Submit" type="submit" color="primary" />
-        <q-btn
-          label="Reset"
-          type="reset"
-          color="primary"
-          flat
-          class="q-ml-sm"
+        <div class="row">
+          <div class="col-1"></div>
+
+          <div class="col-10">
+            <q-select
+              label="Moneda"
+              transition-show="scale"
+              transition-hide="scale"
+              outlined
+              v-model="currency"
+              :options="availableCurrency"
+            />
+            <br />
+          </div>
+          <div class="col-1"></div>
+        </div>
+
+        <div class="row">
+          <div class="col-1"></div>
+
+          <div class="col-10">
+            <q-select
+              label="Idioma"
+              transition-show="scale"
+              transition-hide="scale"
+              outlined
+              v-model="language"
+              :options="availableLanguages"
+            />
+          </div>
+          <div class="col-1"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="gallery">
+      <div class="enterpriseSelectDataChild">
+        <q-select
+          label="Tipo de negocio"
+          transition-show="scale"
+          transition-hide="scale"
+          outlined
+          v-model="language"
+          :options="availableLanguages"
         />
       </div>
-    </q-form>
-  </div>
+      <div class="enterpriseSelectDataChild">
+        <q-select
+          label="¿Quá vendes?"
+          transition-show="scale"
+          transition-hide="scale"
+          outlined
+          v-model="language"
+          :options="availableLanguages"
+        />
+      </div>
+      <div class="enterpriseSelectDataChild">
+        <q-select
+          label="¿A cuántos atiendes por semana?"
+          transition-show="scale"
+          transition-hide="scale"
+          outlined
+          v-model="language"
+          :options="availableLanguages"
+        />
+      </div>
+
+      <div class="enterpriseSelectDataChild">
+        <q-select
+          label="¿Cuantos seguidores tienes en FB/IG?"
+          transition-show="scale"
+          transition-hide="scale"
+          outlined
+          v-model="language"
+          :options="availableLanguages"
+        />
+      </div>
+      <div class="enterpriseSelectDataChild">
+        <q-select
+          label="¿Con que apps de comida trabajas?"
+          transition-show="scale"
+          transition-hide="scale"
+          outlined
+          v-model="language"
+          :options="availableLanguages"
+        />
+      </div>
+      <div class="enterpriseSelectDataChild">
+        <q-select
+          label="Scale"
+          transition-show="scale"
+          transition-hide="scale"
+          outlined
+          v-model="language"
+          :options="availableLanguages"
+        />
+      </div>
+    </div>
+
+    <div>
+      <q-btn label="Submit" type="submit" color="primary" />
+      <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
+    </div>
+  </q-form>
 </template>
 
 <script setup lang="ts">
 import { useQuasar } from "quasar";
 import { ref, type Ref } from "vue";
 import generalSettings from "./general";
-import { VueTelInput } from "vue-tel-input"
+import { VueTelInput } from "vue-tel-input";
+
+const group = ref([]);
+
 const $q = useQuasar();
 const enterpriseName: Ref<string | null> = ref(null);
 const ordersWsp: Ref<number | null> = ref(null);
@@ -170,36 +162,55 @@ const availableLanguages: Array<string> = ["Español", "English"];
 .subgroupsTittle {
   color: black;
 }
-.my-cardd {
-  width: 90vw;
-  text-align: left;
-  margin-left: auto;
-  margin-right: auto;
-}
+
 .mainContainer {
-  align-items: center;
-  justify-content: center;
-  height: 100%;
+  display: row;
 }
-.enterpriseSelectData{
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-}
-.enterpriseSelectDataChild{
-  width: 30vw;
+.selected-options-child {
+  flex-grow: 0.3;
 }
 
-.enterprisescndSelectData{
-  margin-top: 10px;
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
+.form-cnt {
+  flex-grow: 1;
 }
-.phoneNumsCtn{
-  margin-left: 15%;
-  margin-right: 15%;
-  gap: 15px;
-  width: 90%;
+.chb-options {
+  color: black;
+  margin-top: 30%;
+}
+
+.enterpriseSelectDataChild {
+  height: 50px !important;
+}
+
+.gallery-checkbox {
+  position: absolute;
+}
+
+@media (min-width: 700px) {
+  .gallery {
+    display: grid;
+    gap: 1rem;
+    grid-auto-rows: 5rem;
+    grid-template-columns: repeat(auto-fill, minmax(25rem, 1fr));
+    margin-left: 9.25%;
+    margin-right: 8%;
+  }
+}
+
+@media (max-width: 699px) {
+  .gallery {
+    display: grid;
+    gap: 1rem;
+    grid-auto-rows: 3rem;
+    grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
+    margin-left: 11%;
+    margin-right: 8%;
+  }
+}
+
+.textView-txt {
+  color: black;
+  white-space: nowrap;
+  margin-top: 10px;
 }
 </style>

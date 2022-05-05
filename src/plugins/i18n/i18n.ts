@@ -33,3 +33,7 @@ const i18n = createI18n({
 })
 
 export default i18n;
+
+export function translate(word: string){
+  return (i18n.global.t(word));
+}

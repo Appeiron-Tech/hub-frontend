@@ -6,10 +6,62 @@
       style="height: 100vh"
       class="shadow-2 rounded-borders"
     >
-      <q-header elevated class="bg-black">
+      <q-header elevated class="toolbar-cnt">
         <q-toolbar>
           <q-btn flat @click="menuCliker" round dense icon="menu" />
-          <q-toolbar-title>Header</q-toolbar-title>
+          <q-toolbar-title>
+            <q-img class="logo-img" src="@/assets/logo_blanco.png" />
+            <!-- <div class="minegocio-title">
+              minegocio
+              <q-badge align="bottom" class="online-badge">ONLINE</q-badge>
+            </div> -->
+          </q-toolbar-title>
+
+          <q-space />
+
+          <!--
+        notice shrink property since we are placing it
+        as child of QToolbar
+      -->
+          <q-tabs shrink>
+            <img
+              :src="userProfileImage!"
+              loading="eager"
+              color="secondary"
+              text-color="white"
+              style="
+                height: 45px;
+                width: 55px;
+                border-radius: 50%;
+                margin-bottom: 10px;
+                margin-top: 7px;
+              "
+              alt="Profile Image"
+            />
+            <div class="email-text">{{ userEmail }}</div>
+            <q-btn-dropdown stretch flat :label="userName!">
+              <q-list>
+                <q-item-label header>Settings</q-item-label>
+                <q-item clickable v-close-popup tabindex="0">
+                  <q-item-section avatar>
+                    <q-avatar
+                      icon="settings"
+                      color="secondary"
+                      text-color="white"
+                    ></q-avatar>
+                  </q-item-section>
+                  <q-item-section v-on:click="goToSetting">
+                    <q-item-label>Settings</q-item-label>
+                    <q-item-label caption>Account settings</q-item-label>
+                  </q-item-section>
+                  <q-item-section side>
+                    <q-icon name="info"></q-icon>
+                  </q-item-section>
+                </q-item>
+                <q-separator inset spaced></q-separator>
+              </q-list>
+            </q-btn-dropdown>
+          </q-tabs>
         </q-toolbar>
       </q-header>
 
@@ -22,53 +74,37 @@
         :width="200"
         :breakpoint="100"
         bordered
-        class="bg-grey-3"
+        style="background-color: #f0f7fb"
       >
-          <q-list padding>
-            <template
-              v-slot:mini
-              v-for="(route, index) in routes"
-              :key="'for_'+index"
-            >
-              <q-item
-                clickable
-                :to="route.path"
-              >
-                <q-item-section avatar>
-                  <q-icon :name="route.meta.icon" />
-                </q-item-section>
-                <q-item-section>
-                  {{ route.name ? $t((route.name).toString()) : '' }}
-                </q-item-section>
-              </q-item>
-
-            </template>
-
-          </q-list>
-
-
-
+        <q-list padding>
+          <template
+            v-slot:mini
+            v-for="(route, index) in routes"
+            :key="'for_' + index"
+          >
+            <q-item clickable :to="route.path">
+              <q-item-section avatar>
+                <q-icon :name="route.meta.icon" />
+              </q-item-section>
+              <q-item-section>
+                {{ route.name ? $t(route.name.toString()) : "" }}
+              </q-item-section>
+            </q-item>
+          </template>
+        </q-list>
 
         <q-scroll-area class="fit">
           <q-list padding>
-            <template
-            v-for="(route, index) in routes"
-            :key="'for_'+index"
-            >
-              <q-item
-                clickable
-                :to="route.path"
-              >
+            <template v-for="(route, index) in routes" :key="'for_' + index">
+              <q-item clickable :to="route.path">
                 <q-item-section avatar>
                   <q-icon :name="route.meta.icon" />
                 </q-item-section>
                 <q-item-section>
-                  {{ route.name ? $t((route.name).toString()) : '' }}
+                  {{ route.name ? $t(route.name.toString()) : "" }}
                 </q-item-section>
               </q-item>
-
             </template>
-
           </q-list>
         </q-scroll-area>
 
@@ -102,29 +138,33 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
-import {useRoute} from "vue-router";
+import { ref, type Ref } from "vue";
+import { useRoute } from "vue-router";
 import router from "@/plugins/router";
 
 const isMobile: boolean = window.innerWidth < 500;
-const miniState = isMobile ?  ref(true) : ref(false);
+const miniState = isMobile ? ref(true) : ref(false);
 const drawer = ref(false);
+const userProfileImage: Ref<string | null> = ref(
+  "https://www.dzoom.org.es/wp-content/uploads/2020/02/portada-foto-perfil-redes-sociales-consejos.jpg"
+);
 
-
-const menuCliker=()=>{
+const userName: Ref<string | null> = ref("Lola Lola");
+const userEmail: Ref<string | null> = ref("lola@gmail.com");
+const goToSetting = () => {
+  router.push("/settings");
+};
+const menuCliker = () => {
   drawer.value = !drawer.value;
-  if (isMobile){
+  if (isMobile) {
     miniState.value = true;
-  }
-  else {
+  } else {
     miniState.value = false;
   }
+};
 
-}
-
-const routes= router.options.routes;
+const routes = router.options.routes;
 const route = useRoute();
-
 </script>
 
 <style lang="sass" scoped>
@@ -143,11 +183,33 @@ const route = useRoute();
   padding-top: 0px !important
 
 .all-page-cnt
-  padding-top: 0
-  padding-left: 0
-  padding-right: 0
+  padding: 0
 
 
 .page-cnt
-  background-color: #2a2a2e
+  background-color: #ffffff
+
+.toolbar-cnt
+  background-color: #2bacdf
+  height: 65px
+
+.minegocio-title
+  font-size: 25px
+  padding-bottom: 15px
+
+.online-badge
+  position: absolute
+  left: 130px
+  top: 30px
+  background-color: #ffffff
+  color: #000000
+
+.logo-img
+  height: 55px
+  width: 150px
+
+.email-text
+  position: absolute
+  top: 37px
+  left: 63px
 </style>
