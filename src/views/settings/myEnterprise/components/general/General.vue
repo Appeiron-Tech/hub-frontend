@@ -9,7 +9,7 @@
           <div class="col-10">
             <q-input
               outlined
-              label="Nombre del negocio"
+              :label="$t('general-tab-form-business')"
               v-model="enterpriseName"
               lazy-rules
               :rules="[
@@ -39,12 +39,12 @@
 
           <div class="col-10">
             <q-select
-              label="Moneda"
+              :label="$t('general-tab-currency')"
               transition-show="scale"
               transition-hide="scale"
               outlined
               v-model="currency"
-              :options="availableCurrency"
+              :options="generalSettings.CurrencyOptions"
             />
             <br />
           </div>
@@ -56,7 +56,7 @@
 
           <div class="col-10">
             <q-select
-              label="Idioma"
+              :label="$t('general-tab-form-language')"
               transition-show="scale"
               transition-hide="scale"
               outlined
@@ -72,7 +72,17 @@
     <div class="gallery">
       <div class="enterpriseSelectDataChild">
         <q-select
-          label="Tipo de negocio"
+          :label="$t('general-tab-form-business-type')"
+          transition-show="scale"
+          transition-hide="scale"
+          outlined
+          v-model="language"
+          :options="generalSettings.BusinessTypeOptions"
+        />
+      </div>
+      <div class="enterpriseSelectDataChild">
+        <q-select
+          :label="$t('general-tab-form-business-sell')"
           transition-show="scale"
           transition-hide="scale"
           outlined
@@ -82,17 +92,7 @@
       </div>
       <div class="enterpriseSelectDataChild">
         <q-select
-          label="¿Quá vendes?"
-          transition-show="scale"
-          transition-hide="scale"
-          outlined
-          v-model="language"
-          :options="availableLanguages"
-        />
-      </div>
-      <div class="enterpriseSelectDataChild">
-        <q-select
-          label="¿A cuántos atiendes por semana?"
+          :label="$t('general-tab-form-serve-customers')"
           transition-show="scale"
           transition-hide="scale"
           outlined
@@ -103,7 +103,7 @@
 
       <div class="enterpriseSelectDataChild">
         <q-select
-          label="¿Cuantos seguidores tienes en FB/IG?"
+          :label="$t('general-tab-form-followers')"
           transition-show="scale"
           transition-hide="scale"
           outlined
@@ -113,7 +113,7 @@
       </div>
       <div class="enterpriseSelectDataChild">
         <q-select
-          label="¿Con que apps de comida trabajas?"
+          :label="$t('general-tab-form-food-app')"
           transition-show="scale"
           transition-hide="scale"
           outlined
@@ -123,7 +123,7 @@
       </div>
       <div class="enterpriseSelectDataChild">
         <q-select
-          label="Scale"
+          :label="$t('general-tab-form-delivery')"
           transition-show="scale"
           transition-hide="scale"
           outlined
@@ -147,7 +147,7 @@ import generalSettings from "./general";
 import { VueTelInput } from "vue-tel-input";
 
 const group = ref([]);
-
+generalSettings.loadInfo();
 const $q = useQuasar();
 const enterpriseName: Ref<string | null> = ref(null);
 const ordersWsp: Ref<number | null> = ref(null);

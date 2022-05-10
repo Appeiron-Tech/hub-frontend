@@ -1,4 +1,4 @@
-import {reactive} from "vue";
+import { reactive } from "vue";
 import StoreService from "@/views/settings/myEnterprise/components/direction/services/Store.services";
 
 export interface IStore {
@@ -12,23 +12,27 @@ export interface IStore {
   openAlways: number;
   cityId?: number;
   placeLink?: string;
-  address_components?: Array<IAddressComponent>
+  address_components?: Array<IAddressComponent>;
+  country?: string;
 }
 
-interface IAddressComponent{
-  long_name: string,
-  short_name: string,
-  types: Array<string>
+interface IAddressComponent {
+  long_name: string;
+  short_name: string;
+  types: Array<string>;
 }
 
-export class DirectionController{
+export interface ICountry {
+  name: string;
+  image: string;
+}
 
-  private _m_stores: Array<IStore>  = [];
+export class DirectionController {
+  private _m_stores: Array<IStore> = [];
 
-  private _m_storeService : StoreService = new StoreService();
+  private _m_storeService: StoreService = new StoreService();
 
   constructor() {}
-
 
   get Stores(): Array<IStore> {
     return this._m_stores;
@@ -38,19 +42,20 @@ export class DirectionController{
     this._m_stores = value;
   }
 
-  loadInfo(){
+  loadInfo() {
     this._m_stores = Object.assign([], this._m_storeService.getAllStores());
   }
 
-  saveOrEditNewStore(p_store: IStore, isNew: boolean){
-    if(isNew){
-      this._m_storeService.saveNewStore(p_store).then(r => console.log(r));
-    }
-    else {
-      this._m_storeService.editExistingStore(p_store).then(r => console.log(r));
+  saveOrEditNewStore(p_store: IStore, isNew: boolean) {
+    console.log({ p_store });
+    if (isNew) {
+      this._m_storeService.saveNewStore(p_store).then((r) => console.log(r));
+    } else {
+      this._m_storeService
+        .editExistingStore(p_store)
+        .then((r) => console.log(r));
     }
   }
-
 }
 
 const directionController = reactive(new DirectionController());

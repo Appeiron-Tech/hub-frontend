@@ -14,25 +14,25 @@
           icon="power_settings_new"
           class="text-purple individual-tab generalTab"
           name="general"
-          label="General"
+          :label="$t('my-enterprise-tab-general')"
         ></q-tab>
         <q-tab
           icon="location_on"
           class="text-blue individual-tab directionTab"
           name="direction"
-          label="Direction"
+          :label="$t('my-enterprise-tab-direction')"
         ></q-tab>
         <q-tab
           icon="schedule"
           class="text-orange individual-tab horarioTab"
           name="horario"
-          label="Horario"
+          :label="$t('my-enterprise-tab-schedule')"
         ></q-tab>
         <q-tab
           icon="group_add"
           class="text-teal individual-tab equipoTab"
           name="equipo"
-          label="Equipo"
+          :label="$t('my-enterprise-tab-team')"
         ></q-tab>
       </q-tabs>
     </div>

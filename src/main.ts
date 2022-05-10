@@ -12,6 +12,8 @@ import VueTelInput from "vue-tel-input";
 import "vue-tel-input/dist/vue-tel-input.css";
 import VueGoogleMaps from "@fawmi/vue-google-maps";
 
+
+
 //TODO: uncomment this appController when working with backend
 // main Controllers
 //import appController from '@/controller/Controller';

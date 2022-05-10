@@ -12,5 +12,23 @@
   "toolbar-logout": "Logout",
   "toolbar-settings-enterprise": "My enterprise",
 
-  "sidebar-account" : "Account"
+  "sidebar-account" : "Account",
+
+  "my-enterprise-tab-general": "General",
+  "my-enterprise-tab-direction": "Direction",
+  "my-enterprise-tab-schedule": "Schedule",
+  "my-enterprise-tab-team": "Team",
+
+  "direccion-tab-new-store-btn": "New store",
+
+  "general-tab-form-business": "Business name",
+  "general-tab-currency": "Currency",
+  "general-tab-form-language": "Language",
+  "general-tab-form-business-type": "Business type",
+  "general-tab-form-business-sell": "What do you sell",
+  "general-tab-form-serve-customers": "How many do you serve per week",
+  "general-tab-form-followers": "Facebook/Instagram follower",
+  "general-tab-form-food-app": "Food apps you work with",
+  "general-tab-form-delivery": "How do you send the delivery"
+
 }

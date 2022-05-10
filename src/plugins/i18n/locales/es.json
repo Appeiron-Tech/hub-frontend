@@ -13,6 +13,23 @@
   "toolbar-logout": "Cerrar sesion",
   "toolbar-settings-enterprise": "Mi empresa",
 
-  "sidebar-account" : "Cuenta"
+  "sidebar-account" : "Cuenta",
+
+  "my-enterprise-tab-general": "General",
+  "my-enterprise-tab-direction": "Dirección",
+  "my-enterprise-tab-schedule": "Horario",
+  "my-enterprise-tab-team": "Equipo",
+
+  "direccion-tab-new-store-btn": "Nueva tienda",
+
+  "general-tab-form-business": "Nombre del negocio",
+  "general-tab-currency": "Moneda",
+  "general-tab-form-language": "Idioma",
+  "general-tab-form-business-type": "Tipo de negocio",
+  "general-tab-form-business-sell": "Qué vendes",
+  "general-tab-form-serve-customers": "A cuántos atiendes por semana",
+  "general-tab-form-followers": "Cuántos seguidores en Facebook/Instagram",
+  "general-tab-form-food-app": "Apps de comida con la que trabajas",
+  "general-tab-form-delivery": "Como envías el delivery"
 
 }
