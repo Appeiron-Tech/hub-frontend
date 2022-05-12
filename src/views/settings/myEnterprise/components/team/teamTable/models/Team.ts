@@ -1,22 +1,24 @@
-import {reactive} from "vue";
+import { reactive } from "vue";
+import TeamService from "../../service/Team.services";
 
 export interface ITeam {
-  name: string,
-  email: string,
-  rol: string
-
+  id: string;
+  name: string;
+  email: string;
+  rol: string;
+  state?: string;
+  local?: string;
 }
 
 interface IRol {
-  name: string
+  name: string;
 }
 
 export class Team {
   private _m_teamList: Array<ITeam> = [];
+  private _m_team_service: TeamService = new TeamService();
 
-  constructor() {
-  }
-
+  constructor() {}
 
   get TeamList(): Array<ITeam> {
     return this._m_teamList;
@@ -28,24 +30,24 @@ export class Team {
 
   public loadInfo() {
     //TODO: FETCH DATA WITH API
-    this._m_teamList = [
-      {
-        name: 'Sebastian',
-        email: 'sb@gmail.com',
-        rol: 'Administrator'
-      },
-      {
-        name: 'Juan',
-        email: 'sjuanb@gmail.com',
-        rol: 'Administrator'
-      },
-      {
-        name: 'Rosa',
-        email: 'rosa@gmail.com',
-        rol: 'Administrator'
-      }
-    ]
+    this._m_teamList = this._m_team_service.getAll();
+  }
 
+  public removeCollaborator(p_collaboratorId: string) {
+    this._m_team_service.deleteCollaborator(p_collaboratorId);
+  }
+
+  public editCollaborator(
+    p_collaborator: ITeam,
+    p_isNew: boolean,
+    p_collaboratorId?: string
+  ) {
+    p_isNew
+      ? this._m_team_service.addNewCollaborator(p_collaborator)
+      : this._m_team_service.editExistingCollaborator(
+          p_collaboratorId!,
+          p_collaborator
+        );
   }
 }
 

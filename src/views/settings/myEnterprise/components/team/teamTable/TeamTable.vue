@@ -1,64 +1,101 @@
 <template>
-  <div class="q-pa-md">
-    <q-table
-      title="Team"
-      :rows="rows"
-      :columns="columns"
-      row-key="name"
-      v-model:pagination="pagination"
-      hide-pagination
-      separator="none"
-      rows-per-page-label="Total team per page"
-    />
+  <div class="cardContainer">
+    <q-badge></q-badge>
+    <div class="info-cnt">
+      <div
+        class="text-h6"
+        style="color: #049dd9; text-align: start; margin-left: 10px"
+      >
+        {{ props.collaborator.name }}
 
-    <div class="row justify-center q-mt-md">
-      <q-pagination
-        v-model="pagination.page"
-        color="grey-8"
-        :max="pagesNumber"
-        size="sm"
-      />
+        <br />
+        <q-markup-table
+          flat
+          separator="none"
+          style="max-width: 400px; margin-left: 25px"
+        >
+          <tbody>
+            <tr>
+              <td>Email</td>
+              <td>{{ props.collaborator.email }}</td>
+            </tr>
+            <tr>
+              <td>Email</td>
+              <td>{{ props.collaborator.email }}</td>
+            </tr>
+            <tr>
+              <td>Local</td>
+              <td>{{ props.collaborator.local!! }}</td>
+            </tr>
+            <tr>
+              <td>Estado</td>
+              <td>{{ props.collaborator.state!! }}</td>
+            </tr>
+          </tbody>
+        </q-markup-table>
+      </div>
+    </div>
+    <div class="actio">
+      <q-card-actions
+        align="between"
+        vertical
+        class="actions-cnt"
+        style="height: 200px"
+      >
+        <div>
+          <q-btn flat round @click="removeCollaborator">
+            <q-icon name="close" style="color: #605f5f; font-size: 1.4em"
+          /></q-btn>
+        </div>
+        <div>
+          <q-btn flat round @click="editCollaborator">
+            <q-icon
+              name="mdi-pencil-outline"
+              style="color: #049dd9; font-size: 1.4em"
+          /></q-btn>
+        </div>
+      </q-card-actions>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import type {ITeam} from "@/views/settings/myEnterprise/components/team/teamTable/models/Team";
-import {computed, reactive, ref, watch} from "vue";
-import teamController from "@/views/settings/myEnterprise/components/team/teamTable/models/Team";
+import type { ITeam } from "./models/Team";
+import teamController from "./models/Team";
 
-const columns = [
-  {
-    name: "name",
-    required: true,
-    label: "Nombre",
-    align: "left",
-    field: (row: { name: any }) => row.name,
-    format: (val: any) => `${val}`,
-  },
-  {name: 'email', align: 'center', label: 'E-mail', field: 'email', sortable: true},
-  {name: 'rol', align: 'center', label: 'Rol', field: 'rol'},
-];
+const props = defineProps<{
+  collaborator: ITeam;
+}>();
 
-let rows: Array<ITeam> =reactive([]);
+//LINK: https://www.youtube.com/watch?v=9whgkjxoCME
+const emit = defineEmits<{
+  (e: "editCollaborator", collaborator: ITeam, payload?: object): void;
+}>();
 
-const pagination = ref({
-  sortBy: 'desc',
-  descending: false,
-  page: 1,
-  rowsPerPage: 5
-  // rowsNumber: xx if getting data from a server
-})
+const editCollaborator = () => {
+  emit("editCollaborator", props.collaborator);
+};
 
-const pagesNumber= computed(() => Math.ceil(rows.length / pagination.value.rowsPerPage))
-
-watch(
-  () => teamController.TeamList,
-  () => {
-    const newRow = teamController.TeamList
-    rows.splice(0, rows.length, ...newRow)
-  },
-  {immediate: true, deep: true}
-)
+function removeCollaborator() {
+  teamController.removeCollaborator(props.collaborator.id);
+}
 </script>
-<style scoped></style>
+<style scoped>
+.cardContainer {
+  display: flex !important;
+  box-shadow: 0 5px 10px rgba(154, 160, 185, 0.05),
+    0 15px 40px rgba(166, 173, 201, 0.2);
+  padding: 40px;
+  background: #fff;
+  border-radius: 20px;
+  max-width: 70vw;
+  margin: 10px auto;
+}
+.info-cnt {
+  flex-grow: 10 !important;
+}
+.actions-cnt {
+  flex-grow: 1;
+  justify-content: space-between;
+}
+</style>

@@ -1,5 +1,5 @@
 import { createApp } from "vue";
-import { Quasar, Dialog } from "quasar";
+import { Quasar, Dialog, Notify } from "quasar";
 
 import App from "./App.vue";
 
@@ -29,7 +29,7 @@ const globalOptions = {
 const app = createApp(App);
 
 app.use(router);
-app.use(Quasar, { plugins: { Dialog } }, quasarUserOptions);
+app.use(Quasar, { plugins: { Dialog, Notify } }, quasarUserOptions);
 app.use(i18n);
 // @ts-ignore
 app.use(VueTelInput, globalOptions);
