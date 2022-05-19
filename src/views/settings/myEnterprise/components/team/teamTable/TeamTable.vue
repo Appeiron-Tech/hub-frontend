@@ -20,16 +20,16 @@
               <td>{{ props.collaborator.email }}</td>
             </tr>
             <tr>
-              <td>Email</td>
-              <td>{{ props.collaborator.email }}</td>
+              <td>Rol</td>
+              <td>{{ props.collaborator.jobTitle }}</td>
             </tr>
             <tr>
-              <td>Local</td>
-              <td>{{ props.collaborator.local!! }}</td>
+              <td>Phone</td>
+              <td>{{ props.collaborator.phone }}</td>
             </tr>
             <tr>
-              <td>Estado</td>
-              <td>{{ props.collaborator.state!! }}</td>
+              <td>Creacion</td>
+              <td>{{ props.collaborator.createdAt }}</td>
             </tr>
           </tbody>
         </q-markup-table>
@@ -60,7 +60,7 @@
 </template>
 
 <script setup lang="ts">
-import type { ITeam } from "./models/Team";
+import type { ITeam } from "./models/ITeam";
 import teamController from "./models/Team";
 
 const props = defineProps<{

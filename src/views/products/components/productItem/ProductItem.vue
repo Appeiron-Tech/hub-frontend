@@ -74,73 +74,87 @@
     </q-card>
   </div>
 
-  <div id="app" class="modal-vue">
-    <!-- overlay -->
-    <div class="overlay" v-if="opened" @click="opened = false"></div>
-
-    <!-- modal -->
-    <div class="modal" v-if="opened">
-      <button class="close" @click="opened = false">x</button>
-      <h3 style="font-size: large; margin-left: 30%">
-        Add image for: {{ props.product.name }}
-      </h3>
-
-      <div class="model-gallery">
-        <q-card
-          v-for="(image, index) in props.product.images"
-          :key="index"
-          class="modal-product-card"
-        >
-          <q-card-section horizontal>
-            <q-icon
-              name="delete"
-              style="color: #c50110; font-size: 1.4em; margin-left: auto"
-              @click="removeSelectedImage(image)"
-            />
-            <q-img :src="image.src" class="modal-img"> </q-img>
-          </q-card-section>
-          <q-inner-loading
-            :showing="loading"
-            label="Please wait..."
-            label-class="text-teal"
-            label-style="font-size: 1.1em"
+  <q-dialog v-model="opened" persistent>
+    <q-card style="min-width: 350px">
+      <q-card-section>
+        <div class="text-h6" style="white-space: nowrap">
+          Imagenes de: {{ props.product.name }}
+          <q-btn
+            class="close-bnt-modal"
+            icon="close"
+            flat
+            round
+            dense
+            v-close-popup
           />
-        </q-card>
-      </div>
-      <q-separator />
-      <br />
-      <q-uploader
-        v-if="props.product.images!.length < 6"
-        style="
-          max-width: 300px;
-          margin-left: auto;
-          margin-right: auto;
-          min-width: 100px;
-        "
-        label="Subir nueva imagen"
-        multiple
-        flat
-        auto-upload
-        hide-upload-btn
-        :max-files="maxFilesToUpload"
-        class="uploader-img"
-        accept=".jpg, image/*"
-        @rejected="onRejected"
-        @added="onUploaded"
-      />
-      <br />
-      <q-btn
-        @click="saveChanges"
-        style="
-          background-color: #049dd9;
-          color: #fff;
-          height: 50px;
-          margin-left: 40%;
-        "
-        >Guardar</q-btn
-      >
-    </div>
-  </div>
+        </div>
+      </q-card-section>
+
+      <q-card-section class="q-pt-none">
+        <div class="gallery-modal-prod">
+          <div
+            v-for="(image, index) in props.product.images"
+            :key="index"
+            class="card-image-modal"
+          >
+            <div>
+              <q-icon
+                name="delete"
+                style="
+                  color: #c50110;
+                  font-size: 1.4em;
+                  margin-left: auto;
+                  margin-top: auto;
+                "
+                @click="removeSelectedImage(image)"
+              />
+              <q-img :src="image.src" class="modal-img"> </q-img>
+            </div>
+            <q-inner-loading
+              :showing="loading"
+              label="Please wait..."
+              label-class="text-teal"
+              label-style="font-size: 1.1em"
+            />
+          </div>
+        </div>
+        <q-uploader
+          v-if="props.product.images!.length < 6"
+          style="
+            max-width: 300px;
+            margin-left: auto;
+            margin-right: auto;
+            min-width: 100px;
+            margin-top: 5rem;
+          "
+          label="Subir nueva imagen"
+          multiple
+          flat
+          auto-upload
+          hide-upload-btn
+          :max-files="maxFilesToUpload"
+          class="uploader-img"
+          accept=".jpg, image/*"
+          @rejected="onRejected"
+          @added="onUploaded"
+        />
+        <br />
+      </q-card-section>
+
+      <q-card-actions align="right" class="text-primary">
+        <q-btn
+          @click="saveChanges"
+          style="
+            background-color: #049dd9;
+            color: #fff;
+            height: 50px;
+            margin-left: 40%;
+          "
+          >Guardar</q-btn
+        >
+      </q-card-actions>
+    </q-card>
+  </q-dialog>
 </template>
 
 <script setup lang="ts">
@@ -217,101 +231,17 @@ function saveChanges() {
   margin-left: 5%;
   width: 50vw;
 }
-
-.modal-vue .overlay {
-  position: fixed;
-  z-index: 9998;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-}
-
-.modal-vue .close {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-}
-
-@media (min-width: 1001px) {
-  .modal-vue .modal {
-    position: relative;
-    width: 40vw;
-    z-index: 9999;
-    padding: 20px 30px;
-    color: black;
-    margin-top: -50%;
-    margin-left: 50%;
-    border-radius: 15px;
-    background-color: rgb(255, 255, 255);
-    backdrop-filter: blur(15px);
-  }
-}
-
-@media (max-width: 545px) {
-  .modal-vue .modal {
-    position: relative;
-    width: 60vw;
-    z-index: 9999;
-    padding: 20px 30px;
-    color: black;
-    margin-top: -60% !important;
-    margin-left: auto;
-    margin-right: auto;
-    border-radius: 15px;
-    background-color: rgb(255, 255, 255);
-    backdrop-filter: blur(15px);
-  }
-  .uploader-img {
-    width: 150px;
-  }
-}
-
-@media (min-width: 546px) and (max-width: 900px) {
-  .modal-vue .modal {
-    position: relative;
-    width: 60vw;
-    z-index: 9999;
-    margin-top: -30%;
-    padding: 20px 30px;
-    color: black;
-    margin-left: auto;
-    border-radius: 15px;
-    background-color: rgb(255, 255, 255);
-    backdrop-filter: blur(15px);
-  }
-}
-
-@media (min-width: 901px) and (max-width: 1000px) {
-  .modal-vue .modal {
-    position: relative;
-    width: 60vw;
-    z-index: 9999;
-    padding: 20px 30px;
-    margin-top: -50%;
-    color: black;
-    border-radius: 15px;
-    background-color: rgb(255, 255, 255);
-    backdrop-filter: blur(15px);
-  }
-}
-
-.model-gallery {
-  width: auto;
+.gallery-modal-prod {
   display: grid;
-  align-items: center;
-  justify-items: center;
-  gap: 1rem;
-  grid-auto-rows: 10rem;
-  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+  gap: 4rem;
+  margin-left: 3rem;
+  grid-auto-rows: 5rem;
+  grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
 }
-
 .modal-img {
   margin-top: 5px;
   height: 100px;
   width: 100px;
-  object-fit: contain;
 }
 
 .text-caption {
@@ -322,5 +252,20 @@ function saveChanges() {
   padding-bottom: 15%;
   background-color: rgba(0, 0, 0, 0.5);
   color: rgb(255, 255, 255);
+}
+.card-image-modal {
+  max-width: 200px;
+}
+
+@media (max-width: 600px) {
+  .close-bnt-modal {
+    margin-left: 15px;
+  }
+}
+
+@media (min-width: 601px) {
+  .close-bnt-modal {
+    margin-left: 150px;
+  }
 }
 </style>

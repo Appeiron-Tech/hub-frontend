@@ -1,7 +1,7 @@
 <template>
   <div class="whole-container">
     <div
-      v-for="(collaborator, index) in teamController.TeamList"
+      v-for="(collaborator, index) in teamController.teamList"
       :key="'collab' + index"
     >
       <TeamTable
@@ -11,137 +11,123 @@
       <br />
     </div>
 
-    <div id="app" class="modal-vue">
-      <q-btn color="primary" round @click="openModal"
-        ><q-icon name="add" />
-      </q-btn>
-      <!-- overlay -->
-      <div class="overlay" v-if="opened" @click="opened = false"></div>
+    <q-btn icon="add" round color="primary" @click="openModal"></q-btn>
 
-      <!-- modal -->
-      <div class="modal" v-if="opened">
-        <button class="close" @click="opened = false">x</button>
-        <h3>Informacion del nuevo integrante</h3>
-        <q-input filled v-model="newMember.name" label="Name" />
-        <br />
-        <q-input filled v-model="newMember.email" label="Email" />
-        <br />
-        <q-input filled v-model="newMember.rol" label="Rol" />
-        <br />
-        <button
-          :disabled="
-            newMember.name.length <= 3 &&
-            newMember.rol.length <= 3 &&
-            newMember.email.length <= 3
-          "
-          @click="saveNewMember"
-        >
-          Guardar
-        </button>
-      </div>
-    </div>
+    <q-dialog v-model="opened" persistent>
+      <q-card style="min-width: 350px">
+        <q-card-section>
+          <div class="text-h6">
+            Integrante
+            <q-btn
+              style="margin-left: 300px"
+              icon="close"
+              flat
+              round
+              dense
+              v-close-popup
+            />
+          </div>
+        </q-card-section>
+
+        <q-card-section class="q-pt-none">
+          <q-input outlined v-model="newMember.name" label="Name" />
+          <br />
+          <q-input outlined v-model="newMember.email" label="Email"/>
+          <br />
+          <q-input outlined v-model="newMember.jobTitle" label="Job Title" />
+          <br />
+          <q-input outlined v-model="newMember.phone" label="Telefono" />
+          <br />
+          <q-select
+            outlined
+            v-model="newMember.phoneType"
+            :options="['MOB', 'TEL']"
+            label="Tipo de telefono"
+          />
+          <br />
+          <q-select
+            outlined
+            v-model="selectedStoreId"
+            :options="teamController.localOptions"
+            label="Locales"
+          />
+          <br />
+          <q-toggle
+            v-model="newMember.state"
+            checked-icon="check"
+            color="red"
+            :label="newMember.state === true ? 'Estado activo' : 'Estado Inactivo' "
+            unchecked-icon="clear"
+          />
+          <br />
+
+        </q-card-section>
+
+        <q-card-actions align="right" class="text-primary">
+          <q-btn
+            style="background-color: green; color: white"
+            label="Guardar"
+            v-close-popup
+            @click="saveNewMember"
+          />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </div>
 </template>
 
 <script setup lang="ts">
 import TeamTable from "@/views/settings/myEnterprise/components/team/teamTable/TeamTable.vue";
-import teamController, {
-  type ITeam,
-} from "@/views/settings/myEnterprise/components/team/teamTable/models/Team";
+import teamController from "@/views/settings/myEnterprise/components/team/teamTable/models/Team";
 import { onMounted, reactive, ref } from "vue";
+import type { ITeam, ITeamSave } from "./teamTable/models/ITeam";
+import directionController from "@/views/settings/myEnterprise/components/direction/direction";
+teamController.loadInfo();
 const opened = ref(false);
 const isNew = ref(false);
+const selectedStoreId = ref(undefined);
+
 const openModal = () => {
-  newMember.rol = "";
+  newMember.jobTitle = "";
   newMember.name = "";
   newMember.email = "";
+  newMember.phone = '';
+  newMember.phoneType = '';
+  newMember.countryCode = 51;
+  newMember.state = true;
   isNew.value = true;
   opened.value = true;
 };
-let newMember = reactive({
+let newMember: ITeamSave = reactive({
   name: "",
   email: "",
-  rol: "",
+  jobTitle: "",
 });
 const saveNewMember = () => {
-  console.log(newMember);
+  console.log({newMember});
+  console.log(selectedStoreId.value)
   opened.value = false;
+  teamController.editCollaborator(newMember,isNew.value,'', selectedStoreId.value);
 };
 
-onMounted(() => {
-  teamController.loadInfo();
-});
-
 function editCollaboratorModal(p_collab: ITeam) {
-  newMember.email = p_collab.email;
+  newMember.email = p_collab.email!;
   newMember.name = p_collab.name;
-  newMember.rol = p_collab.rol;
+  newMember.jobTitle = p_collab.jobTitle;
+  newMember.state = true;
   isNew.value = false;
   opened.value = true;
 }
+
+function isValidEmail () {
+  const emailPattern = /^(?=[a-zA-Z0-9@._%+-]{6,254}$)[a-zA-Z0-9._%+-]{1,64}@(?:[a-zA-Z0-9-]{1,63}\.){1,8}[a-zA-Z]{2,63}$/;
+  return emailPattern.test(newMember.email) || 'Invalid email';
+}
 </script>
 <style scoped>
-.modal-vue .overlay {
-  position: fixed;
-  z-index: 9998;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-}
-
-.modal-vue .close {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-}
-
-@media (min-width: 1001px) {
-  .modal-vue .modal {
-    position: relative;
-    width: 60vw;
-    z-index: 9999;
-    padding: 20px 30px;
-    color: black;
-    margin-top: -40% !important;
-    margin-left: auto;
-    margin-right: auto;
-    border-radius: 15px;
-    background-color: rgb(255, 255, 255);
-    backdrop-filter: blur(15px);
-  }
-}
-
-@media (max-width: 530px) {
-  .modal-vue .modal {
-    position: relative;
-    width: 60vw;
-    z-index: 9999;
-    padding: 20px 30px;
-    color: black;
-    margin-top: -150% !important;
-    margin-left: auto;
-    margin-right: auto;
-    border-radius: 15px;
-    background-color: rgb(255, 255, 255);
-    backdrop-filter: blur(15px);
-  }
-}
-@media (min-width: 531px) and (max-width: 1000px) {
-  .modal-vue .modal {
-    position: relative;
-    width: 60vw;
-    z-index: 9999;
-    padding: 20px 30px;
-    color: black;
-    margin-top: -90% !important;
-    margin-left: auto;
-    margin-right: auto;
-    border-radius: 15px;
-    background-color: rgb(255, 255, 255);
-    backdrop-filter: blur(15px);
-  }
+.dialog-badge {
+  max-width: 5px !important;
+  height: 100px;
 }
 .whole-container {
   margin-top: 5vh;

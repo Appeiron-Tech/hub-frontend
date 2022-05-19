@@ -7,10 +7,9 @@
         @click="openModal"
         id="btn-new-store-modal"
       />
-      <!-- overlay -->
+
       <div class="overlay" v-if="opened" @click="opened = false"></div>
 
-      <!-- modal -->
       <div class="modal" v-if="opened">
         <button class="close" @click="opened = false">x</button>
         <h3 style="font-size: large">{{ modalStoreTitle }}</h3>
@@ -29,7 +28,7 @@
               :options="countryOptions"
               label="Pais"
             />
-            <br />
+            <br/>
           </div>
         </div>
         <q-input
@@ -38,7 +37,7 @@
           type="textarea"
           label="Descripcion"
         />
-        <br />
+        <br/>
 
         <GMapAutocomplete
           class="direction-autocompleate"
@@ -47,11 +46,12 @@
         >
         </GMapAutocomplete>
 
-        <br />
+        <br/>
         <q-btn
           style="background-color: #049dd9; color: #fff; height: 50px"
           @click="saveStore"
-          >Guardar</q-btn
+        >Guardar
+        </q-btn
         >
       </div>
     </div>
@@ -70,25 +70,39 @@
           <q-item
             clickable
             class="item-store"
-            @click="selecStore(marker, index)"
+            @click="
+              selecStore(
+                { position: { lat: marker.latitude, lng: marker.longitude } },
+                index
+              )
+            "
           >
             <q-item-section avatar>
-              <q-icon name="mdi-storefront" style="color: #a7b0c4" />
+              <q-icon name="mdi-storefront" style="color: #a7b0c4"/>
             </q-item-section>
 
             <q-item-section>
               <q-item-label lines="1" style="align-self: flex-start"
-                >LOCAL {{ marker.store.toUpperCase() }}</q-item-label
+              >LOCAL {{ marker.store.toUpperCase() }}
+              </q-item-label
               >
               <q-item-label
                 style="color: #000000; align-self: flex-start"
                 caption
                 lines="1"
-                >{{ marker.address }}</q-item-label
+              >{{
+                  marker.address.length > 10
+                    ? marker.address.substring(0, 25) + " ..."
+                    : marker.address
+                }}
+              </q-item-label
               >
             </q-item-section>
             <q-item-section avatar @click="editExistingStore(marker)">
-              <q-icon name="mdi-pencil-outline" style="color: #049dd9" />
+              <q-icon name="mdi-pencil-outline" style="color: #049dd9"/>
+            </q-item-section>
+            <q-item-section avatar @click="deleteStore(marker)">
+              <q-icon name="mdi-close-outline" style="color: #B22222"/>
             </q-item-section>
           </q-item>
         </q-intersection>
@@ -96,7 +110,7 @@
     </div>
     <div class="direction-map-child">
       <GMapMap
-        :center="center"
+        :center="directionController.centerMap"
         :zoom="zoomMap"
         map-type-id="terrain"
         class="mapViewer"
@@ -105,16 +119,16 @@
           <GMapMarker
             class="sddsdsdsd"
             :key="index"
-            v-for="(m, index) in markers"
+            v-for="(m, index) in directionController.markers"
             :position="m.position"
             :icon="{
               url: 'https://w7.pngwing.com/pngs/601/670/png-transparent-bmw-museum-car-mini-bmw-7-series-bmw-emblem-trademark-logo.png',
-              scaledSize: { width: 47, height: 37 },
+              scaledSize: { width: 37, height: 37 },
               labelOrigin: { x: 16, y: -10 },
             }"
             :clickable="true"
-            :draggable="true"
-            @click="center = m.position"
+            :draggable="false"
+            @click="selecStore(m)"
           />
         </GMapCluster>
       </GMapMap>
@@ -126,21 +140,23 @@
 //LINK https://vue-map.netlify.app/components/marker.html
 //LINk: https://developers.google.com/maps/documentation/javascript/places-autocomplete
 //
-import type { Ref } from "vue";
-import directionController, {
-  type IStore,
-} from "@/views/settings/myEnterprise/components/direction/direction";
-import { reactive, ref, watch } from "vue";
-
+import type {Ref} from "vue";
+import {reactive, ref} from "vue";
+import directionController, {type IStoreSave,} from "@/views/settings/myEnterprise/components/direction/direction";
+import {getDistanciaMetros} from "@/utils/distances";
+//
 directionController.loadInfo();
+const zoomMap: Ref<number> = ref(
+  directionController.markers.length == 1 ? 15 : 12
+);
+defineZoom();
+//
+// //***************************************************
+// //******   GOOGLE MAPS LOCALS ***********************
+// //***************************************************
 
-//***************************************************
-//******   GOOGLE MAPS LOCALS ***********************
-//***************************************************
-
-const zoomMap: Ref<number> = ref(12);
-const active = ref(true);
-let markers: Array<{ position: { lat: number; lng: number } }> = reactive(
+//const active = ref(true);
+/*let markers: Array<{ position: { lat: number; lng: number } }> = reactive(
   directionController.Stores.map((e) => {
     return {
       position: {
@@ -149,30 +165,33 @@ let markers: Array<{ position: { lat: number; lng: number } }> = reactive(
       },
     };
   })
-);
-let center: { lat: number; lng: number } = reactive(
-  markers
-    .map((e) => {
-      return {
-        lat: e.position.lat,
-        lng: e.position.lng,
-      };
-    })
-    .reduce(function (ac, crrVal) {
-      return {
-        lat: ac.lat + crrVal.lat,
-        lng: ac.lng + crrVal.lng,
-      };
-    })
-);
-center.lat = center.lat / markers.length;
-center.lng = center.lng / markers.length;
+);*/
+const centerMap = reactive(directionController.centerMap);
+
+// let center: { lat: number; lng: number } = reactive(
+//   markers
+//     .map((e) => {
+//       return {
+//         lat: e.position.lat,
+//         lng: e.position.lng,
+//       };
+//     })
+//     .reduce(function (ac, crrVal) {
+//       return {
+//         lat: ac.lat + crrVal.lat,
+//         lng: ac.lng + crrVal.lng,
+//       };
+//     })
+// );
+// center.lat = center.lat / markers.length;
+// center.lng = center.lng / markers.length;
+// console.log({center})
 
 //GOOGLE MAPS FOR SELECTED ITEM
 //
 //TODO: this is not working well
 
-const setCenterValues = (isStoreSelected: boolean, p_marker?: any) => {
+/*const setCenterValues = (isStoreSelected: boolean, p_marker?: any) => {
   if (!isStoreSelected) {
     center = reactive(
       markers
@@ -197,37 +216,67 @@ const setCenterValues = (isStoreSelected: boolean, p_marker?: any) => {
     center.lng = p_marker.longitude;
     zoomMap.value = 15;
   }
-};
-const storeWasSelected: Ref<boolean> = ref(false);
+};*/
+//const storeWasSelected: Ref<boolean> = ref(false);
 
-const selecStore = (p_marker: any, index: any) => {
-  console.log(index);
-  storeWasSelected.value =
-    center.lat == p_marker.latitude && center.lng == p_marker.longitude
-      ? false
-      : true;
-  if (storeWasSelected.value) {
-    center.lat = p_marker.latitude;
-    center.lng = p_marker.longitude;
-    zoomMap.value = 16;
+function defineZoom() {
+  const maxLatitude = Math.max(
+    ...directionController.markers.map((e) => {
+      return e.position.lat;
+    })
+  );
+
+  const minLatitude = Math.min(
+    ...directionController.markers.map((e) => {
+      return e.position.lat;
+    })
+  );
+
+  const minLongitude = Math.min(
+    ...directionController.markers.map((e) => {
+      return e.position.lng;
+    })
+  );
+
+  const maxLongitude = Math.max(
+    ...directionController.markers.map((e) => {
+      return e.position.lng;
+    })
+  );
+  const distance = getDistanciaMetros(
+    minLatitude,
+    minLongitude,
+    maxLatitude,
+    maxLongitude
+  );
+
+  parseInt(distance) > 200 ? (zoomMap.value = 8) : 12;
+  console.log("%c⧭", "color: #ffa640", distance);
+  console.log("%c⧭", "color: #d90000", maxLatitude);
+}
+
+const selecStore = (p_marker: any, index?: any) => {
+  if (typeof p_marker.position.lat == "string") {
+    p_marker.position.lat = parseFloat(p_marker.position.lat);
+    p_marker.position.lng = parseFloat(p_marker.position.lng);
   }
-  if (!storeWasSelected.value) {
-    setCenterValues(false);
-  }
-  console.log(storeWasSelected.value);
-  console.log(p_marker);
+  directionController.centerMap = Object.assign(
+    {},
+    {lat: p_marker.position.lat, lng: p_marker.position.lng}
+  );
+  zoomMap.value = 17;
 };
 
-//***************************************************
-//******   GOOGLE MAPS AUTOCOMPLEATE ****************
-//***************************************************
+// //***************************************************
+// //******   GOOGLE MAPS AUTOCOMPLEATE ****************
+// //***************************************************
 //LINK: https://developers.google.com/maps/documentation/places/web-service/details
 
 const setPlace = (e: any) => {
-  console.log({ e });
+  console.log({e});
   console.log(e.geometry.viewport);
   console.log({
-    position: { lat: e.geometry.viewport.Ab.h, lng: e.geometry.viewport.Va.h },
+    position: {lat: e.geometry.viewport.Ab.h, lng: e.geometry.viewport.Va.h},
   });
   newStore.latitude = e.geometry.viewport.Ab.h;
   newStore.longitude = e.geometry.viewport.Va.h;
@@ -236,16 +285,16 @@ const setPlace = (e: any) => {
   newStore.address_components = e.address_components;
 };
 
-//***************************************************
-//******  MODAL NEW STORE     ***********************
-//***************************************************
+// //***************************************************
+// //******  MODAL NEW STORE     ***********************
+// //***************************************************
 // LINK: https://www-npmjs-com.translate.goog/package/vue3-country-intl?_x_tr_sl=auto&_x_tr_tl=es&_x_tr_hl=es
 const selectedCountry = () => {
   console.log(countryModel);
 };
 const countryOptions = reactive([
-  { country: "Perú", iso: "pe", label: "Perú" },
-  { country: "España", iso: "es", label: "España" },
+  {country: "Perú", iso: "pe", label: "Perú"},
+  {country: "España", iso: "es", label: "España"},
 ]);
 const countryModel = ref("");
 const modalStoreTitle: Ref<string> = ref("Nueva Tienda");
@@ -254,7 +303,7 @@ const openModal = () => {
   newStore.store = "";
   newStore.address = "";
   newStore.cityId = 0;
-  newStore.openAlways = 0;
+  newStore.isOpenAlways = 0;
   newStore.description = "";
   newStore.latitude = 0;
   newStore.longitude = 0;
@@ -262,28 +311,37 @@ const openModal = () => {
 };
 
 const editExistingStore = (store: any) => {
+  newStore.id = store.id;
   modalStoreTitle.value = "Editar tienda: " + store.store;
   newStore.store = store.store;
   newStore.description = store.description;
-  console.log({ newStore });
+  newStore.latitude = store.latitude;
+  newStore.address = store.address;
+  newStore.longitude = store.longitude;
+  newStore.phones = [];
+  console.log({newStore});
   opened.value = true;
-  console.log({ store });
+  console.log({store});
 };
-let newStore: IStore = reactive({
-  id: "",
+const deleteStore=(store: any)=> {
+  directionController.removeStore(store);
+}
+
+let newStore: IStoreSave = reactive({
   store: "",
   description: "",
   address: "",
-  main: 0,
+  isMain: 0,
   latitude: 0,
   longitude: 0,
-  openAlways: 0,
+  isOpenAlways: 0,
   cityId: 0,
 });
 const opened = ref(false);
 
 const saveStore = () => {
-  newStore.country = countryModel.value;
+  //newStore.country = countryModel.value;
+  newStore.phones = []
   if (modalStoreTitle.value === "Nueva Tienda") {
     directionController.saveOrEditNewStore(newStore, true);
   } else {
@@ -305,14 +363,14 @@ const contentStyle = {
   backgroundColor: "#fff",
   color: "#000000",
 };
-
-watch(
-  () => markers[0].position.lat,
-  () => {
-    console.log(markers);
-  },
-  { immediate: true, deep: true }
-);
+//
+// watch(
+//   () => markers[0].position.lat,
+//   () => {
+//     console.log(markers);
+//   },
+//   { immediate: true, deep: true }
+// );
 </script>
 
 <style scoped>
@@ -324,6 +382,7 @@ watch(
 
 .example-item {
   height: 76px;
+  width: 300px;
 }
 
 .modal-vue .overlay {
@@ -358,21 +417,22 @@ watch(
   padding: 10px;
   border: 1px solid #f3f4f5;
   box-shadow: -1px 1px #f3f4f5, -2px 2px #f3f4f5, -3px 3px #f3f4f5,
-    -4px 4px #f3f4f5, -5px 5px #f3f4f5;
+  -4px 4px #f3f4f5, -5px 5px #f3f4f5;
 }
+
 .item-store-active {
   background-color: aqua;
 }
 
-@media (min-width: 1001px) {
+@media (min-width: 1300px) {
   .modal-vue .modal {
-    position: relative;
+    position: fixed;
     width: 40vw;
     z-index: 9999;
     padding: 20px 30px;
     color: black;
-    margin-top: 10% !important;
-    margin-left: 80%;
+    left: 50%;
+    transform: translate(-50%, 0);
     border-radius: 15px;
     background-color: rgb(255, 255, 255);
     backdrop-filter: blur(15px);
@@ -381,14 +441,13 @@ watch(
 
 @media (max-width: 530px) {
   .modal-vue .modal {
-    position: relative;
+    position: fixed;
     width: 60vw;
     z-index: 9999;
     padding: 20px 30px;
     color: black;
-    margin-top: 5% !important;
-    margin-left: auto;
-    margin-right: auto;
+    left: 50%;
+    transform: translate(-50%, 0);
     border-radius: 15px;
     background-color: rgb(255, 255, 255);
     backdrop-filter: blur(15px);
@@ -397,32 +456,36 @@ watch(
 
 @media (min-width: 531px) and (max-width: 900px) {
   .modal-vue .modal {
-    position: absolute;
+    position: fixed;
     width: 60vw;
     z-index: 9999;
     padding: 20px 30px;
     color: black;
-    margin-left: 15%;
-    border-radius: 15px;
-    background-color: rgb(255, 255, 255);
-    backdrop-filter: blur(15px);
-  }
-}
-@media (min-width: 901px) and (max-width: 1000px) {
-  .modal-vue .modal {
-    position: relative;
-    width: 60vw;
-    z-index: 9999;
-    padding: 20px 30px;
-    color: black;
-    margin-left: 75%;
+    margin-left: 10%;
+    left: 50%;
+    transform: translate(-50%, 0);
     border-radius: 15px;
     background-color: rgb(255, 255, 255);
     backdrop-filter: blur(15px);
   }
 }
 
-@media (max-width: 899px) {
+@media (min-width: 901px) and (max-width: 1299px) {
+  .modal-vue .modal {
+    position: fixed;
+    left: 50%;
+    transform: translate(-50%, 0);
+    width: 60vw;
+    z-index: 9999;
+    padding: 20px 30px;
+    color: black;
+    border-radius: 15px;
+    background-color: rgb(255, 255, 255);
+    backdrop-filter: blur(15px);
+  }
+}
+
+@media (max-width: 1049px) {
   .direction-whole-container {
     display: block;
     justify-content: space-around;
@@ -436,7 +499,7 @@ watch(
   }
 }
 
-@media (min-width: 900px) {
+@media (min-width: 1050px) {
   .direction-whole-container {
     display: flex;
     justify-content: space-around;
@@ -463,7 +526,7 @@ watch(
 
   #btn-new-store-modal {
     position: absolute;
-    top: 20%;
+    top: 15%;
     left: 200px;
   }
 }

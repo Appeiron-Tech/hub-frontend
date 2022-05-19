@@ -84,7 +84,7 @@
           >
             <q-item clickable :to="route.path">
               <q-item-section avatar>
-                <q-icon :name="route.meta.icon" />
+                <q-icon :name="route.meta!.icon" />
               </q-item-section>
               <q-item-section>
                 {{ route.name ? $t(route.name.toString()) : "" }}
@@ -98,7 +98,7 @@
             <template v-for="(route, index) in routes" :key="'for_' + index">
               <q-item clickable :to="route.path">
                 <q-item-section avatar>
-                  <q-icon :name="route.meta.icon" />
+                  <q-icon :name="route.meta!.icon" />
                 </q-item-section>
                 <q-item-section>
                   {{ route.name ? $t(route.name.toString()) : "" }}

@@ -26,98 +26,60 @@
               </div>
               <div class="first-hours-child">
                 <q-item-section v-if="day.active">
-                  <div class="">
-                    <q-input
-                      v-model="day.from[0]"
-                      mask="time"
-                      outlined
-                      style="max-width: 150px; margin-left: 15px"
-                      :rules="['time']"
-                    >
-                      <template v-slot:append>
-                        <q-icon name="access_time" class="cursor-pointer">
-                          <q-popup-proxy
-                            cover
-                            transition-show="scale"
-                            transition-hide="scale"
-                          >
-                            <q-time v-model="proxyTime">
-                              <div
-                                class="row items-center justify-end q-gutter-sm"
-                              >
-                                <q-btn
-                                  label="Cancel"
-                                  color="primary"
-                                  flat
-                                  v-close-popup
-                                />
-                                <q-btn
-                                  label="OK"
-                                  color="primary"
-                                  flat
-                                  @click="saveFrom(index, 0)"
-                                  v-close-popup
-                                />
-                              </div>
-                            </q-time>
-                          </q-popup-proxy>
-                        </q-icon>
-                      </template>
-                    </q-input>
-                  </div>
+                  <q-input
+                    v-model="day.from[0]"
+                    mask="time"
+                    outlined
+                    style="
+                      max-width: 200px;
+                      margin-left: 15px;
+                      min-width: 100px;
+                    "
+                    :rules="['time']"
+                  >
+                    <template v-slot:append>
+                      <q-icon name="access_time" class="cursor-pointer">
+                        <q-popup-proxy
+                          cover
+                          transition-show="scale"
+                          transition-hide="scale"
+                        >
+                          <q-time v-model="proxyTime">
+                            <div
+                              class="row items-center justify-end q-gutter-sm"
+                            >
+                              <q-btn
+                                label="Cancel"
+                                color="primary"
+                                flat
+                                v-close-popup
+                              />
+                              <q-btn
+                                label="OK"
+                                color="primary"
+                                flat
+                                @click="saveFrom(index, 0)"
+                                v-close-popup
+                              />
+                            </div>
+                          </q-time>
+                        </q-popup-proxy>
+                      </q-icon>
+                    </template>
+                  </q-input>
                 </q-item-section>
 
-                <q-item-section v-if="day.active">
-                  <div class="">
-                    <q-input
-                      v-model="day.to[0]"
-                      mask="time"
-                      outlined
-                      style="max-width: 150px; margin-left: 15px"
-                      :rules="['time']"
-                    >
-                      <template v-slot:append>
-                        <q-icon name="access_time" class="cursor-pointer">
-                          <q-popup-proxy
-                            cover
-                            transition-show="scale"
-                            transition-hide="scale"
-                          >
-                            <q-time v-model="proxyTime">
-                              <div
-                                class="row items-center justify-end q-gutter-sm"
-                              >
-                                <q-btn
-                                  label="Cancel"
-                                  color="primary"
-                                  flat
-                                  v-close-popup
-                                />
-                                <q-btn
-                                  label="OK"
-                                  color="primary"
-                                  flat
-                                  @click="saveTo(index, 0)"
-                                  v-close-popup
-                                />
-                              </div>
-                            </q-time>
-                          </q-popup-proxy>
-                        </q-icon>
-                      </template>
-                    </q-input>
-                  </div>
-                </q-item-section>
-              </div>
-
-              <div :class="day.hasMoreThanOneHour ? 'second-hours-child' : ''">
                 <q-item-section v-if="day.hasMoreThanOneHour && day.active">
                   <div class="">
                     <q-input
                       v-model="day.from[1]"
                       mask="time"
                       outlined
-                      style="max-width: 150px; margin-left: 15px"
+                      style="
+                        max-width: 200px;
+                        margin-left: 8px;
+                        min-width: 80px;
+                      "
                       :rules="['time']"
                     >
                       <template v-slot:append>
@@ -152,6 +114,51 @@
                     </q-input>
                   </div>
                 </q-item-section>
+              </div>
+              <div class="first-hours-child-part-two">
+                <q-item-section v-if="day.active">
+                  <q-input
+                    v-model="day.to[0]"
+                    mask="time"
+                    outlined
+                    style="
+                      max-width: 200px;
+                      margin-left: 15px;
+                      min-width: 100px;
+                    "
+                    :rules="['time']"
+                  >
+                    <template v-slot:append>
+                      <q-icon name="access_time" class="cursor-pointer">
+                        <q-popup-proxy
+                          cover
+                          transition-show="scale"
+                          transition-hide="scale"
+                        >
+                          <q-time v-model="proxyTime">
+                            <div
+                              class="row items-center justify-end q-gutter-sm"
+                            >
+                              <q-btn
+                                label="Cancel"
+                                color="primary"
+                                flat
+                                v-close-popup
+                              />
+                              <q-btn
+                                label="OK"
+                                color="primary"
+                                flat
+                                @click="saveTo(index, 0)"
+                                v-close-popup
+                              />
+                            </div>
+                          </q-time>
+                        </q-popup-proxy>
+                      </q-icon>
+                    </template>
+                  </q-input>
+                </q-item-section>
 
                 <q-item-section v-if="day.hasMoreThanOneHour && day.active">
                   <div class="">
@@ -159,7 +166,11 @@
                       v-model="day.to[1]"
                       mask="time"
                       outlined
-                      style="max-width: 150px; margin-left: 15px"
+                      style="
+                        max-width: 200px;
+                        margin-left: 5px;
+                        min-width: 100px;
+                      "
                       :rules="['time']"
                     >
                       <template v-slot:append>
@@ -195,14 +206,32 @@
                   </div>
                 </q-item-section>
               </div>
+
               <div class="item-hours-actins">
                 <q-btn
-                  v-if="day.active"
+                  v-if="day.active && !day.hasMoreThanOneHour"
                   round
-                  :color="day.hasMoreThanOneHour ? 'red' : 'blue'"
-                  :icon="day.hasMoreThanOneHour ? 'close' : 'add'"
+                  color="blue"
+                  icon="add"
                   @click="addHours(index)"
-                  class="btn-add-hours"
+                  class="btn-add-xhours"
+                />
+                <q-btn
+                  v-if="day.active && day.hasMoreThanOneHour"
+                  round
+                  color="red"
+                  icon="close"
+                  @click="addHours(index, true)"
+                  class="btn-add-xhours"
+                />
+                <q-btn
+                  v-if="day.active && day.hasMoreThanOneHour"
+                  round
+                  color="red"
+                  icon="close"
+                  style="margin-top: 40px"
+                  @click="addHours(index, false)"
+                  class="btn-add-hxours"
                 />
                 <h6
                   style="
@@ -221,8 +250,13 @@
         </template>
       </q-card-section>
       <q-card-actions class="actions-schedule">
-        <q-btn align="between" color="green" @click="saveSchedule"
-          >Guardar</q-btn
+        <q-btn
+          align="between"
+          color="green"
+          @click="saveSchedule"
+          :disable="days.find((e) => e.hasErrorFormat === true) != null"
+        >Guardar
+        </q-btn
         >
       </q-card-actions>
     </q-card>
@@ -230,8 +264,10 @@
 </template>
 
 <script setup lang="ts">
-import type { Ref } from "vue";
-import { ref } from "vue";
+import type {Ref} from "vue";
+import {ref} from "vue";
+import type {IOpeningRange, ISchedule} from "@/views/settings/myEnterprise/components/schedule/models/ISchedule";
+import {convertDayToNumber} from "@/utils/weekDay";
 
 const saveFrom = (e: any, hourIndex: number) => {
   days.value[e].from[hourIndex] = proxyTime.value;
@@ -239,6 +275,8 @@ const saveFrom = (e: any, hourIndex: number) => {
     days.value[e].hasErrorFormat =
       days.value[e].from[1] <= days.value[e].to[0] ||
       days.value[e].from[1] <= days.value[e].from[0];
+  } else {
+    days.value[e].hasErrorFormat = days.value[e].from[0] > days.value[e].to[0];
   }
 };
 
@@ -254,16 +292,14 @@ const saveTo = (e: any, hourIndex: number) => {
 };
 
 const proxyTime = ref("");
-const days: Ref<
-  Array<{
-    val: string;
-    active: boolean;
-    from: Array<string>;
-    to: Array<string>;
-    hasErrorFormat: boolean;
-    hasMoreThanOneHour: boolean;
-  }>
-> = ref([
+const days: Ref<Array<{
+  val: string;
+  active: boolean;
+  from: Array<string>;
+  to: Array<string>;
+  hasErrorFormat: boolean;
+  hasMoreThanOneHour: boolean;
+}>> = ref([
   {
     val: "Lunes",
     active: false,
@@ -309,15 +345,40 @@ const days: Ref<
 const saveSchedule = () => {
   console.table(days.value);
   console.log(days.value);
-};
 
-const addHours = (index: any) => {
-  days.value[index].hasMoreThanOneHour = !days.value[index].hasMoreThanOneHour;
-  if (!days.value[index].hasMoreThanOneHour) {
-    days.value[index].from.pop();
-    days.value[index].to.pop();
-  }
-};
+  const range: Array<IOpeningRange> = Object.assign([],days.value.map(e => {
+    return {
+      from: e.from,
+      to: e.to
+    }
+  }));
+console.table(range);
+  const hours:Array<any> = days.value.map(e => {
+    const a = {from: e.from, to: e.to}
+    return {
+      weekDay: convertDayToNumber(e.val),
+      ranges: a
+    }
+  })
+
+  console.table(hours);
+}
+
+  const addHours = (index: any, isFirstHour?: boolean) => {
+    days.value[index].hasMoreThanOneHour = !days.value[index].hasMoreThanOneHour;
+    if (!isFirstHour) {
+      if (!days.value[index].hasMoreThanOneHour) {
+        days.value[index].from.pop();
+        days.value[index].to.pop();
+      }
+    } else if (isFirstHour) {
+      days.value[index].from[0] = days.value[index].from[1];
+      days.value[index].to[0] = days.value[index].to[1];
+      days.value[index].from.pop();
+      days.value[index].to.pop();
+    }
+
+}
 </script>
 
 <style scoped>
@@ -326,71 +387,41 @@ const addHours = (index: any) => {
   background-color: #ffffff;
 }
 
-@media (min-width: 580px) {
-  .mainCrd {
-    height: 60vh;
-    width: 60vw;
-    margin: auto auto;
-  }
-
-  .itemContainer {
-  }
-
-  .btn-add-hours {
-  }
-
-  .items-hours-containar {
-    display: flex;
-
-    min-width: 100%;
-  }
-
-  .item-laber-day {
-    flex-grow: 1;
-    flex-wrap: nowrap;
-  }
-
-  .item-hours-actins {
-    flex-grow: 1;
-  }
-
-  .first-hours-child {
-    flex-grow: 1;
-    display: flex;
-  }
-
-  .second-hours-child {
-    flex-grow: 1;
-    display: flex;
-  }
+.mainCrd {
+  height: 80vh;
+  width: 90vw;
 }
 
-@media (max-width: 579px) {
-  .mainCrd {
-    height: 80vh;
-    width: 90vw;
-  }
+.itemContainer {
+}
 
-  .itemContainer {
-  }
+.btn-add-hours {
+  margin-top: 10%;
+  margin-left: 15px;
+}
 
-  .btn-add-hours {
-    margin-top: 100%;
-  }
-
+@media (max-width: 700px) {
   .items-hours-containar {
-    width: 100vw;
+    width: 80vw;
     display: flex;
     gap: 5px;
   }
+}
 
-  .first-hours-child {
-    flex-grow: 1;
-  }
+.items-hours-containar {
+  width: 40vw;
+  display: flex;
+  gap: 5px;
+}
 
-  .second-hours-child {
-    flex-grow: 1;
-  }
+.first-hours-child {
+  flex-grow: 1;
+
+}
+
+.second-hours-child {
+  flex-grow: 1;
+
 }
 
 .subtitle-crs {
@@ -402,5 +433,12 @@ const addHours = (index: any) => {
 
 .actions-schedule {
   margin-left: 40%;
+}
+
+.item-hours-actins {
+  display: grid;
+  height: 20px;
+  margin-left: 10px;
+  align-content: space-between;
 }
 </style>

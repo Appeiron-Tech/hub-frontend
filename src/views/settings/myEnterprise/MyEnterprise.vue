@@ -12,25 +12,25 @@
       >
         <q-tab
           icon="power_settings_new"
-          class="text-purple individual-tab generalTab"
+          class="text-purple individual-tab generalTab aligment"
           name="general"
           :label="$t('my-enterprise-tab-general')"
         ></q-tab>
         <q-tab
           icon="location_on"
-          class="text-blue individual-tab directionTab"
+          class="text-blue individual-tab directionTab aligment"
           name="direction"
           :label="$t('my-enterprise-tab-direction')"
         ></q-tab>
         <q-tab
           icon="schedule"
-          class="text-orange individual-tab horarioTab"
+          class="text-orange individual-tab horarioTab aligment"
           name="horario"
           :label="$t('my-enterprise-tab-schedule')"
         ></q-tab>
         <q-tab
           icon="group_add"
-          class="text-teal individual-tab equipoTab"
+          class="text-teal individual-tab equipoTab aligment"
           name="equipo"
           :label="$t('my-enterprise-tab-team')"
         ></q-tab>
@@ -97,6 +97,8 @@ import General from "./components/general/General.vue";
 import Team from "./components/team/Team.vue";
 import Schedule from "@/views/settings/myEnterprise/components/schedule/Schedule.vue";
 import Direction from "@/views/settings/myEnterprise/components/direction/Direction.vue";
+import directionController from "@/views/settings/myEnterprise/components/direction/direction";
+directionController.loadInfo();
 const tab: Ref<string> = ref("general");
 </script>
 
@@ -154,5 +156,11 @@ const tab: Ref<string> = ref("general");
 .individual-tab {
   height: 50px;
   padding-top: 5px;
+}
+
+@media (max-width: 600px) {
+  .aligment {
+    justify-content: flex-start;
+  }
 }
 </style>

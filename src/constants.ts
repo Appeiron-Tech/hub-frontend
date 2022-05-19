@@ -6,3 +6,4 @@ export const DEFAULT_LANGUAGE: string = import.meta.env.VITE_DEFAULT_LANGUAGE;
 
 
 export const GOOGLE_MAPS_KEY: string = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
+export const BACKEND_HOST : string = import.meta.env.VITE_BACKEND_HOST;

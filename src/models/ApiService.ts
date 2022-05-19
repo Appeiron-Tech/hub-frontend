@@ -1,16 +1,16 @@
+import type {AxiosError, AxiosRequestConfig, AxiosResponse} from "axios";
 import axios from "axios";
-import type { AxiosRequestConfig, AxiosResponse, AxiosError } from "axios";
-import { API_PREFIX_BASE } from "@/constants";
-import { StatusCodes } from "http-status-codes";
+import {API_PREFIX_BASE} from "@/constants";
 
 // https://medium.com/@zitko/structuring-a-vue-project-authentication-87032e5bfe16
 abstract class ApiService {
-  private _baseUrl: string = "";
+  private readonly _baseUrl: string = "";
   private _fullApiBase: string = API_PREFIX_BASE;
 
   constructor(config: { baseURL: string }) {
     this._baseUrl = config.baseURL;
     this._fullApiBase = API_PREFIX_BASE + this._baseUrl;
+    console.log(this._fullApiBase)
     this.setHeader();
   }
 
@@ -83,13 +83,20 @@ abstract class ApiService {
       });
   }
 
+
   // put(resource, data) {
   //	 return axios.put(resource, data)
   // }
 
-  // delete(resource) {
-  //	 return axios.delete(resource)
-  // }
+  delete(url: string) {
+    return axios.delete(this._fullApiBase + url)
+      .then((response: AxiosResponse) => {
+        return response;
+      })
+      .catch((error: AxiosError) => {
+        return Promise.reject(error.response);
+      });
+  }
 
   /**
    * Perform a custom Axios request.
@@ -99,8 +106,8 @@ abstract class ApiService {
    *  - url
    *  - data ... request payload
    *  - auth (optional)
-   *	- username
-   *	- password
+   *  - username
+   *  - password
    **/
   // customRequest(data) {
   //	 return axios(data)
