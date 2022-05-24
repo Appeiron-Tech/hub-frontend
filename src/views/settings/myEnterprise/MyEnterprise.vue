@@ -82,7 +82,9 @@
           class="text-white text-center firstTab"
         >
           <q-tab-panel name="horario">
+            <Suspense>
             <Schedule />
+            </Suspense>
           </q-tab-panel>
         </q-tab-panels>
       </div>

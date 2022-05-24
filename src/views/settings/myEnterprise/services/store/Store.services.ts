@@ -1,8 +1,11 @@
 import ApiService from "@/models/ApiService";
 import type {IStore, IStoreSave} from "@/views/settings/myEnterprise/components/direction/direction";
-import type {ITeam, ITeamSave} from "@/views/settings/myEnterprise/components/team/teamTable/models/ITeam";
-import type {AxiosResponse} from "axios";
-import type {ISchedule} from "@/views/settings/myEnterprise/components/schedule/models/ISchedule";
+import type {ITeamSave} from "@/views/settings/myEnterprise/components/team/teamTable/models/ITeam";
+import type {
+  ISchedule,
+  IUpdateOpeningHours
+} from "@/views/settings/myEnterprise/components/schedule/models/IScheduleSave";
+
 
 export default class StoreService extends ApiService{
 
@@ -31,17 +34,54 @@ export default class StoreService extends ApiService{
     return (await this.delete(`/${p_storeId}`));
   }
 
-  async getAllOpeningHours(){
-    return (await this.get('openingHours'));
+  async getAllOpeningHours(): Promise<Array<ISchedule>>{
+    return (await this.get('/openingHours')).data;
   }
 
 
-  async getOpeningHoursByStoreId(p_storeId: number){
-    return (await this.get(`/${p_storeId}/openingHours`));
+  async getOpeningHoursByStoreId(p_storeId: number): Promise<Array<ISchedule>>{
+    return (await this.get(`/${p_storeId}/openingHours`)).data;
   }
 
-  async saveOpeningHours(p_storeId: number, p_hours: ISchedule){
-    return (await this.post(`/${p_storeId}/openingHour`, p_hours));
+  async saveOpeningHours(p_hourRange: Array<ISchedule>): Promise<boolean>{
+    let allResponses: Array<any> = [];
+    let singleRespose: any;
+    for (const key of Object.keys(p_hourRange)) {
+      // @ts-ignore
+      const {storeId, to, weekDay, from} = p_hourRange[key];
+      singleRespose= await this.post(`/${storeId}/openingHour`, {
+        "weekDay": weekDay,
+        "ranges": [{
+          "from": from,
+          "to": to
+        }]
+      })
+       if (singleRespose.statusText.toUpperCase() != 'CREATED'){
+         allResponses.push(singleRespose);
+       }
+    }
+    console.table(allResponses);
+    return allResponses.length == 0;
+  }
+
+
+  async updateOpeningHours(p_hourRange: Array<ISchedule>){
+    let allResponses: Array<any> = [];
+    let singleRespose: any;
+
+    for (const key of Object.keys(p_hourRange)) {
+      // @ts-ignore
+      const {storeId, to, weekDay, from} = p_hourRange[key];
+      singleRespose= await this.patch(`/${storeId}/openingHour/${weekDay}`, {
+        "ranges": [{
+          "from": from,
+          "to": to
+        }]
+      })
+      if (singleRespose.statusText.toUpperCase() != 'CREATED'){
+        allResponses.push(singleRespose);
+      }
+    }
   }
 
 
