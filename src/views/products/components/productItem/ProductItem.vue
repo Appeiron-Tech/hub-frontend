@@ -167,6 +167,7 @@ const props = defineProps<{
   product: IProduct;
 }>();
 
+
 const maxFilesToUpload: Ref<number> = ref(7 - props.product.images?.length!);
 
 let imagesUploaded: any;

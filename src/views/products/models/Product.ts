@@ -1,23 +1,32 @@
-import type { IProduct, IProductImage } from "@/views/products/models/IProduct";
+import type {ICategory, IProduct, IProductImage, IVariant, IVariantOptions} from "@/views/products/models/IProduct";
 import ProductService from "@/views/products/service/Product.services";
-import { reactive } from "vue";
+import {reactive} from "vue";
 
 class ProductController {
-  private _m_allProducts: Array<IProduct> = [];
+  private _allProducts: Array<IProduct> = [];
+  private _allCategories: Array<ICategory> = [];
+  private _variantOptions: Array<IVariantOptions> = [];
+  private _variants: Array<IVariant> = [];
   private _m_productService: ProductService = new ProductService();
 
-  constructor() {}
+  constructor() {
+  }
 
   get AllProducts(): Array<IProduct> {
-    return this._m_allProducts;
+    return this._allProducts;
   }
 
   set AllProducts(value: Array<IProduct>) {
-    this._m_allProducts = value;
+    this._allProducts = value;
   }
 
-  loadProducts() {
-    this._m_allProducts = this._m_productService.getAllProducts();
+  async loadInfo() {
+    [this._allProducts, this._allCategories, this._variantOptions, this._variants] = await Promise.all([
+      this._m_productService.getAllProducts(),
+      this._m_productService.getAllCategories(),
+      this._m_productService.getVariantOptions(),
+      this._m_productService.getVariants()
+    ]);
   }
 
   deleteProduct(productId: number) {
@@ -25,29 +34,30 @@ class ProductController {
   }
 
   addNewProductTemplate() {
-    this._m_allProducts.push({
+    this._allProducts.push({
+      createdAt: 0, pos: 0,
       name: "",
       price: 0,
       isActive: true,
       id: 4,
       description: "",
       sku: 0,
-      images: [{ src: "", name: "" }],
+      images: [{src: "", name: ""}]
     });
   }
 
   removeSpeficiImageProduct(productId: number, image: IProductImage) {
-    const imagePos = this._m_allProducts
+    const imagePos = this._allProducts
       .find((e) => e.id == productId)
       ?.images?.findIndex((e) => e.name == image.name);
     this._m_productService.deleteImageFromProduct(productId, imagePos!);
 
-    const productIndex = this._m_allProducts.findIndex(
+    const productIndex = this._allProducts.findIndex(
       (e) => e.id === productId
     );
-    this._m_allProducts[productIndex].images = this._m_allProducts[
+    this._allProducts[productIndex].images = this._allProducts[
       productIndex
-    ].images?.filter((e) => e.name != image.name);
+      ].images?.filter((e) => e.name != image.name);
   }
 }
 

@@ -1,4 +1,7 @@
 <template>
+  <Transition mode="out-in">
+  <Suspense>
+    <template #default>
   <div class="">
     <div class="gallery">
       <div
@@ -11,13 +14,21 @@
       <q-btn @click="addNewProduct" color="green">Nuevo producto</q-btn>
     </div>
   </div>
+    </template>
+    <template #fallback>
+      <span>Loading...</span>
+    </template>
+  </Suspense>
+  </Transition>
 </template>
 
 <script setup lang="ts">
 import ProductItem from "@/views/products/components/productItem/ProductItem.vue";
 import productController from "@/views/products/models/Product";
 
-productController.loadProducts();
+
+
+await productController.loadInfo();
 
 const addNewProduct = () => {
   productController.addNewProductTemplate();

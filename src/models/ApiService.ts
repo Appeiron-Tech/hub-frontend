@@ -1,6 +1,7 @@
-import type {AxiosError, AxiosRequestConfig, AxiosResponse} from "axios";
+import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 import axios from "axios";
-import {API_PREFIX_BASE} from "@/constants";
+import { API_PREFIX_BASE } from "@/constants";
+import { createErrorNotification } from "@/utils/notifications";
 
 // https://medium.com/@zitko/structuring-a-vue-project-authentication-87032e5bfe16
 abstract class ApiService {
@@ -10,7 +11,7 @@ abstract class ApiService {
   constructor(config: { baseURL: string }) {
     this._baseUrl = config.baseURL;
     this._fullApiBase = API_PREFIX_BASE + this._baseUrl;
-    console.log(this._fullApiBase)
+    console.log(this._fullApiBase);
     this.setHeader();
   }
 
@@ -50,6 +51,7 @@ abstract class ApiService {
         return response;
       })
       .catch((error: AxiosError) => {
+        createErrorNotification("Hubo un error");
         return Promise.reject(error.response);
       });
   }
@@ -65,6 +67,7 @@ abstract class ApiService {
         return response;
       })
       .catch((error: AxiosError) => {
+        createErrorNotification("Hubo un error");
         return Promise.reject(error.response);
       });
   }
@@ -83,17 +86,18 @@ abstract class ApiService {
       });
   }
 
-
   // put(resource, data) {
   //	 return axios.put(resource, data)
   // }
 
   delete(url: string) {
-    return axios.delete(this._fullApiBase + url)
+    return axios
+      .delete(this._fullApiBase + url)
       .then((response: AxiosResponse) => {
         return response;
       })
       .catch((error: AxiosError) => {
+        createErrorNotification("Hubo un error");
         return Promise.reject(error.response);
       });
   }

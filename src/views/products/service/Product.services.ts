@@ -1,17 +1,18 @@
 import ApiService from "@/models/ApiService";
-import type { IProduct, IProductImage } from "../models/IProduct";
-import productController from "../models/Product";
+import type {AxiosResponse} from "axios";
+import type {ICategory, IProduct, IVariant, IVariantOptions} from "@/views/products/models/IProduct";
+
 
 export default class ProductService extends ApiService {
   constructor() {
-    super({ baseURL: "/products" });
+    super({ baseURL: "/product" });
   }
 
-  //TODO
-  //Do this with backend
-  getAllProducts(): Array<IProduct> {
-    //return (await this.get('')).data;
-    return [
+
+
+  async getAllProducts(): Promise<Array<IProduct>> {
+    return (await this.get('')).data;
+    /*return [
       {
         sku: 48546,
         name: "Leche Gloria",
@@ -86,7 +87,7 @@ export default class ProductService extends ApiService {
           },
         ],
       },
-    ];
+    ];*/
   }
 
   deleteSpecificProduct(id: number) {
@@ -97,5 +98,17 @@ export default class ProductService extends ApiService {
     console.log(
       "Image at pos: " + imagePos + " was deleted from product -> " + productId
     );
+  }
+
+  async getAllCategories(): Promise<Array<ICategory>> {
+    return (await this.get('/categories')).data;
+  }
+
+  async getVariantOptions(): Promise<Array<IVariantOptions>>{
+    return (await this.get('/variantoptions')).data;
+  }
+
+  async getVariants(): Promise<Array<IVariant>>{
+    return (await this.get('/variant')).data;
   }
 }

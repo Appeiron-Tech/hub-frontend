@@ -1,14 +1,14 @@
-
 export interface ITeam {
-  id: string;
+  id: number;
   name: string;
   email?: string;
   jobTitle: string;
   isActive?: string;
   phone?: number;
+  storeId?: number;
   countryCode: number;
   phoneType?: string;
-  createdAt: string
+  createdAt: string;
 }
 
 export interface ITeamSave {
@@ -16,8 +16,24 @@ export interface ITeamSave {
   email: string;
   jobTitle: string;
   state?: boolean;
-  phone? : string;
+  phone?: number;
   phoneType?: string;
   storeId?: number;
-  countryCode?: number
+  countryCode?: number;
+}
+
+export interface ITeamUpdate {
+  storeId?: number;
+  name?: string;
+  email?: string;
+  jobTitle?: string;
+  phone?: number;
+  countryCode?: number;
+  phoneType?: string;
+  isActive?: boolean;
+}
+
+export interface ILocalOptions{
+  id: number;
+  label: string
 }

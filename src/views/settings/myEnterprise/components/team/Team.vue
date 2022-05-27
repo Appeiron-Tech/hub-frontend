@@ -30,13 +30,13 @@
         </q-card-section>
 
         <q-card-section class="q-pt-none">
-          <q-input outlined v-model="newMember.name" label="Name" />
+          <q-input outlined v-model="newMember.name" label="Name" :rules="[val => !!val || 'Field is required']" />
           <br />
-          <q-input outlined v-model="newMember.email" label="Email"/>
+          <q-input outlined v-model="newMember.email" label="Email" :rules="[val => !!val || 'Field is required']" />
           <br />
-          <q-input outlined v-model="newMember.jobTitle" label="Job Title" />
+          <q-input outlined v-model="newMember.jobTitle" label="Job Title" :rules="[val => !!val || 'Field is required']" />
           <br />
-          <q-input outlined v-model="newMember.phone" label="Telefono" />
+          <q-input outlined v-model="newMember.phone" label="Telefono" :rules="[ val => val.length >= 7 || 'Please use minumin 7 characters']"/>
           <br />
           <q-select
             outlined
@@ -56,11 +56,12 @@
             v-model="newMember.state"
             checked-icon="check"
             color="red"
-            :label="newMember.state === true ? 'Estado activo' : 'Estado Inactivo' "
+            :label="
+              newMember.state === true ? 'Estado activo' : 'Estado Inactivo'
+            "
             unchecked-icon="clear"
           />
           <br />
-
         </q-card-section>
 
         <q-card-actions align="right" class="text-primary">
@@ -79,20 +80,22 @@
 <script setup lang="ts">
 import TeamTable from "@/views/settings/myEnterprise/components/team/teamTable/TeamTable.vue";
 import teamController from "@/views/settings/myEnterprise/components/team/teamTable/models/Team";
-import { onMounted, reactive, ref } from "vue";
-import type { ITeam, ITeamSave } from "./teamTable/models/ITeam";
+import { onMounted, reactive, ref, type Ref } from "vue";
+import type { ILocalOptions, ITeam, ITeamSave } from "./teamTable/models/ITeam";
 import directionController from "@/views/settings/myEnterprise/components/direction/direction";
+import { number } from "@intlify/core-base";
 teamController.loadInfo();
 const opened = ref(false);
 const isNew = ref(false);
-const selectedStoreId = ref(undefined);
+const selectedStoreId: Ref<ILocalOptions | null> = ref(null);
+const idForExistingCollaborator = ref(0);
 
 const openModal = () => {
   newMember.jobTitle = "";
   newMember.name = "";
   newMember.email = "";
-  newMember.phone = '';
-  newMember.phoneType = '';
+  newMember.phone = 0;
+  newMember.phoneType = "";
   newMember.countryCode = 51;
   newMember.state = true;
   isNew.value = true;
@@ -104,24 +107,35 @@ let newMember: ITeamSave = reactive({
   jobTitle: "",
 });
 const saveNewMember = () => {
-  console.log({newMember});
-  console.log(selectedStoreId.value)
+  console.log({ newMember });
+  console.log("%c⧭", "color: #00b300", newMember);
+  console.log(selectedStoreId.value);
   opened.value = false;
-  teamController.editCollaborator(newMember,isNew.value,'', selectedStoreId.value);
+  teamController.saveCollaborator(
+    newMember,
+    isNew.value,
+    idForExistingCollaborator.value,
+    selectedStoreId.value
+  );
 };
 
 function editCollaboratorModal(p_collab: ITeam) {
+  selectedStoreId.value = teamController.getStoreById(p_collab.storeId!)[0];
+  idForExistingCollaborator.value = p_collab.id;
   newMember.email = p_collab.email!;
   newMember.name = p_collab.name;
   newMember.jobTitle = p_collab.jobTitle;
+  newMember.phone = p_collab.phone;
+  newMember.phoneType = p_collab.phoneType;
   newMember.state = true;
   isNew.value = false;
   opened.value = true;
 }
 
-function isValidEmail () {
-  const emailPattern = /^(?=[a-zA-Z0-9@._%+-]{6,254}$)[a-zA-Z0-9._%+-]{1,64}@(?:[a-zA-Z0-9-]{1,63}\.){1,8}[a-zA-Z]{2,63}$/;
-  return emailPattern.test(newMember.email) || 'Invalid email';
+function isValidEmail() {
+  const emailPattern =
+    /^(?=[a-zA-Z0-9@._%+-]{6,254}$)[a-zA-Z0-9._%+-]{1,64}@(?:[a-zA-Z0-9-]{1,63}\.){1,8}[a-zA-Z]{2,63}$/;
+  return emailPattern.test(newMember.email) || "Invalid email";
 }
 </script>
 <style scoped>

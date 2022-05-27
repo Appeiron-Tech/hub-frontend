@@ -1,67 +1,16 @@
 import {reactive} from "vue";
 import StoreService from "@/views/settings/myEnterprise/services/store/Store.services";
-import type {ITeam} from "@/views/settings/myEnterprise/components/team/teamTable/models/ITeam";
-
-export interface IStore {
-  id: number;
-  store: string;
-  description: string;
-  address: string;
-  isMain: number;
-  latitude: number;
-  longitude: number;
-  isOpenAlways: number;
-  createdAt?: Date;
-  cityId?: number;
-  placeLink?: string;
-  address_components?: Array<IAddressComponent>;
-  country?: string;
-  phones?: Array<IPhone>;
-  workers?: Array<ITeam>;
-}
-
-export interface IStoreSave {
-  id?: string;
-  store: string;
-  description?: string;
-  address_components?: Array<IAddressComponent>;
-  placeLink?: string;
-  address: string;
-  isMain: number;
-  latitude?: number;
-  longitude?: number;
-  isOpenAlways: number;
-  phones?: Array<IPhone>;
-  cityId?: number;
-}
-
-interface IAddressComponent {
-  long_name: string;
-  short_name: string;
-  types: Array<string>;
-}
-
-interface IPhone {
-  phone: string;
-  countryCode: string;
-  type: string;
-  isWspMain: string;
-}
-
-export interface ICountry {
-  name: string;
-  image: string;
-}
+import {createErrorNotification, createPositiveNotification,} from "@/utils/notifications";
+import type {IStore, IStoreSave} from "@/views/settings/myEnterprise/components/direction/IDirection";
 
 export class DirectionController {
   private _m_stores: Array<IStore> = [];
 
   private _m_storeService: StoreService = new StoreService();
   private _markers: Array<{ position: { lat: number; lng: number } }> = [];
-  private _centerMap: { lat: number; lng: number } = {lat: 0, lng: 0};
+  private _centerMap: { lat: number; lng: number } = { lat: 0, lng: 0 };
 
-  constructor() {
-  }
+  constructor() {}
 
   get centerMap(): { lat: number; lng: number } {
     return this._centerMap;
@@ -116,19 +65,42 @@ export class DirectionController {
     this._centerMap.lng = this.centerMap.lng / this.markers.length;
   }
 
-  saveOrEditNewStore(p_store: IStoreSave, isNew: boolean) {
-    console.log({p_store});
+  async saveOrEditNewStore(p_store: IStoreSave, isNew: boolean) {
+    console.log({ p_store });
     if (isNew) {
-      this._m_storeService.saveNewStore(p_store).then((r) => console.log(r));
+      const response = await this._m_storeService.saveNewStore(p_store);
+      this.showOperationNotification(
+        response.status.toString(),
+        "Creado correctamente",
+        "Hubo un error"
+      );
     } else {
-      this._m_storeService
-        .editExistingStore(p_store)
-        .then((r) => console.log(r));
+      const response = await this._m_storeService.editExistingStore(p_store);
+      this.showOperationNotification(
+        response.status.toString(),
+        "Actualizado correctamente",
+        "Hubo un error"
+      );
     }
+    await this.loadInfo();
   }
 
-  removeStore(p_store: IStore){
-    this._m_storeService.deleteStore(p_store.id).then(r => console.log(r));
+  async removeStore(p_store: IStore) {
+    const response = await this._m_storeService.deleteStore(p_store.id);
+    this.showOperationNotification(response.status.toString(), 'Eliminado correctamente', 'Hubo un error');
+    await this.loadInfo();
+  }
+
+  public showOperationNotification(
+    state: string,
+    positiveMessage: string,
+    negativeMessage: string
+  ) {
+    if (state.startsWith("2")) {
+      createPositiveNotification(positiveMessage);
+    } else if (state.startsWith("4") || state.startsWith("5")) {
+      createErrorNotification(negativeMessage);
+    }
   }
 }
 
