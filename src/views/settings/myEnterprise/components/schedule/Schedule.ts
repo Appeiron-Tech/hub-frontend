@@ -1,110 +1,76 @@
 import StoreService from "@/views/settings/myEnterprise/services/store/Store.services";
 import {reactive} from "vue";
-import type {ISchedule, IScheduleSave, IUpdateOpeningHours} from "./models/IScheduleSave";
+import type {ISchedule } from "./models/ISchedule";
 import { Notify } from 'quasar'
 
 export class Schedule {
 
   private _sharedServices: StoreService = new StoreService();
-  private _allStoresOpeningHours: Array<ISchedule> = [];
-  private _selectedStoreOpeningHours: Array<ISchedule> = [];
-  private _idForSelectedStore: number | undefined = undefined;
-  private _methodToExecute: string = '';
+  private _schedule: Array<ISchedule> = [];
+  private _storeId: number | undefined = undefined;
 
-  constructor() {}
+  constructor() { }
 
+  // Getters / Setters
 
-  get selectedStoreOpeningHours(): Array<ISchedule> {
-    return this._selectedStoreOpeningHours;
+  get schedule(): Array<ISchedule> {
+    return this._schedule;
   }
 
-
-  set selectedStoreOpeningHours(value: Array<ISchedule>) {
-    this._selectedStoreOpeningHours = structuredClone(value);
+  getIsOpened(weekDay: number): boolean {
+    return (this.getScheduleByDay(weekDay)?.ranges || []).length > 0; 
   }
 
-  get allStoresOpeningHours(): Array<ISchedule> {
-    return this._allStoresOpeningHours;
+  // useful for avoid many finds
+  getScheduleByDay(weekDay: number): ISchedule | undefined {
+    return this._schedule.find((__schedule) => __schedule.weekDay === weekDay);
   }
 
-  set allStoresOpeningHours(value: Array<ISchedule>) {
-    this._allStoresOpeningHours = value;
+  //
+  // Methods
+  //
+  async loadInfo(storeId: number){
+    this._storeId = storeId;
+    const res = await this._sharedServices.getOpeningHoursByStoreId(storeId)
+
+    this._schedule = res.reduce((acc, curr) => {
+      const _scheduleFound = acc.find((_openingRange) => _openingRange.weekDay == curr.weekDay )
+      if (_scheduleFound){
+        _scheduleFound.ranges.push({from: curr.from.padStart(5,"0"), to: curr.to.padStart(5,"0")}) // hour is padded to ensure the format HH:MM (5 spaces)
+        return [...acc]
+      } 
+      
+      const _schedule: ISchedule = {
+          storeId: curr.storeId,
+          weekDay: curr.weekDay,
+          ranges: [{
+            from: curr.from.padStart(5,"0"),
+            to: curr.to.padStart(5,"0")
+          }]
+        }
+      return [...acc, _schedule]
+    }, [] as Array<ISchedule>);
   }
 
-  // async saveSchedule(openingHours: IScheduleSave){
-  //   await this._sharedServices.saveOpeningHours(2, openingHours).then(r => console.log({r})).catch(e => console.log({e}));
-  // }
-
-  async loadInfo(){
-    this._allStoresOpeningHours = Object.assign([], await this._sharedServices.getAllOpeningHours());
-    console.log("SHCEFDUUUUULE: ", this._allStoresOpeningHours);
+  
+  public closeScheduleByDay(weekDay: number) {
+    this._schedule = this._schedule.filter((__schedule) => __schedule.weekDay !== weekDay) || []
   }
 
-  async getHoursForSelectedStore(selectedStoreId: any): Promise<Array<ISchedule>> {
-    console.log("id passed: ", selectedStoreId)
-    this._idForSelectedStore = selectedStoreId.id;
-    this._selectedStoreOpeningHours = structuredClone(await (this._sharedServices.getOpeningHoursByStoreId(this._idForSelectedStore!)));
-    console.log("seected: ", this._selectedStoreOpeningHours);
-    return this._selectedStoreOpeningHours;
-  }
-
-  removeSpecificRangeHour(rangeHourId: number){
-    this._selectedStoreOpeningHours = this._selectedStoreOpeningHours.filter(e => e.id != rangeHourId);
-    console.log(this._selectedStoreOpeningHours);
-  }
-
-  addRangeHours(weekDay: number, hadExistingHour?: boolean){
-    let size = this._selectedStoreOpeningHours.filter(e => e.weekDay === weekDay).length;
-    const from = hadExistingHour ? '14:30' : '09:00';
-    const to = hadExistingHour ? '19:00' : '13:00';
-    const newRangeHour: ISchedule = {
-      id: Math.random()+54.33,
-      from: from,
-      to: to,
-      storeId:  this._idForSelectedStore! ,
-      weekDay: weekDay
+  public openScheduleByDay(weekDay: number) {
+    if (this._storeId) {
+      this._schedule.push({
+          storeId: this._storeId,
+          weekDay: weekDay,
+          ranges: [{
+            from: '',
+            to: ''
+          }]
+      })
     }
-    if (size === 0 && !hadExistingHour){
-      this._selectedStoreOpeningHours.push(newRangeHour);
-      this._methodToExecute = 'POST';
-    }
-    else if( hadExistingHour){
-      this._selectedStoreOpeningHours.push(newRangeHour);
-      this._methodToExecute = 'PATCH';
-    }
-    console.log("ALAMD", this._methodToExecute)
+    // else
+      // Create default schedule
   }
-
-   async saveInformation() {
-     //const a = structuredClone(await (this._sharedServices.getOpeningHoursByStoreId(this._idForSelectedStore!)));
-     let wasSavedSuccesfully: boolean | undefined;
-     const newOpeningHours = this._selectedStoreOpeningHours.filter(e => e.id.toString().includes('.'));
-     if(this._methodToExecute === 'POST'){
-       wasSavedSuccesfully = await this._sharedServices.saveOpeningHours(newOpeningHours);
-       await this.showNotification(wasSavedSuccesfully);
-     }
-     else {
-       //wasSavedSuccesfully = await this._sharedServices.saveOpeningHours(newOpeningHours);
-       //await this.showNotification(wasSavedSuccesfully);
-       let newArray: Array<IUpdateOpeningHours>;
-       newOpeningHours.forEach(function (value, index, array) {
-         newArray[index]
-       })
-     }
-
-
-   }
-
-   async showNotification(p_wasCorrectlySaved: boolean) {
-     Notify.create({
-       message: p_wasCorrectlySaved ? 'Guardado correctamente' : 'Hubo un error',
-       type: p_wasCorrectlySaved ? 'positive' : 'negative',
-     });
-     if (p_wasCorrectlySaved) {
-       await this.loadInfo();
-     }
-   }
-
 }
 
 const scheduleController = reactive(new Schedule());

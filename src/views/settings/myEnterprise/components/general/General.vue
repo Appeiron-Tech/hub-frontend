@@ -156,6 +156,11 @@ const currency = ref("PEN");
 const availableCurrency: Array<string> = ["PEN", "USD", "EUR"];
 const language: Ref<string> = ref("Español");
 const availableLanguages: Array<string> = ["Español", "English"];
+
+
+const onSubmit = () => {}
+const onReset = () => {}
+
 </script>
 
 <style scoped>

@@ -4,9 +4,8 @@ import type {
   ITeamSave,
 } from "@/views/settings/myEnterprise/components/team/teamTable/models/ITeam";
 import type {
-  ISchedule,
-  IUpdateOpeningHours,
-} from "@/views/settings/myEnterprise/components/schedule/models/IScheduleSave";
+  IResOpeningHours
+} from "@/views/settings/myEnterprise/components/schedule/models/ISchedule";
 import type { AxiosResponse } from "axios";
 import type {IStore, IStoreSave} from "@/views/settings/myEnterprise/components/direction/IDirection";
 
@@ -84,55 +83,55 @@ export default class StoreService extends ApiService {
   //**********OPENING HOURS     ******************************* */
   //******************************************************* */
 
-  async getAllOpeningHours(): Promise<Array<ISchedule>> {
+  async getAllOpeningHours(): Promise<Array<IResOpeningHours>> {
     return (await this.get("/openingHours")).data;
   }
 
-  async getOpeningHoursByStoreId(p_storeId: number): Promise<Array<ISchedule>> {
+  async getOpeningHoursByStoreId(p_storeId: number): Promise<Array<IResOpeningHours>> {
     return (await this.get(`/${p_storeId}/openingHours`)).data;
   }
 
-  async saveOpeningHours(p_hourRange: Array<ISchedule>): Promise<boolean> {
-    let allResponses: Array<any> = [];
-    let singleRespose: any;
-    for (const key of Object.keys(p_hourRange)) {
-      // @ts-ignore
-      const { storeId, to, weekDay, from } = p_hourRange[key];
-      singleRespose = await this.post(`/${storeId}/openingHour`, {
-        weekDay: weekDay,
-        ranges: [
-          {
-            from: from,
-            to: to,
-          },
-        ],
-      });
-      if (singleRespose.statusText.toUpperCase() != "CREATED") {
-        allResponses.push(singleRespose);
-      }
-    }
-    console.table(allResponses);
-    return allResponses.length == 0;
-  }
+  // async saveOpeningHours(p_hourRange: Array<ISchedule>): Promise<boolean> {
+  //   let allResponses: Array<any> = [];
+  //   let singleRespose: any;
+  //   for (const key of Object.keys(p_hourRange)) {
+  //     // @ts-ignore
+  //     const { storeId, to, weekDay, from } = p_hourRange[key];
+  //     singleRespose = await this.post(`/${storeId}/openingHour`, {
+  //       weekDay: weekDay,
+  //       ranges: [
+  //         {
+  //           from: from,
+  //           to: to,
+  //         },
+  //       ],
+  //     });
+  //     if (singleRespose.statusText.toUpperCase() != "CREATED") {
+  //       allResponses.push(singleRespose);
+  //     }
+  //   }
+  //   console.table(allResponses);
+  //   return allResponses.length == 0;
+  // }
 
-  async updateOpeningHours(p_hourRange: Array<ISchedule>) {
-    let allResponses: Array<any> = [];
-    let singleRespose: any;
+  // async updateOpeningHours(p_hourRange: Array<ISchedule>) {
+  //   let allResponses: Array<any> = [];
+  //   let singleRespose: any;
 
-    for (const key of Object.keys(p_hourRange)) {
-      // @ts-ignore
-      const { storeId, to, weekDay, from } = p_hourRange[key];
-      singleRespose = await this.patch(`/${storeId}/openingHour/${weekDay}`, {
-        ranges: [
-          {
-            from: from,
-            to: to,
-          },
-        ],
-      });
-      if (singleRespose.statusText.toUpperCase() != "CREATED") {
-        allResponses.push(singleRespose);
-      }
-    }
-  }
+  //   for (const key of Object.keys(p_hourRange)) {
+  //     // @ts-ignore
+  //     const { storeId, to, weekDay, from } = p_hourRange[key];
+  //     singleRespose = await this.patch(`/${storeId}/openingHour/${weekDay}`, {
+  //       ranges: [
+  //         {
+  //           from: from,
+  //           to: to,
+  //         },
+  //       ],
+  //     });
+  //     if (singleRespose.statusText.toUpperCase() != "CREATED") {
+  //       allResponses.push(singleRespose);
+  //     }
+  //   }
+  // }
 }

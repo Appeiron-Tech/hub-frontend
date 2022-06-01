@@ -1,3 +1,41 @@
+interface IDay {
+  weekday: number;
+  label: string;
+}
+
+const weekDays: Array<IDay> = [
+  {
+    weekday: 1,
+    label: 'calendar-monday'
+  },
+  {
+    weekday: 2,
+    label: 'calendar-tuesday'
+  },
+  {
+    weekday: 3,
+    label: 'calendar-wednesday'
+  },
+  {
+    weekday: 4,
+    label: 'calendar-thursday'
+  },
+  {
+    weekday: 5,
+    label: 'calendar-friday'
+  },
+  {
+    weekday: 6,
+    label: 'calendar-saturday'
+  },
+  {
+    weekday: 7,
+    label: 'calendar-sunday'
+  }
+]
+
+export default weekDays;
+
 export function convertDayToNumber(day: string): number {
   switch (day.toUpperCase()) {
     case 'LUNES':

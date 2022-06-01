@@ -8,7 +8,7 @@
     >
       <q-header elevated class="toolbar-cnt">
         <q-toolbar>
-          <q-btn flat @click="menuCliker" round dense icon="menu" />
+          <q-btn flat @click="menuClicker" round dense icon="menu" />
           <q-toolbar-title>
             <q-img class="logo-img" src="@/assets/logo_blanco.png" />
             <!-- <div class="minegocio-title">
@@ -78,16 +78,15 @@
       >
         <q-list padding>
           <template
-            v-slot:mini
             v-for="(route, index) in routes"
             :key="'for_' + index"
           >
             <q-item clickable :to="route.path">
               <q-item-section avatar>
-                <q-icon :name="route.meta!.icon" />
+                 <q-icon :name="getRouteIcon(route.meta)"/>
               </q-item-section>
               <q-item-section>
-                {{ route.name ? $t(route.name.toString()) : "" }}
+                {{ route.name ? route.name.toString() : "" }}
               </q-item-section>
             </q-item>
           </template>
@@ -98,10 +97,10 @@
             <template v-for="(route, index) in routes" :key="'for_' + index">
               <q-item clickable :to="route.path">
                 <q-item-section avatar>
-                  <q-icon :name="route.meta!.icon" />
+                  <q-icon :name="getRouteIcon(route.meta)" />
                 </q-item-section>
                 <q-item-section>
-                  {{ route.name ? $t(route.name.toString()) : "" }}
+                  {{ route.name ? route.name.toString() : "" }}
                 </q-item-section>
               </q-item>
             </template>
@@ -139,7 +138,7 @@
 
 <script setup lang="ts">
 import { ref, type Ref } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, type RouteMeta } from "vue-router";
 import router from "@/plugins/router";
 
 const isMobile: boolean = window.innerWidth < 500;
@@ -151,10 +150,13 @@ const userProfileImage: Ref<string | null> = ref(
 
 const userName: Ref<string | null> = ref("Lola Lola");
 const userEmail: Ref<string | null> = ref("lola@gmail.com");
+
+// Methods
+
 const goToSetting = () => {
   router.push("/settings");
 };
-const menuCliker = () => {
+const menuClicker = () => {
   drawer.value = !drawer.value;
   if (isMobile) {
     miniState.value = true;
@@ -165,6 +167,13 @@ const menuCliker = () => {
 
 const routes = router.options.routes;
 const route = useRoute();
+
+const getRouteIcon = (_routeMeta: RouteMeta | undefined): string | undefined => {
+  if (_routeMeta && typeof _routeMeta.icon == 'string')
+    return _routeMeta!.icon
+  return undefined
+}
+
 </script>
 
 <style lang="sass" scoped>

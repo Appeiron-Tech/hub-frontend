@@ -1,291 +1,41 @@
 <template>
-  <!-- <div class="text-h4 subtitle-crs">
-    Permite al cliente saber los horarios de atención
-    <q-select
-      outlined
-      v-model="selectedStoreId"
-      :options="teamController.localOptions"
-      label="Locales"
-    />
-  </div>
-
-
-  <div class="mainCrd">
-    <q-card class="my-card" flat>
-      <q-card-section>
-        <template v-for="(day, index) in days">
-          <q-item tag="label" class="itemContainer">
-            <div class="items-hours-containar">
-              <div class="item-laber-day">
-                <q-item-section>
-                  <q-item-label>{{ day.val }}</q-item-label>
-                </q-item-section>
-
-                <q-item-section side class="togglebtn">
-                  <q-toggle
-                    color="green"
-                    v-model="day.active"
-                    val="battery"
-                    checked-icon="schedule"
-                    unchecked-icon="event_busy"
-                  />
-                </q-item-section>
-              </div>
-              <div class="first-hours-child">
-                <q-item-section v-if="day.active">
-                  <q-input
-                    v-model="day.from[0]"
-                    mask="time"
-                    outlined
-                    style="
-                      max-width: 200px;
-                      margin-left: 15px;
-                      min-width: 100px;
-                    "
-                    :rules="['time']"
-                  >
-                    <template v-slot:append>
-                      <q-icon name="access_time" class="cursor-pointer">
-                        <q-popup-proxy
-                          cover
-                          transition-show="scale"
-                          transition-hide="scale"
-                        >
-                          <q-time v-model="proxyTime">
-                            <div
-                              class="row items-center justify-end q-gutter-sm"
-                            >
-                              <q-btn
-                                label="Cancel"
-                                color="primary"
-                                flat
-                                v-close-popup
-                              />
-                              <q-btn
-                                label="OK"
-                                color="primary"
-                                flat
-                                @click="saveFrom(index, 0)"
-                                v-close-popup
-                              />
-                            </div>
-                          </q-time>
-                        </q-popup-proxy>
-                      </q-icon>
-                    </template>
-                  </q-input>
-                </q-item-section>
-
-                <q-item-section v-if="day.hasMoreThanOneHour && day.active">
-                  <div class="">
-                    <q-input
-                      v-model="day.from[1]"
-                      mask="time"
-                      outlined
-                      style="
-                        max-width: 200px;
-                        margin-left: 8px;
-                        min-width: 80px;
-                      "
-                      :rules="['time']"
-                    >
-                      <template v-slot:append>
-                        <q-icon name="access_time" class="cursor-pointer">
-                          <q-popup-proxy
-                            cover
-                            transition-show="scale"
-                            transition-hide="scale"
-                          >
-                            <q-time v-model="proxyTime">
-                              <div
-                                class="row items-center justify-end q-gutter-sm"
-                              >
-                                <q-btn
-                                  label="Cancel"
-                                  color="primary"
-                                  flat
-                                  v-close-popup
-                                />
-                                <q-btn
-                                  label="OK"
-                                  color="primary"
-                                  flat
-                                  @click="saveFrom(index, 1)"
-                                  v-close-popup
-                                />
-                              </div>
-                            </q-time>
-                          </q-popup-proxy>
-                        </q-icon>
-                      </template>
-                    </q-input>
-                  </div>
-                </q-item-section>
-              </div>
-              <div class="first-hours-child-part-two">
-                <q-item-section v-if="day.active">
-                  <q-input
-                    v-model="day.to[0]"
-                    mask="time"
-                    outlined
-                    style="
-                      max-width: 200px;
-                      margin-left: 15px;
-                      min-width: 100px;
-                    "
-                    :rules="['time']"
-                  >
-                    <template v-slot:append>
-                      <q-icon name="access_time" class="cursor-pointer">
-                        <q-popup-proxy
-                          cover
-                          transition-show="scale"
-                          transition-hide="scale"
-                        >
-                          <q-time v-model="proxyTime">
-                            <div
-                              class="row items-center justify-end q-gutter-sm"
-                            >
-                              <q-btn
-                                label="Cancel"
-                                color="primary"
-                                flat
-                                v-close-popup
-                              />
-                              <q-btn
-                                label="OK"
-                                color="primary"
-                                flat
-                                @click="saveTo(index, 0)"
-                                v-close-popup
-                              />
-                            </div>
-                          </q-time>
-                        </q-popup-proxy>
-                      </q-icon>
-                    </template>
-                  </q-input>
-                </q-item-section>
-
-                <q-item-section v-if="day.hasMoreThanOneHour && day.active">
-                  <div class="">
-                    <q-input
-                      v-model="day.to[1]"
-                      mask="time"
-                      outlined
-                      style="
-                        max-width: 200px;
-                        margin-left: 5px;
-                        min-width: 100px;
-                      "
-                      :rules="['time']"
-                    >
-                      <template v-slot:append>
-                        <q-icon name="access_time" class="cursor-pointer">
-                          <q-popup-proxy
-                            cover
-                            transition-show="scale"
-                            transition-hide="scale"
-                          >
-                            <q-time v-model="proxyTime">
-                              <div
-                                class="row items-center justify-end q-gutter-sm"
-                              >
-                                <q-btn
-                                  label="Cancel"
-                                  color="primary"
-                                  flat
-                                  v-close-popup
-                                />
-                                <q-btn
-                                  label="OK"
-                                  color="primary"
-                                  flat
-                                  @click="saveTo(index, 1)"
-                                  v-close-popup
-                                />
-                              </div>
-                            </q-time>
-                          </q-popup-proxy>
-                        </q-icon>
-                      </template>
-                    </q-input>
-                  </div>
-                </q-item-section>
-              </div>
-
-              <div class="item-hours-actins">
-                <q-btn
-                  v-if="day.active && !day.hasMoreThanOneHour"
-                  round
-                  color="blue"
-                  icon="add"
-                  @click="addHours(index)"
-                  class="btn-add-xhours"
-                />
-                <q-btn
-                  v-if="day.active && day.hasMoreThanOneHour"
-                  round
-                  color="red"
-                  icon="close"
-                  @click="addHours(index, true)"
-                  class="btn-add-xhours"
-                />
-                <q-btn
-                  v-if="day.active && day.hasMoreThanOneHour"
-                  round
-                  color="red"
-                  icon="close"
-                  style="margin-top: 40px"
-                  @click="addHours(index, false)"
-                  class="btn-add-hxours"
-                />
-                <h6
-                  style="
-                    max-width: 50px;
-                    font-size: 12px;
-                    white-space: nowrap;
-                    color: red;
-                  "
-                  v-if="day.hasErrorFormat"
-                >
-                  Hours are incompatible
-                </h6>
-              </div>
-            </div>
-          </q-item>
-        </template>
-      </q-card-section>
-      <q-card-actions class="actions-schedule">
-        <q-btn
-          align="between"
-          color="green"
-          @click="saveSchedule"
-          :disable="days.find((e) => e.hasErrorFormat === true) != null"
-        >Guardar
-        </q-btn
-        >
-      </q-card-actions>
-    </q-card>
-  </div> -->
   <Suspense>
     <template #default>
       <div>
-        <q-select rounded filled v-model="selectedStoreId" :options="teamController.localOptions" label="Rounded filled"  emit-value
-                  map-options />
-      <div
-        v-for="n in 7"
-      >
-        <div class="text-h6">
-          {{ convertNumberToDay(n) }}
-        </div>
-
-        <HoursRange :week-day="n" :schedule="scheduleController.selectedStoreOpeningHours.filter(e => e.weekDay === n)"
-                    @remove-range-hour="removeRangeHour"
-                    @open-range-hour="openNewRangeHour"
+        <q-select rounded
+                  outlined
+                  v-model="selectedStore"
+                  :options="teamController.localOptions"
+                  label="Store"
+                  emit-value
+                  map-options
         />
-      </div>
-      <q-btn @click="saveInformation">SAVE</q-btn>
+        <div v-if="selectedStore"
+             v-for="(weekDay) in weekDays"
+             class="row q-mt-md"
+        >
+          <div class="col-md-2 text-h6">
+            {{ $t(weekDay.label) }}
+          </div>
+
+          <div class="col-md-2">
+            <q-toggle
+              :modelValue="scheduleController.getIsOpened(weekDay.weekday)"
+              @update:modelValue="isOpened => isOpened ? scheduleController.openScheduleByDay(weekDay.weekday) : scheduleController.closeScheduleByDay(weekDay.weekday)"
+              checked-icon="check"
+              color="green"
+              :label="scheduleController.getIsOpened(weekDay.weekday) ? 'On' : 'Off'"
+              unchecked-icon="clear"
+            />
+          </div>
+
+          <div class="col-md-8">
+              <HoursRange v-if="scheduleController.getScheduleByDay(weekDay.weekday)"
+                      :schedule="scheduleController.getScheduleByDay(weekDay.weekday)"
+              />
+          </div>
+        </div>
+        <!-- <q-btn @click="saveInformation">SAVE</q-btn> -->
       </div>
     </template>
     <template #fallback>
@@ -296,231 +46,28 @@
 
 <script setup lang="ts">
 import type {Ref} from "vue";
-import {computed, reactive, ref, watch} from "vue";
-import type {IOpeningRange} from "@/views/settings/myEnterprise/components/schedule/models/IScheduleSave";
-import {convertDayToNumber, convertNumberToDay} from "@/utils/weekDay";
+import {ref, watch} from "vue";
+import weekDays from "@/utils/weekDay";
 import scheduleController from "@/views/settings/myEnterprise/components/schedule/Schedule";
 import teamController from "@/views/settings/myEnterprise/components/team/teamTable/models/Team";
 import HoursRange from "@/views/settings/myEnterprise/components/schedule/components/hoursRange/HoursRange.vue";
 
-await scheduleController.loadInfo();
+import type { ILocalOptions } from "../team/teamTable/models/ITeam";
+
 await teamController.loadInfo();
-//const selectedStoreId = reactive(Object.values(teamController.localOptions.filter(e => e.id == 4)))[0];
-const selectedStoreId = ref(
-  {
-    id: 4,
-    label: 'Sur'
-  }
-)
-console.log("=>(Schedule.vue:308) selectedStoreId", selectedStoreId);
-//const openingHoursForSelectedStore = await scheduleController.getHoursForSelectedStore({"id": 2});
-await scheduleController.getHoursForSelectedStore(selectedStoreId.value);
-let openingHoursForSelectedStore = computed(()=>  reactive(scheduleController.selectedStoreOpeningHours));
 
-console.log({openingHoursForSelectedStore})
-
-
-const saveFrom = (e: any, hourIndex: number) => {
-  days.value[e].from[hourIndex] = proxyTime.value;
-  if (days.value[e].hasMoreThanOneHour) {
-    days.value[e].hasErrorFormat =
-      days.value[e].from[1] <= days.value[e].to[0] ||
-      days.value[e].from[1] <= days.value[e].from[0];
-  } else {
-    days.value[e].hasErrorFormat = days.value[e].from[0] > days.value[e].to[0];
-  }
-};
-
-const saveTo = (e: any, hourIndex: number) => {
-  days.value[e].to[hourIndex] = proxyTime.value;
-  if (!days.value[e].hasMoreThanOneHour) {
-    days.value[e].hasErrorFormat = days.value[e].to[0] <= days.value[e].from[0];
-  } else if (days.value[e].hasMoreThanOneHour) {
-    days.value[e].hasErrorFormat =
-      days.value[e].to[1] <= days.value[e].from[1] ||
-      days.value[e].to[1] <= days.value[e].to[0];
-  }
-};
-
-const proxyTime = ref("");
-const days: Ref<Array<{
-  val: string;
-  active: boolean;
-  from: Array<string>;
-  to: Array<string>;
-  hasErrorFormat: boolean;
-  hasMoreThanOneHour: boolean;
-}>> = ref([
-  {
-    val: "Lunes",
-    active: false,
-    hasErrorFormat: false,
-    from: [],
-    to: [],
-    hasMoreThanOneHour: false,
-  },
-  {
-    val: "Martes",
-    active: false,
-    hasErrorFormat: false,
-    from: [],
-    to: [],
-    hasMoreThanOneHour: false,
-  },
-  {
-    val: "Miercoles",
-    active: false,
-    hasErrorFormat: false,
-    from: [],
-    to: [],
-    hasMoreThanOneHour: false,
-  },
-  {
-    val: "Jueves",
-    active: false,
-    hasErrorFormat: false,
-    from: [],
-    to: [],
-    hasMoreThanOneHour: false,
-  },
-  {
-    val: "Viernes",
-    active: false,
-    hasErrorFormat: false,
-    from: [],
-    to: [],
-    hasMoreThanOneHour: false,
-  },
-]);
-
-const saveSchedule = () => {
-  console.table(days.value);
-  console.log(days.value);
-
-  const range: Array<IOpeningRange> = Object.assign([], days.value.map(e => {
-    return {
-      from: e.from,
-      to: e.to
-    }
-  }));
-  console.table(range);
-  const hours: Array<any> = days.value.map(e => {
-    const a = {from: e.from, to: e.to}
-    return {
-      weekDay: convertDayToNumber(e.val),
-      ranges: a
-    }
-  })
-
-  console.table(hours);
-}
-
-const addHours = (index: any, isFirstHour?: boolean) => {
-  days.value[index].hasMoreThanOneHour = !days.value[index].hasMoreThanOneHour;
-  if (!isFirstHour) {
-    if (!days.value[index].hasMoreThanOneHour) {
-      days.value[index].from.pop();
-      days.value[index].to.pop();
-    }
-  } else if (isFirstHour) {
-    days.value[index].from[0] = days.value[index].from[1];
-    days.value[index].to[0] = days.value[index].to[1];
-    days.value[index].from.pop();
-    days.value[index].to.pop();
-  }
-
-}
-
-function removeRangeHour(id: number) {
-  console.log("DESDE EL COMPONENTE PRINCIPAL, SE ELIMINA EL ID: ", id)
-  //openingHoursForSelectedStore = reactive(openingHoursForSelectedStore.filter(e => e.id != id));
-  console.log("=>(Schedule.vue:419) openingHoursForSelectedStore", openingHoursForSelectedStore);
-  scheduleController.removeSpecificRangeHour(id)
-}
-
-function openNewRangeHour(weekDay: number, hadExistingHour?: boolean) {
-  console.log("sasssssss555555",scheduleController.selectedStoreOpeningHours);
-  scheduleController.addRangeHours(weekDay, hadExistingHour);
-}
-
-
-function saveInformation() {
-  console.log(scheduleController.selectedStoreOpeningHours)
-  scheduleController.saveInformation();
-}
+const selectedStore: Ref<ILocalOptions | null> = ref(teamController.localOptions[0] || null)
 
 watch(
-  () => selectedStoreId,
+  () => selectedStore,
   async () => {
-    console.log("CAMBIOOOOOOOOO:", selectedStoreId);
-    await scheduleController.loadInfo();
-    await scheduleController.getHoursForSelectedStore(selectedStoreId.value);
+    if (selectedStore.value)
+      await scheduleController.loadInfo(selectedStore.value.id);
   },
   {immediate: true, deep: true}
 )
 
-
-
 </script>
 
 <style scoped>
-.my-card {
-  color: #111111;
-  background-color: #ffffff;
-}
-
-.mainCrd {
-  height: 80vh;
-  width: 90vw;
-}
-
-.itemContainer {
-}
-
-.btn-add-hours {
-  margin-top: 10%;
-  margin-left: 15px;
-}
-
-@media (max-width: 700px) {
-  .items-hours-containar {
-    width: 80vw;
-    display: flex;
-    gap: 5px;
-  }
-}
-
-.items-hours-containar {
-  width: 40vw;
-  display: flex;
-  gap: 5px;
-}
-
-.first-hours-child {
-  flex-grow: 1;
-
-}
-
-.second-hours-child {
-  flex-grow: 1;
-
-}
-
-.subtitle-crs {
-  color: #605f5f;
-  margin-bottom: 15px;
-  text-align: left;
-  font-size: medium;
-}
-
-.actions-schedule {
-  margin-left: 40%;
-}
-
-.item-hours-actins {
-  display: grid;
-  height: 20px;
-  margin-left: 10px;
-  align-content: space-between;
-}
 </style>
