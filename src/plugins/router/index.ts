@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from "vue-router";
+import {createRouter, createWebHistory, type NavigationGuardNext, type RouteLocationNormalized} from "vue-router";
 import type { RouteRecordRaw } from "vue-router";
 
 import { BASE_URL } from "@/constants";
@@ -8,14 +8,30 @@ import Dashboard from "@/views/dashboard/Dashboard.vue";
 import Clients from "@/views/clients/Clients.vue";
 import { useI18n } from "vue-i18n";
 import { translate } from "@/plugins/i18n/i18n";
+import appController from "@/controller/Controller";
+
+const history = createWebHistory();
 
 const routes: Array<RouteRecordRaw> = [
+  //public paths
+  {
+    path: "/login",
+    name: "Login",
+    component: () => import("@/views/login/Login.vue"),
+    meta: {
+      icon: "login",
+      public: true,
+      onlyWhenLoggedOut: true,
+      hide: true
+    },
+  },
   {
     path: "/",
-    name: "home",
+    name: "dashboard",
     component: Dashboard,
     meta: {
       icon: "home",
+      hide: false
     },
   },
   {
@@ -24,6 +40,7 @@ const routes: Array<RouteRecordRaw> = [
     component: Clients,
     meta: {
       icon: "groups",
+      hide: false
     },
   },
   {
@@ -32,6 +49,7 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("@/views/orders/Orders.vue"),
     meta: {
       icon: "list_alt",
+      hide: false
     },
   },
   {
@@ -40,6 +58,7 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("@/views/myPage/MyPage.vue"),
     meta: {
       icon: "web",
+      hide: false
     },
   },
   {
@@ -48,6 +67,7 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("@/views/stats/Stats.vue"),
     meta: {
       icon: "insights",
+      hide: false
     },
   },
   {
@@ -56,14 +76,8 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("@/views/inventory/Inventory.vue"),
     meta: {
       icon: "inventory_2",
+      hide: false
     },
-    children: [
-      {
-        path: "/settings",
-        name: "imasubchilddd",
-        component: () => import("@/views/settings/Settings.vue"),
-      },
-    ],
   },
   {
     path: "/productsconfig",
@@ -71,6 +85,7 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("@/views/products/Products.vue"),
     meta: {
       icon: "category",
+      hide: false
     },
   },
   {
@@ -79,22 +94,17 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("@/views/historic/Historic.vue"),
     meta: {
       icon: "query_stats",
+      hide: false
     },
   },
-  {
-    path: "/login",
-    name: "Login",
-    component: () => import("@/views/login/Login.vue"),
-    meta: {
-      icon: "login",
-    },
-  },
+
   {
     path: "/settings",
     name: translate("toolbar-settings"),
     component: () => import("@/views/settings/Settings.vue"),
     meta: {
       icon: "settings",
+      hide: false
     },
   },
   {
@@ -103,13 +113,37 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("@/views/settings/myEnterprise/MyEnterprise.vue"),
     meta: {
       icon: "business",
+      hide: false
     },
   },
 ];
 
 const router = createRouter({
-  history: createWebHistory(BASE_URL),
+  history,
   routes,
 });
+
+router.beforeEach((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
+  // if (to.name !== 'Login' && !isAuthenticated) next({ name: 'Login' })
+  // else next();
+
+
+  const isPublic = to.matched.some(record => record.meta.public)
+  const onlyWhenLoggedOut = to.matched.some(record => record.meta.onlyWhenLoggedOut)
+
+  if (!isPublic && !appController.user.getIsAuthenticated()) {
+    return next({
+      path:'/login',
+      query: {redirect: to.fullPath}  // Store the full path to redirect the user to after login
+    });
+  }
+
+  // Do not allow user to visit login page or register page if they are logged in
+  if (appController.user.getIsAuthenticated() && onlyWhenLoggedOut) {
+    return next('/')
+  }
+  else next();
+
+})
 
 export default router;

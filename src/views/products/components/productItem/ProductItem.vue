@@ -167,7 +167,6 @@ const props = defineProps<{
   product: IProduct;
 }>();
 
-
 const maxFilesToUpload: Ref<number> = ref(7 - props.product.images?.length!);
 
 let imagesUploaded: any;
@@ -207,9 +206,7 @@ function removeSelectedImage(image: IProductImage) {
   productController.removeSpeficiImageProduct(props.product.id, image);
 }
 
-function saveChanges() {
-  console.log(props.product.images, imagesUploaded);
-}
+function saveChanges() {}
 </script>
 
 <style scoped>

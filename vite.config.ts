@@ -19,14 +19,19 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      '/api': {
-        target: 'http://dev.minegocio:3000',
+      "/api": {
+        target: "http://dev.minegocio:3000",
         changeOrigin: true,
         //rewrite: (path) => path.replace(/^\/api/, '')
       },
-     // '/dev': {
-     //    target: 'http://dev.minegocio:3000',
-     //  },
+      "/auth": {
+        target: "http://minegocio:3000",
+        changeOrigin: true,
+      },
+      "/public": {
+        target: "http://minegocio:3000",
+        changeOrigin: true,
+      },
     },
   },
 });

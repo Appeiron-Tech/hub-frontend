@@ -9,7 +9,7 @@ export class Controller {
 
 	private _drawer: boolean = true;
 
-	private m_user: User = reactive(new User());
+	private m_user: User | any = reactive(new User());
 
 	constructor() {
 		this._config = {}
@@ -49,10 +49,11 @@ export class Controller {
 	// Method used for async functions
 	public init(){
 		// Do async calls and then set loading as false
+		//TODO: i've commented this
+		//TODO
 		this.m_user.getProfile().finally(() => {
       this._loadingConfig = false;
     });
-		this._loadingConfig = false;
 	}
 }
 

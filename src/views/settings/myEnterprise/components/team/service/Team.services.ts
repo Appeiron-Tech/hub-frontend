@@ -11,18 +11,18 @@ export default class TeamService extends ApiService {
 
 
   deleteCollaborator(collaboratorId: string) {
-    console.log("Collaborator with id: - " + collaboratorId + "  was deleted");
+     
   }
 
   addNewCollaborator(p_collaborator: ITeamSave) {
-    console.log("ne collaborator added" + p_collaborator);
+     
   }
 
   editExistingCollaborator(
     p_collaboratorId: string,
     p_collaborator: ITeamSave
   ) {
-    console.log(
+     
       "Collaborator with ID: " +
         p_collaboratorId +
         "    was edited" +

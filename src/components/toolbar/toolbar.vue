@@ -71,16 +71,12 @@ const goToSetting = () => {
 };
 
 const doLogout = async () => {
-  console.log("Loging out");
   //await app.user.logout();
   //router.push("/login");
 };
 const drawer = ref(false);
 
-const onItemClick = (event: any, item: any) => {
-  console.log("%c⧭", "color: #ff0000", event);
-  console.log("%c⧭", "color: #ff0000", item);
-};
+const onItemClick = (event: any, item: any) => {};
 
 const onMenuShowen = () => {
   sharedAttributes.isSideBarExpanded = true;
@@ -92,9 +88,7 @@ const onMenuHidden = () => {
 
 watch(
   () => sharedAttributes.isSideBarExpanded,
-  () => {
-    console.log(sharedAttributes.isSideBarExpanded);
-  },
+  () => {},
   { immediate: true, deep: true }
 );
 

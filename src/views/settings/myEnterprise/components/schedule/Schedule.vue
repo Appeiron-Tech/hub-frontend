@@ -271,21 +271,32 @@
   <Suspense>
     <template #default>
       <div>
-        <q-select rounded filled v-model="selectedStoreId" :options="teamController.localOptions" label="Rounded filled"  emit-value
-                  map-options />
-      <div
-        v-for="n in 7"
-      >
-        <div class="text-h6">
-          {{ convertNumberToDay(n) }}
-        </div>
-
-        <HoursRange :week-day="n" :schedule="scheduleController.selectedStoreOpeningHours.filter(e => e.weekDay === n)"
-                    @remove-range-hour="removeRangeHour"
-                    @open-range-hour="openNewRangeHour"
+        <q-select
+          rounded
+          filled
+          v-model="selectedStoreId"
+          :options="teamController.localOptions"
+          label="Rounded filled"
+          emit-value
+          map-options
         />
-      </div>
-      <q-btn @click="saveInformation">SAVE</q-btn>
+        <div v-for="n in 7">
+          <div class="text-h6">
+            {{ convertNumberToDay(n) }}
+          </div>
+
+          <HoursRange
+            :week-day="n"
+            :schedule="
+              scheduleController.selectedStoreOpeningHours.filter(
+                (e) => e.weekDay === n
+              )
+            "
+            @remove-range-hour="removeRangeHour"
+            @open-range-hour="openNewRangeHour"
+          />
+        </div>
+        <q-btn @click="saveInformation">SAVE</q-btn>
       </div>
     </template>
     <template #fallback>
@@ -295,10 +306,10 @@
 </template>
 
 <script setup lang="ts">
-import type {Ref} from "vue";
-import {computed, reactive, ref, watch} from "vue";
-import type {IOpeningRange} from "@/views/settings/myEnterprise/components/schedule/models/IScheduleSave";
-import {convertDayToNumber, convertNumberToDay} from "@/utils/weekDay";
+import type { Ref } from "vue";
+import { computed, reactive, ref, watch } from "vue";
+import type { IOpeningRange } from "@/views/settings/myEnterprise/components/schedule/models/IScheduleSave";
+import { convertDayToNumber, convertNumberToDay } from "@/utils/weekDay";
 import scheduleController from "@/views/settings/myEnterprise/components/schedule/Schedule";
 import teamController from "@/views/settings/myEnterprise/components/team/teamTable/models/Team";
 import HoursRange from "@/views/settings/myEnterprise/components/schedule/components/hoursRange/HoursRange.vue";
@@ -306,19 +317,16 @@ import HoursRange from "@/views/settings/myEnterprise/components/schedule/compon
 await scheduleController.loadInfo();
 await teamController.loadInfo();
 //const selectedStoreId = reactive(Object.values(teamController.localOptions.filter(e => e.id == 4)))[0];
-const selectedStoreId = ref(
-  {
-    id: 4,
-    label: 'Sur'
-  }
-)
-console.log("=>(Schedule.vue:308) selectedStoreId", selectedStoreId);
+const selectedStoreId = ref({
+  id: 4,
+  label: "Sur",
+});
+
 //const openingHoursForSelectedStore = await scheduleController.getHoursForSelectedStore({"id": 2});
 await scheduleController.getHoursForSelectedStore(selectedStoreId.value);
-let openingHoursForSelectedStore = computed(()=>  reactive(scheduleController.selectedStoreOpeningHours));
-
-console.log({openingHoursForSelectedStore})
-
+let openingHoursForSelectedStore = computed(() =>
+  reactive(scheduleController.selectedStoreOpeningHours)
+);
 
 const saveFrom = (e: any, hourIndex: number) => {
   days.value[e].from[hourIndex] = proxyTime.value;
@@ -343,14 +351,16 @@ const saveTo = (e: any, hourIndex: number) => {
 };
 
 const proxyTime = ref("");
-const days: Ref<Array<{
-  val: string;
-  active: boolean;
-  from: Array<string>;
-  to: Array<string>;
-  hasErrorFormat: boolean;
-  hasMoreThanOneHour: boolean;
-}>> = ref([
+const days: Ref<
+  Array<{
+    val: string;
+    active: boolean;
+    from: Array<string>;
+    to: Array<string>;
+    hasErrorFormat: boolean;
+    hasMoreThanOneHour: boolean;
+  }>
+> = ref([
   {
     val: "Lunes",
     active: false,
@@ -395,25 +405,27 @@ const days: Ref<Array<{
 
 const saveSchedule = () => {
   console.table(days.value);
-  console.log(days.value);
 
-  const range: Array<IOpeningRange> = Object.assign([], days.value.map(e => {
-    return {
-      from: e.from,
-      to: e.to
-    }
-  }));
+  const range: Array<IOpeningRange> = Object.assign(
+    [],
+    days.value.map((e) => {
+      return {
+        from: e.from,
+        to: e.to,
+      };
+    })
+  );
   console.table(range);
-  const hours: Array<any> = days.value.map(e => {
-    const a = {from: e.from, to: e.to}
+  const hours: Array<any> = days.value.map((e) => {
+    const a = { from: e.from, to: e.to };
     return {
       weekDay: convertDayToNumber(e.val),
-      ranges: a
-    }
-  })
+      ranges: a,
+    };
+  });
 
   console.table(hours);
-}
+};
 
 const addHours = (index: any, isFirstHour?: boolean) => {
   days.value[index].hasMoreThanOneHour = !days.value[index].hasMoreThanOneHour;
@@ -428,39 +440,30 @@ const addHours = (index: any, isFirstHour?: boolean) => {
     days.value[index].from.pop();
     days.value[index].to.pop();
   }
-
-}
+};
 
 function removeRangeHour(id: number) {
-  console.log("DESDE EL COMPONENTE PRINCIPAL, SE ELIMINA EL ID: ", id)
   //openingHoursForSelectedStore = reactive(openingHoursForSelectedStore.filter(e => e.id != id));
-  console.log("=>(Schedule.vue:419) openingHoursForSelectedStore", openingHoursForSelectedStore);
-  scheduleController.removeSpecificRangeHour(id)
+
+  scheduleController.removeSpecificRangeHour(id);
 }
 
 function openNewRangeHour(weekDay: number, hadExistingHour?: boolean) {
-  console.log("sasssssss555555",scheduleController.selectedStoreOpeningHours);
   scheduleController.addRangeHours(weekDay, hadExistingHour);
 }
 
-
 function saveInformation() {
-  console.log(scheduleController.selectedStoreOpeningHours)
   scheduleController.saveInformation();
 }
 
 watch(
   () => selectedStoreId,
   async () => {
-    console.log("CAMBIOOOOOOOOO:", selectedStoreId);
     await scheduleController.loadInfo();
     await scheduleController.getHoursForSelectedStore(selectedStoreId.value);
   },
-  {immediate: true, deep: true}
-)
-
-
-
+  { immediate: true, deep: true }
+);
 </script>
 
 <style scoped>
@@ -498,12 +501,10 @@ watch(
 
 .first-hours-child {
   flex-grow: 1;
-
 }
 
 .second-hours-child {
   flex-grow: 1;
-
 }
 
 .subtitle-crs {

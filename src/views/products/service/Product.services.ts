@@ -91,11 +91,11 @@ export default class ProductService extends ApiService {
   }
 
   deleteSpecificProduct(id: number) {
-    console.log("Product with ID:  " + id + "   was deleted");
+     
   }
 
   deleteImageFromProduct(productId: number, imagePos: number) {
-    console.log(
+     
       "Image at pos: " + imagePos + " was deleted from product -> " + productId
     );
   }

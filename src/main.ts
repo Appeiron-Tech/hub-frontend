@@ -16,7 +16,7 @@ import VueGoogleMaps from "@fawmi/vue-google-maps";
 
 //TODO: uncomment this appController when working with backend
 // main Controllers
-//import appController from '@/controller/Controller';
+import appController from '@/controller/Controller';
 
 // Style
 import "@/styles/base.css";
@@ -39,5 +39,5 @@ app.use(VueGoogleMaps, {
     libraries: "places",
   },
 });
-//app.provide('appController', appController )
+app.provide('appController', appController )
 app.mount("#app");

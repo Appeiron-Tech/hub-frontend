@@ -1,7 +1,13 @@
-import {reactive} from "vue";
+import { reactive } from "vue";
 import StoreService from "@/views/settings/myEnterprise/services/store/Store.services";
-import {createErrorNotification, createPositiveNotification,} from "@/utils/notifications";
-import type {IStore, IStoreSave} from "@/views/settings/myEnterprise/components/direction/IDirection";
+import {
+  createErrorNotification,
+  createPositiveNotification,
+} from "@/utils/notifications";
+import type {
+  IStore,
+  IStoreSave,
+} from "@/views/settings/myEnterprise/components/direction/IDirection";
 
 export class DirectionController {
   private _m_stores: Array<IStore> = [];
@@ -66,7 +72,6 @@ export class DirectionController {
   }
 
   async saveOrEditNewStore(p_store: IStoreSave, isNew: boolean) {
-    console.log({ p_store });
     if (isNew) {
       const response = await this._m_storeService.saveNewStore(p_store);
       this.showOperationNotification(
@@ -87,7 +92,11 @@ export class DirectionController {
 
   async removeStore(p_store: IStore) {
     const response = await this._m_storeService.deleteStore(p_store.id);
-    this.showOperationNotification(response.status.toString(), 'Eliminado correctamente', 'Hubo un error');
+    this.showOperationNotification(
+      response.status.toString(),
+      "Eliminado correctamente",
+      "Hubo un error"
+    );
     await this.loadInfo();
   }
 

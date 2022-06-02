@@ -2,16 +2,18 @@ import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 import axios from "axios";
 import { API_PREFIX_BASE } from "@/constants";
 import { createErrorNotification } from "@/utils/notifications";
+import tokenService from "@/services/tokenStorage/token.services";
 
 // https://medium.com/@zitko/structuring-a-vue-project-authentication-87032e5bfe16
 abstract class ApiService {
   private readonly _baseUrl: string = "";
-  private _fullApiBase: string = API_PREFIX_BASE;
+  private _fullApiBase: string ='';
 
-  constructor(config: { baseURL: string }) {
+  //TODO: cambiar apiPrefix
+  //NOTE: apiPrefix se debería quitar cuando login sea una app a parte.
+  constructor(config: { baseURL: string }, serviceProxy?: string) {
     this._baseUrl = config.baseURL;
-    this._fullApiBase = API_PREFIX_BASE + this._baseUrl;
-    console.log(this._fullApiBase);
+    this._fullApiBase = serviceProxy ??  API_PREFIX_BASE + this._baseUrl;
     this.setHeader();
   }
 
@@ -19,7 +21,7 @@ abstract class ApiService {
    * Methods
    ****************/
   public setHeader() {
-    axios.defaults.headers.common["Authorization"] = `Bearer xxxxxxx`;
+    axios.defaults.headers.common["Authorization"] = `Bearer ${tokenService.getToken()}`
   }
 
   protected removeHeader() {

@@ -11,21 +11,13 @@
           <q-btn flat @click="menuCliker" round dense icon="menu" />
           <q-toolbar-title>
             <q-img class="logo-img" src="@/assets/logo_blanco.png" />
-            <!-- <div class="minegocio-title">
-              minegocio
-              <q-badge align="bottom" class="online-badge">ONLINE</q-badge>
-            </div> -->
           </q-toolbar-title>
 
           <q-space />
 
-          <!--
-        notice shrink property since we are placing it
-        as child of QToolbar
-      -->
           <q-tabs shrink>
             <img
-              :src="userProfileImage!"
+              :src="userProfileImage"
               loading="eager"
               color="secondary"
               text-color="white"
@@ -39,7 +31,7 @@
               alt="Profile Image"
             />
             <div class="email-text">{{ userEmail }}</div>
-            <q-btn-dropdown stretch flat :label="userName!">
+            <q-btn-dropdown stretch flat :label="userName">
               <q-list>
                 <q-item-label header>Settings</q-item-label>
                 <q-item clickable v-close-popup tabindex="0">
@@ -58,7 +50,11 @@
                     <q-icon name="info"></q-icon>
                   </q-item-section>
                 </q-item>
+
                 <q-separator inset spaced></q-separator>
+                <q-item clickable @click="doLogout()">
+                  <q-item-section>{{ $t("toolbar-logout") }}</q-item-section>
+                </q-item>
               </q-list>
             </q-btn-dropdown>
           </q-tabs>
@@ -79,12 +75,12 @@
         <q-list padding>
           <template
             v-slot:mini
-            v-for="(route, index) in routes"
+            v-for="(route, index) in routesToShow"
             :key="'for_' + index"
           >
             <q-item clickable :to="route.path">
               <q-item-section avatar>
-                <q-icon :name="route.meta!.icon" />
+                <q-icon :name="route.meta.icon" />
               </q-item-section>
               <q-item-section>
                 {{ route.name ? $t(route.name.toString()) : "" }}
@@ -95,10 +91,13 @@
 
         <q-scroll-area class="fit">
           <q-list padding>
-            <template v-for="(route, index) in routes" :key="'for_' + index">
+            <template
+              v-for="(route, index) in routesToShow"
+              :key="'for_' + index"
+            >
               <q-item clickable :to="route.path">
                 <q-item-section avatar>
-                  <q-icon :name="route.meta!.icon" />
+                  <q-icon :name="route.meta.icon" />
                 </q-item-section>
                 <q-item-section>
                   {{ route.name ? $t(route.name.toString()) : "" }}
@@ -107,30 +106,11 @@
             </template>
           </q-list>
         </q-scroll-area>
-
-        <!--
-          in this case, we use a button (can be anything)
-          so that user can switch back
-          to mini-mode
-
-        <div
-          class="q-mini-drawer-hide absolute"
-          style="top: 15px; right: -17px"
-        >
-          <q-btn
-            dense
-            round
-            unelevated
-            color="accent"
-            icon="chevron_left"
-            @click="miniState = true"
-          />
-        </div>-->
       </q-drawer>
 
       <q-page-container>
         <q-page class="q-px-lg q-py-md page-cnt">
-          <router-view />
+          <router-view v-if="!app.loadingConfig" />
         </q-page>
       </q-page-container>
     </q-layout>
@@ -141,7 +121,9 @@
 import { ref, type Ref } from "vue";
 import { useRoute } from "vue-router";
 import router from "@/plugins/router";
-
+import type { Controller } from "@/controller/Controller";
+import { injectStrict } from "@/utils/injections";
+const app: Controller = injectStrict("appController");
 const isMobile: boolean = window.innerWidth < 500;
 const miniState = isMobile ? ref(true) : ref(false);
 const drawer = ref(false);
@@ -163,7 +145,18 @@ const menuCliker = () => {
   }
 };
 
+const doLogout = async function (): Promise<void> {
+  await app.user.logout();
+  await router.push({ name: "Login" });
+};
+
 const routes = router.options.routes;
+
+const routesToShow = Object.assign(
+  [],
+  routes.filter((e) => e.meta!.hide === false)
+);
+
 const route = useRoute();
 </script>
 

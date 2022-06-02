@@ -17,113 +17,127 @@
           class="scroll-area-for-modal"
           visible
         >
-        <button class="close" @click="opened = false">x</button>
-        <h3 style="font-size: large">{{ modalStoreTitle }}</h3>
-        <div class="row justify-around q-col-gutter-md">
-          <div class="col-lg-6 col-xs-12 col-sm-12 " >
-            <q-input
-              outlined
-              v-model="newStore.store"
-              label="Nombre de la tienda"
-            />
-          </div>
-          <div class="col-lg-6 col-xs-12 col-sm-12" >
-            <q-select
-              outlined
-              v-model="countryModel"
-              :options="countryOptions"
-              label="Pais"
-            />
-
-          </div>
-        </div>
-        <q-input
-
-          outlined
-          v-model="newStore.description"
-          type="textarea"
-          label="Descripcion"
-        />
-        <q-toggle
-          v-model="newStore.isMain"
-          checked-icon="check"
-          color="green"
-          label="Is main"
-          unchecked-icon="close"
-        />
-        <q-toggle
-          v-model="newStore.isOpenAlways"
-          checked-icon="check"
-          color="green"
-          label="Is open always"
-          unchecked-icon="close"
-        />
-        <br />
-
-        <q-card style="max-height: 260px">
-          <div class="row" style="gap: 5px">
-            <div class="col-lg-3 col-xs-12 col-sm-12">
-            <q-toggle
-              v-model="newStore.phones[0].isWspMain"
-              checked-icon="check"
-              color="green"
-              label="Is WhatsApp Main"
-              unchecked-icon="close"
-            />
-          </div>
-            <div class="col-lg-3 col-xs-12 col-sm-12">
-            <q-input
-              outlined
-              v-model="newStore.phones[0].phone"
-              label="Numero"
-              :rules="[ val => val.length >= 7 || 'Please use minumin 7 characters']"
-            />
+          <button class="close" @click="opened = false">x</button>
+          <h3 style="font-size: large">{{ modalStoreTitle }}</h3>
+          <div class="row justify-around q-col-gutter-md">
+            <div class="col-lg-6 col-xs-12 col-sm-12">
+              <q-input
+                outlined
+                v-model="newStore.store"
+                label="Nombre de la tienda"
+              />
             </div>
-            <div class="col-lg-2 col-xs-5 col-sm-5">
-            <q-input
-              outlined
-              v-model="newStore.phones[0].countryCode"
-              label="Country code"
-              :rules="[ val => val.length === 2 || 'Please use 2 characters']"
-            />
-            </div>
-            <div class="col-lg-2 col-xs-5 col-sm-5">
-            <q-select
-              outlined
-              v-model="newStore.phones[0].type"
-              :options="['MOB', 'TEL']"
-              label="Tipo de telefono"
-            />
+            <div class="col-lg-6 col-xs-12 col-sm-12">
+              <q-select
+                outlined
+                v-model="countryModel"
+                :options="countryOptions"
+                label="Pais"
+              />
             </div>
           </div>
+          <q-input
+            outlined
+            v-model="newStore.description"
+            type="textarea"
+            label="Descripcion"
+          />
+          <q-toggle
+            v-model="newStore.isMain"
+            checked-icon="check"
+            color="green"
+            label="Is main"
+            unchecked-icon="close"
+          />
+          <q-toggle
+            v-model="newStore.isOpenAlways"
+            checked-icon="check"
+            color="green"
+            label="Is open always"
+            unchecked-icon="close"
+          />
+          <br />
+
+          <q-card style="max-height: 260px">
+            <div class="row" style="gap: 5px">
+              <div class="col-lg-3 col-xs-12 col-sm-12">
+                <q-toggle
+                  v-model="newStore.phones[0].isWspMain"
+                  checked-icon="check"
+                  color="green"
+                  label="Is WhatsApp Main"
+                  unchecked-icon="close"
+                />
+              </div>
+              <div class="col-lg-3 col-xs-12 col-sm-12">
+                <q-input
+                  outlined
+                  v-model="newStore.phones[0].phone"
+                  label="Numero"
+                  :rules="[
+                    (val) =>
+                      val.length >= 7 || 'Please use minumin 7 characters',
+                  ]"
+                />
+              </div>
+              <div class="col-lg-2 col-xs-5 col-sm-5">
+                <q-input
+                  outlined
+                  v-model="newStore.phones[0].countryCode"
+                  label="Country code"
+                  :rules="[
+                    (val) => val.length === 2 || 'Please use 2 characters',
+                  ]"
+                />
+              </div>
+              <div class="col-lg-2 col-xs-5 col-sm-5">
+                <q-select
+                  outlined
+                  v-model="newStore.phones[0].type"
+                  :options="['MOB', 'TEL']"
+                  label="Tipo de telefono"
+                />
+              </div>
+            </div>
+
+            <br />
+          </q-card>
+          <br />
+
+          <div class="row">
+            <div class="col-10">
+              <q-input
+                v-if="isStoreBeingEdited"
+                filled
+                v-model="newStore.address"
+                label="Filled"
+                disable
+              />
+            </div>
+            <div class="col-2">
+              <q-btn
+                v-if="isStoreBeingEdited"
+                round
+                color="deep-orange"
+                icon="edit_location"
+                @click="setDirectionForExistingStore"
+              />
+            </div>
+          </div>
+          <GMapAutocomplete
+            v-if="!isStoreBeingEdited"
+            class="direction-autocompleate"
+            placeholder="Ubicacion"
+            @place_changed="setPlace"
+          >
+          </GMapAutocomplete>
 
           <br />
-        </q-card>
-        <br />
-
-        <div class="row">
-          <div class="col-10">
-        <q-input v-if="isStoreBeingEdited" filled v-model="newStore.address" label="Filled" disable />
-        </div>
-          <div class="col-2">
-        <q-btn v-if="isStoreBeingEdited" round color="deep-orange" icon="edit_location" @click="setDirectionForExistingStore" />
-          </div>
-        </div>
-        <GMapAutocomplete
-          v-if="!isStoreBeingEdited"
-          class="direction-autocompleate"
-          placeholder="Ubicacion"
-          @place_changed="setPlace"
-        >
-        </GMapAutocomplete>
-
-
-        <br />
-        <q-btn
-          style="background-color: #049dd9; color: #fff; height: 50px"
-          @click="saveStore"
-          >Guardar
-        </q-btn>
+          <q-btn
+            style="background-color: #049dd9; color: #fff; height: 50px"
+            @click="saveStore"
+            >Guardar
+          </q-btn>
         </q-scroll-area>
       </div>
     </div>
@@ -133,9 +147,13 @@
         :content-style="contentStyle"
         class="scroll-area"
       >
-        <div v-for="(store, index) in directionController.Stores"
-        :key="index">
-          <SingleStoreInformation :store="store" @edit-store="editExistingStore" @select-store="selecStore" @delete-store="deleteStore" />
+        <div v-for="(store, index) in directionController.Stores" :key="index">
+          <SingleStoreInformation
+            :store="store"
+            @edit-store="editExistingStore"
+            @select-store="selecStore"
+            @delete-store="deleteStore"
+          />
         </div>
       </q-scroll-area>
     </div>
@@ -165,9 +183,6 @@
       </GMapMap>
     </div>
   </div>
-
-
-
 </template>
 
 <script setup lang="ts">
@@ -237,10 +252,10 @@ const selecStore = (p_marker: IPosition) => {
 //LINK: https://developers.google.com/maps/documentation/places/web-service/details
 
 const setPlace = (e: any) => {
-  console.log({ e });
-  console.log(e.geometry.viewport);
-  console.log(e.formatted_address)
-  console.log({
+
+
+
+
     position: { lat: e.geometry.viewport.Ab.h, lng: e.geometry.viewport.Ua.j },
   });
   newStore.latitude = e.geometry.viewport.Ab.h;
@@ -248,7 +263,7 @@ const setPlace = (e: any) => {
   newStore.placeLink = e.url;
   newStore.address = e.formatted_address;
   newStore.address_components = e.address_components;
-  console.log("%c⧭", "color: #1d3f73", newStore);
+
 };
 
 // //***************************************************
@@ -256,7 +271,7 @@ const setPlace = (e: any) => {
 // //***************************************************
 // LINK: https://www-npmjs-com.translate.goog/package/vue3-country-intl?_x_tr_sl=auto&_x_tr_tl=es&_x_tr_hl=es
 const selectedCountry = () => {
-  console.log(countryModel);
+
 };
 const countryOptions = reactive([
   { country: "Perú", iso: "pe", label: "Perú" },
@@ -305,9 +320,9 @@ const editExistingStore = (store: IStore) => {
   else{
     newStore.phones = store.phones;
   }
-  console.log({ newStore });
+
   opened.value = true;
-  console.log({ store });
+
 };
 const deleteStore = (store: IStore) => {
   directionController.removeStore(store);
@@ -332,7 +347,7 @@ const opened = ref(false);
 
 const saveStore = () => {
   //newStore.country = countryModel.value;
-  console.log({newStore})
+
   if (modalStoreTitle.value === "Nueva Tienda") {
     directionController.saveOrEditNewStore(newStore, true);
   } else {
@@ -422,7 +437,7 @@ const contentStyle = {
     backdrop-filter: blur(15px);
   }
 
-  .scroll-area-for-modal{
+  .scroll-area-for-modal {
     height: 65vh;
   }
 }
@@ -441,7 +456,7 @@ const contentStyle = {
     background-color: rgb(255, 255, 255);
     backdrop-filter: blur(15px);
   }
-  .scroll-area-for-modal{
+  .scroll-area-for-modal {
     height: 80vh;
   }
 }
@@ -461,7 +476,7 @@ const contentStyle = {
     background-color: rgb(255, 255, 255);
     backdrop-filter: blur(15px);
   }
-  .scroll-area-for-modal{
+  .scroll-area-for-modal {
     height: 65vh;
   }
 }
@@ -531,6 +546,4 @@ const contentStyle = {
     left: 200px;
   }
 }
-
-
 </style>

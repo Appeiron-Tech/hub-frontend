@@ -145,11 +145,15 @@ import { useQuasar } from "quasar";
 import { ref, type Ref } from "vue";
 import generalSettings from "./general";
 import { VueTelInput } from "vue-tel-input";
+import type {Controller} from "@/controller/Controller";
+import {injectStrict} from "@/utils/injections";
+
+const app: Controller = injectStrict('appController');
 
 const group = ref([]);
 generalSettings.loadInfo();
 const $q = useQuasar();
-const enterpriseName: Ref<string | null> = ref(null);
+const enterpriseName: Ref<string | undefined> = ref(app.user.m_profile?.tenancies[0].name);
 const ordersWsp: Ref<number | null> = ref(null);
 const principalNum: Ref<number | null> = ref(null);
 const currency = ref("PEN");

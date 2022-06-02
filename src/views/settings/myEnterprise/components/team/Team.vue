@@ -30,13 +30,35 @@
         </q-card-section>
 
         <q-card-section class="q-pt-none">
-          <q-input outlined v-model="newMember.name" label="Name" :rules="[val => !!val || 'Field is required']" />
+          <q-input
+            outlined
+            v-model="newMember.name"
+            label="Name"
+            :rules="[(val) => !!val || 'Field is required']"
+          />
           <br />
-          <q-input outlined v-model="newMember.email" label="Email" :rules="[val => !!val || 'Field is required']" />
+          <q-input
+            outlined
+            v-model="newMember.email"
+            label="Email"
+            :rules="[(val) => !!val || 'Field is required']"
+          />
           <br />
-          <q-input outlined v-model="newMember.jobTitle" label="Job Title" :rules="[val => !!val || 'Field is required']" />
+          <q-input
+            outlined
+            v-model="newMember.jobTitle"
+            label="Job Title"
+            :rules="[(val) => !!val || 'Field is required']"
+          />
           <br />
-          <q-input outlined v-model="newMember.phone" label="Telefono" :rules="[ val => val.length >= 7 || 'Please use minumin 7 characters']"/>
+          <q-input
+            outlined
+            v-model="newMember.phone"
+            label="Telefono"
+            :rules="[
+              (val) => val.length >= 7 || 'Please use minumin 7 characters',
+            ]"
+          />
           <br />
           <q-select
             outlined
@@ -107,9 +129,6 @@ let newMember: ITeamSave = reactive({
   jobTitle: "",
 });
 const saveNewMember = () => {
-  console.log({ newMember });
-  console.log("%c⧭", "color: #00b300", newMember);
-  console.log(selectedStoreId.value);
   opened.value = false;
   teamController.saveCollaborator(
     newMember,

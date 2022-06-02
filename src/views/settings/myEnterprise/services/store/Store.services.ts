@@ -8,7 +8,10 @@ import type {
   IUpdateOpeningHours,
 } from "@/views/settings/myEnterprise/components/schedule/models/IScheduleSave";
 import type { AxiosResponse } from "axios";
-import type {IStore, IStoreSave} from "@/views/settings/myEnterprise/components/direction/IDirection";
+import type {
+  IStore,
+  IStoreSave,
+} from "@/views/settings/myEnterprise/components/direction/IDirection";
 
 export default class StoreService extends ApiService {
   constructor() {
@@ -62,9 +65,7 @@ export default class StoreService extends ApiService {
    */
   async editExistingWorker(p_collaborator: any, p_workerId: number) {
     const response = await this.patch(`/worker/${p_workerId}`, p_collaborator);
-    console.log("%c⧭", "color: #997326", response);
 
-    console.log("%c⧭", "color: #bfffc8", typeof response);
     return response;
   }
 

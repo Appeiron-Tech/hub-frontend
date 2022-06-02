@@ -52,3 +52,18 @@ export interface IVariant{
   isActive: boolean;
   createdAt: number
 }
+
+
+//NOTE: Announcements 
+export interface IAnnouncements {
+  screenCode?: string; //length max 7
+  screenType?: string; //length max 4
+  appCode?: string; //length max 4
+  title?: string;
+  description?: string;
+  url?: string;
+  image?: string;
+  initAt?: Date; //date format YYYY-MM-DD HH:mm:ss
+  finishAt?: Date; //date format YYYY-MM-DD HH:mm:ss
+  isActive: boolean;
+}
