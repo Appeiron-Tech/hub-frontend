@@ -92,7 +92,7 @@ abstract class ApiService {
   //	 return axios.put(resource, data)
   // }
 
-  delete(url: string) {
+  protected async delete(url: string) {
     return axios
       .delete(this._fullApiBase + url)
       .then((response: AxiosResponse) => {
