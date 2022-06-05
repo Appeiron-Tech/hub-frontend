@@ -1,5 +1,7 @@
 {
-  "message": "hello i18n !!",
+	"general-submit": "Enviar",
+	"general-save": "Guardar",
+	"general-saved": "Guardado",
 
   "toolbar-enterprise-stats": "Estadística",
   "toolbar-enterprise-my-page": "Mi Pígina",

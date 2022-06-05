@@ -71,6 +71,11 @@ export class Schedule {
     // else
       // Create default schedule
   }
+
+  public async saveSchedule(){
+    if (this._storeId)
+      await this._sharedServices.saveOpeningHours(this._storeId, this._schedule);
+  }
 }
 
 const scheduleController = reactive(new Schedule());

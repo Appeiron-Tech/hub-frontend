@@ -8,6 +8,11 @@ export interface IResOpeningHours {
   to: string;
 }
 
+export interface IReqOpeningHours {
+  weekDay: number;
+  ranges: Array<IHourRange>
+}
+
 //
 // Interfaces
 //
@@ -30,8 +35,3 @@ export interface IHourRange {
   from: string;
   to: string;
 }
-
-
-// export interface IUpdateOpeningHours {
-//   ranges: Array<IOpeningRange>;
-// }

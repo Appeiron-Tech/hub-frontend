@@ -26,13 +26,11 @@
 
 <script setup lang="ts">
 import type {ISchedule} from "@/views/settings/myEnterprise/components/schedule/models/ISchedule";
-import SingleHourRange  from "@/views/settings/myEnterprise/components/schedule/components/hoursRange/component/SingleHourRange.vue";
+import SingleHourRange  from "@/views/settings/myEnterprise/components/schedule/components/daySchedule/component/HoursRange.vue";
 
 const props = defineProps<{
   schedule: ISchedule | undefined // even if it can be undefined, it should avoid render this component when is undefined
 }>();
-
-console.log(props.schedule)
 
 const removeRange = function(rangeIdx: number){
   if (props.schedule)
