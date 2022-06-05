@@ -1,55 +1,149 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import type { RouteRecordRaw } from 'vue-router'
+import {createRouter, createWebHistory, type NavigationGuardNext, type RouteLocationNormalized} from "vue-router";
+import type { RouteRecordRaw } from "vue-router";
 
-import { BASE_URL } from '@/constants';
+import { BASE_URL } from "@/constants";
 
 // Pages
-import Dashboard from '@/views/dashboard/Dashboard.vue'
-import Clients from '@/views/clients/Clients.vue'
+import Dashboard from "@/views/dashboard/Dashboard.vue";
+import Clients from "@/views/clients/Clients.vue";
+import { useI18n } from "vue-i18n";
+import { translate } from "@/plugins/i18n/i18n";
+import appController from "@/controller/Controller";
 
+const history = createWebHistory();
 
 const routes: Array<RouteRecordRaw> = [
+  //public paths
   {
-    path: '/',
-    name: 'home',
-    component: Dashboard
+    path: "/login",
+    name: "Login",
+    component: () => import("@/views/login/Login.vue"),
+    meta: {
+      icon: "login",
+      public: true,
+      onlyWhenLoggedOut: true,
+      hide: true
+    },
   },
   {
-    path:'/clients',
-    name: 'clients',
-    component: Clients
+    path: "/",
+    name: "dashboard",
+    component: Dashboard,
+    meta: {
+      icon: "home",
+      hide: false
+    },
   },
   {
-    path:'/orders',
-    name: 'orders',
-    component: () => import('@/views/orders/Orders.vue')
+    path: "/clients",
+    name: translate("toolbar-enterprise-clients"),
+    component: Clients,
+    meta: {
+      icon: "groups",
+      hide: false
+    },
   },
   {
-    path:'/mypage',
-    name: 'mypage',
-    component: () => import('@/views/myPage/MyPage.vue')
+    path: "/orders",
+    name: translate("toolbar-enterprise-orders"),
+    component: () => import("@/views/orders/Orders.vue"),
+    meta: {
+      icon: "list_alt",
+      hide: false
+    },
   },
   {
-    path:'/stats',
-    name: 'stats',
-    component: () => import('@/views/stats/Stats.vue')
+    path: "/mypage",
+    name: translate("toolbar-enterprise-my-page"),
+    component: () => import("@/views/myPage/MyPage.vue"),
+    meta: {
+      icon: "web",
+      hide: false
+    },
   },
   {
-    path:'/inventoryprd',
-    name: 'inventory',
-    component: () => import('@/views/inventory/Inventory.vue')
-  }
-  ,
+    path: "/stats",
+    name: translate("toolbar-enterprise-stats"),
+    component: () => import("@/views/stats/Stats.vue"),
+    meta: {
+      icon: "insights",
+      hide: false
+    },
+  },
   {
-    path:'/productsconfig',
-    name: 'productsconfig',
-    component: () => import('@/views/products/Products.vue')
-  }
-]
+    path: "/inventoryprd",
+    name: translate("toolbar-enterprise-inventory"),
+    component: () => import("@/views/inventory/Inventory.vue"),
+    meta: {
+      icon: "inventory_2",
+      hide: false
+    },
+  },
+  {
+    path: "/productsconfig",
+    name: translate("toolbar-enterprise-products"),
+    component: () => import("@/views/products/Products.vue"),
+    meta: {
+      icon: "category",
+      hide: false
+    },
+  },
+  {
+    path: "/historic",
+    name: translate("toolbar-enterprise-historic"),
+    component: () => import("@/views/historic/Historic.vue"),
+    meta: {
+      icon: "query_stats",
+      hide: false
+    },
+  },
+
+  {
+    path: "/settings",
+    name: translate("toolbar-settings"),
+    component: () => import("@/views/settings/Settings.vue"),
+    meta: {
+      icon: "settings",
+      hide: false
+    },
+  },
+  {
+    path: "/myenterprise",
+    name: translate("toolbar-settings-enterprise"),
+    component: () => import("@/views/settings/myEnterprise/MyEnterprise.vue"),
+    meta: {
+      icon: "business",
+      hide: false
+    },
+  },
+];
 
 const router = createRouter({
-  history: createWebHistory(BASE_URL),
-  routes
+  history,
+  routes,
+});
+
+router.beforeEach((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
+  // if (to.name !== 'Login' && !isAuthenticated) next({ name: 'Login' })
+  // else next();
+
+
+  const isPublic = to.matched.some(record => record.meta.public)
+  const onlyWhenLoggedOut = to.matched.some(record => record.meta.onlyWhenLoggedOut)
+
+  if (!isPublic && !appController.user.getIsAuthenticated()) {
+    return next({
+      path:'/login',
+      query: {redirect: to.fullPath}  // Store the full path to redirect the user to after login
+    });
+  }
+
+  // Do not allow user to visit login page or register page if they are logged in
+  if (appController.user.getIsAuthenticated() && onlyWhenLoggedOut) {
+    return next('/')
+  }
+  else next();
+
 })
 
-export default router
+export default router;

@@ -1,10 +1,12 @@
-import {createI18n} from "vue-i18n";
+import { createI18n } from "vue-i18n";
 
 /**
  * import locale messages resource from json for global scope
  */
- import es from "@/plugins/i18n/locales/es.json";
- import { DEFAULT_LANGUAGE } from "@/constants";
+import es from "@/plugins/i18n/locales/es.json";
+import en from "@/plugins/i18n/locales/en.json";
+import pt from "@/plugins/i18n/locales/pt.json";
+import { DEFAULT_LANGUAGE } from "@/constants";
 
 // TODO
 // function loadLocaleMessages(): LocaleMessages<VueMessageType> {
@@ -22,12 +24,18 @@ import {createI18n} from "vue-i18n";
 
 const i18n = createI18n({
   legacy: false,
-  locale: DEFAULT_LANGUAGE || 'en',
-  fallbackLocale: ["es", "en"],
+  locale: DEFAULT_LANGUAGE || "en",
+  fallbackLocale: ["es", "en", "pt"],
   messages: {
     es: es,
+    en: en,
+    pt: pt,
   },
   globalInjection: true,
-})
+});
 
 export default i18n;
+
+export function translate(word: string) {
+  return i18n.global.t(word);
+}

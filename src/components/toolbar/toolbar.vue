@@ -1,70 +1,96 @@
 <template>
-  <q-toolbar class="text-primary my-toolbar">
-    <q-btn flat round dense icon="menu" />
-    <q-toolbar-title>
-      Nombre de la empresa
-    </q-toolbar-title>
-
-    <q-menu persistent>
-    <sidebar-menu class="my-sidebar" :menu="menu" :collapsed="isMobile" />
-    </q-menu>
-  </q-toolbar>
+  <h2>tooolbar</h2>
 </template>
-
 <script setup lang="ts">
 //LINK: https://github.com/yaminncco/vue-sidebar-menu/tree/next
 //link: https://yaminncco.github.io/vue-sidebar-menu/#/basic-usage
-const menu = [
+import { watch, type Ref } from "vue";
+import { ref } from "vue";
+import { useI18n } from "vue-i18n";
+import router from "@/plugins/router";
+import type { Controller } from "@/controller/Controller";
+import { injectStrict } from "@/utils/injections";
+import sharedAttributes from "./shared";
+
+//const app: Controller = injectStrict("appController");
+const { t } = useI18n();
+
+const menuList = [
   {
-    header: true,
-    title: 'AppName',
-    hiddenOnCollapse: true
+    icon: "inbox",
+    label: "Inbox",
+    separator: true,
   },
   {
-    href: '/stats',
-    title: 'Estadistica',
-    icon: 'fa fa-chart-line'
+    icon: "send",
+    label: "Outbox",
+    separator: false,
   },
   {
-    href: '/mypage',
-    title: 'Mi Pagina',
-    icon: 'fa fa-star',
-    child: [
-      {
-        href: '/productsconfig',
-        title: 'Productos',
-        icon: 'fa fa-briefcase'
-      }
-    ]
+    icon: "delete",
+    label: "Trash",
+    separator: false,
   },
   {
-    href: '/clients',
-    title: 'Mis clientes',
-    icon: 'fa fa-handshake',
+    icon: "error",
+    label: "Spam",
+    separator: true,
   },
   {
-    header: 'Div'
+    icon: "settings",
+    label: "Settings",
+    separator: false,
   },
   {
-    href: '/orders',
-    title: 'Pedidos',
-    icon: 'fa fa-arrow-down',
-    child: [
-      {
-        href: '/stats',
-        title: 'Historico',
-        icon: 'fa fa-certificate',
-      }
-    ]
+    icon: "feedback",
+    label: "Send Feedback",
+    separator: false,
   },
   {
-    href: '/inventoryprd',
-    title: 'Inventario',
-    icon: 'fa fa-barcode',
-  }
-]
+    icon: "help",
+    iconColor: "primary",
+    label: "Help",
+    separator: false,
+  },
+];
+
+// TODO: Borrar esto
+//menu = menu.filter((e) => e.title != t("toolbar-enterprise-my-page"));
 
 const isMobile: boolean = window.innerWidth < 700;
+
+const userProfileImage: Ref<string> = ref(
+  "https://d2qp0siotla746.cloudfront.net/img/use-cases/profile-picture/template_3.jpg"
+);
+const userName: Ref<string> = ref("Lola Lola");
+const userEmail: Ref<string> = ref("lolalola@gmail.com");
+const persistanceMenu: Ref<boolean> = isMobile ? ref(false) : ref(true);
+
+const goToSetting = () => {
+  router.push("/settings");
+};
+
+const doLogout = async () => {
+  //await app.user.logout();
+  //router.push("/login");
+};
+const drawer = ref(false);
+
+const onItemClick = (event: any, item: any) => {};
+
+const onMenuShowen = () => {
+  sharedAttributes.isSideBarExpanded = true;
+};
+
+const onMenuHidden = () => {
+  sharedAttributes.isSideBarExpanded = false;
+};
+
+watch(
+  () => sharedAttributes.isSideBarExpanded,
+  () => {},
+  { immediate: true, deep: true }
+);
 
 //window.innerWidth
 </script>
@@ -85,11 +111,22 @@ const isMobile: boolean = window.innerWidth < 700;
   display: inline-block;
   text-align: center;
 }
-.my-sidebar{
+
+.my-sidebar {
   margin-top: 50px;
   border-top-right-radius: 1%;
 }
-.my-toolbar{
+
+.my-toolbar {
   background-color: #2a2a2e;
+}
+
+.informationItems {
+  display: inline-block;
+  text-align: center;
+}
+.email-chip {
+  background-color: transparent;
+  color: aliceblue;
 }
 </style>

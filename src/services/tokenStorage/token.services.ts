@@ -27,10 +27,12 @@ export class TokenService implements ITokenService{
     let expires = "";
     if (days) {
       const date = new Date();
-      date.setTime(date.getTime() + (days*24*60*60*1000));
+      date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
       expires = "; expires=" + date.toUTCString();
     }
-    document.cookie = name + "=" + (value || "")  + expires + "; path=/;"; // TODO: Should be secure and httponly
+    document.cookie = name + "=" + (value || "") + expires + "; path=/;"; // TODO: Should be secure and httponly
+    //TODO: https://blog.dareboost.com/en/2019/03/secure-cookies-secure-httponly-flags/
+    //LINK: https://www.appsecmonkey.com/blog/cookie-security
   }
 
   getCookie(name: string): string | null {
