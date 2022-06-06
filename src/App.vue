@@ -90,7 +90,7 @@
                  <q-icon :name="getRouteIcon(route.meta)"/>
               </q-item-section>
               <q-item-section>
-                {{ route.name ? $t(route.name.toString()) : "" }}
+                {{ route.name ? route.name.toString() : "" }}
               </q-item-section>
             </q-item>
           </template>
@@ -104,7 +104,7 @@
                   <q-icon :name="getRouteIcon(route.meta)" />
                 </q-item-section>
                 <q-item-section>
-                  {{ route.name ? $t(route.name.toString()) : "" }}
+                  {{ route.name ? route.name.toString() : "" }}
                 </q-item-section>
               </q-item>
             </template>
