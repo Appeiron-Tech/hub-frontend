@@ -5,7 +5,7 @@
         <div v-for="(range, _rangeIdx) in schedule.ranges"
               class="row items-center"
         >
-          <SingleHourRange :single-hour-range="range" class="col-md-10"/>
+          <HourRange :single-hour-range="range" class="col-md-10"/>
           <div class="col-md-2">
             <q-btn
               round
@@ -26,7 +26,7 @@
 
 <script setup lang="ts">
 import type {ISchedule} from "@/views/settings/myEnterprise/components/schedule/models/ISchedule";
-import SingleHourRange  from "@/views/settings/myEnterprise/components/schedule/components/daySchedule/component/HoursRange.vue";
+import HourRange  from "@/views/settings/myEnterprise/components/schedule/components/daySchedule/component/HoursRange.vue";
 
 const props = defineProps<{
   schedule: ISchedule | undefined // even if it can be undefined, it should avoid render this component when is undefined
