@@ -54,6 +54,7 @@ export class Controller {
 		this.m_user.getProfile().finally(() => {
       this._loadingConfig = false;
     });
+
 	}
 }
 

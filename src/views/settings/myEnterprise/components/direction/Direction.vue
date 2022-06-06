@@ -252,18 +252,11 @@ const selecStore = (p_marker: IPosition) => {
 //LINK: https://developers.google.com/maps/documentation/places/web-service/details
 
 const setPlace = (e: any) => {
-
-
-
-
-    position: { lat: e.geometry.viewport.Ab.h, lng: e.geometry.viewport.Ua.j },
-  });
   newStore.latitude = e.geometry.viewport.Ab.h;
   newStore.longitude = e.geometry.viewport.Ua.h;
   newStore.placeLink = e.url;
   newStore.address = e.formatted_address;
   newStore.address_components = e.address_components;
-
 };
 
 // //***************************************************
@@ -271,7 +264,6 @@ const setPlace = (e: any) => {
 // //***************************************************
 // LINK: https://www-npmjs-com.translate.goog/package/vue3-country-intl?_x_tr_sl=auto&_x_tr_tl=es&_x_tr_hl=es
 const selectedCountry = () => {
-
 };
 const countryOptions = reactive([
   { country: "Perú", iso: "pe", label: "Perú" },
@@ -320,9 +312,7 @@ const editExistingStore = (store: IStore) => {
   else{
     newStore.phones = store.phones;
   }
-
   opened.value = true;
-
 };
 const deleteStore = (store: IStore) => {
   directionController.removeStore(store);
@@ -347,7 +337,6 @@ const opened = ref(false);
 
 const saveStore = () => {
   //newStore.country = countryModel.value;
-
   if (modalStoreTitle.value === "Nueva Tienda") {
     directionController.saveOrEditNewStore(newStore, true);
   } else {

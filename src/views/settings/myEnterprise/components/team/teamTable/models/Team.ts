@@ -16,7 +16,7 @@ export class Team {
 
   constructor() {}
 
-  get localOptions(): Array<any> {
+  get localOptions(): Array<ILocalOptions> {
     return this._m_localOptions;
   }
 

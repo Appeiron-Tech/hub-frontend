@@ -15,18 +15,12 @@ export default class TeamService extends ApiService {
   }
 
   addNewCollaborator(p_collaborator: ITeamSave) {
-     
+  
   }
 
   editExistingCollaborator(
     p_collaboratorId: string,
     p_collaborator: ITeamSave
   ) {
-     
-      "Collaborator with ID: " +
-        p_collaboratorId +
-        "    was edited" +
-        p_collaborator
-    );
   }
 }

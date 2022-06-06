@@ -91,13 +91,10 @@ export default class ProductService extends ApiService {
   }
 
   deleteSpecificProduct(id: number) {
-     
   }
 
   deleteImageFromProduct(productId: number, imagePos: number) {
-     
-      "Image at pos: " + imagePos + " was deleted from product -> " + productId
-    );
+    console.log("Image at pos: " + imagePos + " was deleted from product -> " + productId);
   }
 
   async getAllCategories(): Promise<Array<ICategory>> {

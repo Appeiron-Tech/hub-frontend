@@ -92,11 +92,7 @@ export class DirectionController {
 
   async removeStore(p_store: IStore) {
     const response = await this._m_storeService.deleteStore(p_store.id);
-    this.showOperationNotification(
-      response.status.toString(),
-      "Eliminado correctamente",
-      "Hubo un error"
-    );
+    this.showOperationNotification(response.status.toString(), 'Eliminado correctamente', 'Hubo un error');
     await this.loadInfo();
   }
 

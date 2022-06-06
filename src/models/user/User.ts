@@ -49,7 +49,6 @@ export default class User {
       email: p_loginForm.email,
       password: p_loginForm.password,
     });
-
     if (rsLogin !== null) {
       this.m_password = null;
       tokenService.saveToken(rsLogin.access_token);
@@ -65,6 +64,8 @@ export default class User {
 
   async getProfile(): Promise<void> {
     this.m_profile = await this.m_apiService.getProfile();
+    //TODO: check if is correct to uncomment the following code:
+    //i18n.global.locale.value = this.m_profile.language!!;
   }
 
   async logout(): Promise<void> {

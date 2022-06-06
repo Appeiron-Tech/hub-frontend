@@ -79,7 +79,7 @@
           animated
           transition-prev="jump-up"
           transition-next="jump-down"
-          class="text-white text-center firstTab"
+          class="text-center firstTab"
         >
           <q-tab-panel name="horario">
             <Suspense>

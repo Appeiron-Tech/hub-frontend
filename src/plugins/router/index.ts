@@ -97,7 +97,6 @@ const routes: Array<RouteRecordRaw> = [
       hide: false
     },
   },
-
   {
     path: "/settings",
     name: translate("toolbar-settings"),

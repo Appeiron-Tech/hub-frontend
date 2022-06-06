@@ -20,15 +20,11 @@ export default class AuthService extends ApiService {
 
     const rs = await this.post("/login", m_data);
 
-    if (rs.status == StatusCodes.CREATED) {
-      return rs.data;
-    } else return null;
+    if (rs.status == StatusCodes.CREATED) return rs.data;
+    else return null;
   }
 
   async getProfile(): Promise<IProfile> {
-    const response = await this.get("/profile");
-
-    return response.data;
-    //return (await this.get("/profile")).data;
+    return (await this.get("/profile")).data;
   }
 }
