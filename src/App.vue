@@ -80,7 +80,7 @@
         bordered
         style="background-color: #f0f7fb"
       >
-        <q-list padding>
+        <!-- <q-list padding>
           <template
             v-for="(route, index) in routesToShow"
             :key="'for_' + index"
@@ -94,7 +94,7 @@
               </q-item-section>
             </q-item>
           </template>
-        </q-list>
+        </q-list> -->
 
         <q-scroll-area class="fit">
           <q-list padding>
