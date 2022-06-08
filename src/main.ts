@@ -12,17 +12,15 @@ import VueTelInput from "vue-tel-input";
 import "vue-tel-input/dist/vue-tel-input.css";
 import VueGoogleMaps from "@fawmi/vue-google-maps";
 
-
-
 //TODO: uncomment this appController when working with backend
 // main Controllers
-import appController from '@/controller/Controller';
+import appController from "@/controller/Controller";
 
 // Style
 import "@/styles/base.css";
 import { GOOGLE_MAPS_KEY } from "@/constants";
 const globalOptions = {
-  mode: "auto",
+  mode: "international",
   defaultCountry: 51,
 };
 
@@ -39,5 +37,5 @@ app.use(VueGoogleMaps, {
     libraries: "places",
   },
 });
-app.provide('appController', appController )
+app.provide("appController", appController);
 app.mount("#app");

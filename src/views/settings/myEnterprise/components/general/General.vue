@@ -10,7 +10,7 @@
             <q-input
               outlined
               :label="$t('general-tab-form-business')"
-              v-model="enterpriseName"
+              v-model="generalInfo.enterpriseName"
               lazy-rules
               :rules="[
                 (val) => (val && val.length > 0) || 'Please type something',
@@ -24,12 +24,23 @@
           <div class="col-1"></div>
 
           <div class="col-10">
-            <vue-tel-input v-model="ordersWsp"></vue-tel-input>
+            <vue-tel-input
+              :inputOptions="{
+                placeholder: $t('general-number-wsp'),
+              }"
+              v-model="generalInfo.ordersNum"
+            ></vue-tel-input>
           </div>
           <div class="col-1"></div>
           <div class="col-1"></div>
           <div class="col-10" style="margin-top: 15px">
-            <vue-tel-input v-model="principalNum"></vue-tel-input>
+            <vue-tel-input
+              autoDefaultCountry
+              v-model="generalInfo.mainNum"
+              :inputOptions="{
+                placeholder: $t('general-number-main'),
+              }"
+            ></vue-tel-input>
           </div>
         </div>
         <br />
@@ -43,8 +54,8 @@
               transition-show="scale"
               transition-hide="scale"
               outlined
-              v-model="currency"
-              :options="generalSettings.CurrencyOptions"
+              v-model="generalInfo.currency"
+              :options="generalSettings.$m_generalOptions.currencyOptions"
             />
             <br />
           </div>
@@ -60,7 +71,7 @@
               transition-show="scale"
               transition-hide="scale"
               outlined
-              v-model="language"
+              v-model="generalInfo.language"
               :options="availableLanguages"
             />
           </div>
@@ -76,8 +87,8 @@
           transition-show="scale"
           transition-hide="scale"
           outlined
-          v-model="language"
-          :options="generalSettings.BusinessTypeOptions"
+          v-model="generalInfo.businessType"
+          :options="businessTypeOptions"
         />
       </div>
       <div class="enterpriseSelectDataChild">
@@ -86,8 +97,8 @@
           transition-show="scale"
           transition-hide="scale"
           outlined
-          v-model="language"
-          :options="availableLanguages"
+          v-model="generalInfo.businessSells"
+          :options="sellTypeOptions"
         />
       </div>
       <div class="enterpriseSelectDataChild">
@@ -96,8 +107,8 @@
           transition-show="scale"
           transition-hide="scale"
           outlined
-          v-model="language"
-          :options="availableLanguages"
+          v-model="generalInfo.customersPerWeek"
+          :options="generalSettings.$m_generalOptions.customerTypeOptions"
         />
       </div>
 
@@ -107,62 +118,131 @@
           transition-show="scale"
           transition-hide="scale"
           outlined
-          v-model="language"
-          :options="availableLanguages"
+          v-model="generalInfo.followers"
+          :options="generalSettings.$m_generalOptions.followersTypeOptions"
         />
       </div>
+
       <div class="enterpriseSelectDataChild">
         <q-select
-          :label="$t('general-tab-form-food-app')"
+          :label="$t('general-tab-form-serve-customers')"
           transition-show="scale"
           transition-hide="scale"
           outlined
-          v-model="language"
+          v-model="generalInfo.customersPerWeek"
           :options="availableLanguages"
         />
       </div>
+
       <div class="enterpriseSelectDataChild">
         <q-select
           :label="$t('general-tab-form-delivery')"
           transition-show="scale"
           transition-hide="scale"
           outlined
-          v-model="language"
-          :options="availableLanguages"
+          v-model="generalInfo.deliveryType"
+          :options="deliveryTypeOptions"
         />
+      </div>
+    </div>
+
+    <div class="gallery-2">
+      <div>
+        <q-input
+          outlined
+          v-model="generalInfo.fbURL"
+          label="Facebook URL"
+          :rules="[
+            (val) => (val && val.length > 0) || 'Please type something',
+            (val) => validateFbUrl(val) || 'Please enter a valid URL',
+          ]"
+        >
+          <template v-slot:prepend>
+            <q-icon name="fab fa-facebook" />
+          </template>
+        </q-input>
+      </div>
+      <div>
+        <q-input
+          outlined
+          v-model="generalInfo.igURL"
+          label="Instagram URL"
+          :rules="[
+            (val) => (val && val.length > 0) || 'Please type something',
+            (val) => validateIgUrl(val) || 'Please enter a valid URL',
+          ]"
+        >
+          <template v-slot:prepend>
+            <q-icon name="fab fa-instagram" /> </template
+        ></q-input>
       </div>
     </div>
 
     <div>
       <q-btn label="Submit" type="submit" color="primary" />
-      <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
     </div>
   </q-form>
 </template>
 
 <script setup lang="ts">
 import { useQuasar } from "quasar";
-import { ref, type Ref } from "vue";
+import { reactive, ref, type Ref } from "vue";
 import generalSettings from "./general";
 import { VueTelInput } from "vue-tel-input";
-import type {Controller} from "@/controller/Controller";
-import {injectStrict} from "@/utils/injections";
+import type { Controller } from "@/controller/Controller";
+import { injectStrict } from "@/utils/injections";
+import { translate } from "@/plugins/i18n/i18n";
+import { validateFbUrl, validateIgUrl, validURL } from "@/utils/validations";
 
-const app: Controller = injectStrict('appController');
-
-const group = ref([]);
+const app: Controller = injectStrict("appController");
 generalSettings.loadInfo();
-const $q = useQuasar();
-const enterpriseName: Ref<string | undefined> = ref(app.user.m_profile?.tenancies[0].name);
-const ordersWsp: Ref<number | null> = ref(null);
+console.log(validURL("https://www.facebook.com/"));
+
+const generalInfo = reactive(generalSettings.$m_generalSettingInfo);
+
+//TODO: DELETE THIS:
+/*const ordersWsp: Ref<number | null> = ref(null);
 const principalNum: Ref<number | null> = ref(null);
 const currency = ref("PEN");
 const availableCurrency: Array<string> = ["PEN", "USD", "EUR"];
 const language: Ref<string> = ref("Español");
-const availableLanguages: Array<string> = ["Español", "English"];
+const availableLanguages: Array<string> = ["Español", "English"];*/
 
-const onSubmit = () => {}
-const onReset = () => {}
+//********* FOLLOWERS **********
+const followers: Ref<number | null> = ref(null);
+//************************ * /
+//********* BUSINESS TYPE **********
+const businessTypeOptions =
+  generalSettings.$m_generalOptions.businessTypeOptions.map((e) => {
+    return translate(e);
+  });
+//******************************* */
+
+//********* SELL TYPE******************
+const sellTypeOptions = generalSettings.$m_generalOptions.sellsTypeOptions.map(
+  (e) => {
+    return translate(e);
+  }
+);
+//***********************************
+//**************DELIVERY TYPE*************
+const deliveryTypeOptions =
+  generalSettings.$m_generalOptions.deliveryTypeOptions.map((e) => {
+    return translate(e);
+  });
+//********************************
+
+//*******Language
+const availableLanguages =
+  generalSettings.$m_generalOptions.languageOptions.map((e) => {
+    return translate(e);
+  });
+//************ */
+
+const onSubmit = () => {
+  console.log("%c⧭", "color: #99adcc", generalInfo);
+};
+const onReset = () => {};
 </script>
 
 <style scoped>
@@ -198,7 +278,15 @@ const onReset = () => {}
     display: grid;
     gap: 1rem;
     grid-auto-rows: 5rem;
-    grid-template-columns: repeat(auto-fill, minmax(25rem, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
+    margin-left: 9.25%;
+    margin-right: 8%;
+  }
+  .gallery-2 {
+    display: grid;
+    gap: 1rem;
+    grid-auto-rows: 5rem;
+    grid-template-columns: repeat(auto-fit, minmax(60rem, 1fr));
     margin-left: 9.25%;
     margin-right: 8%;
   }
@@ -209,8 +297,17 @@ const onReset = () => {}
     display: grid;
     gap: 1rem;
     grid-auto-rows: 3rem;
-    grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
-    margin-left: 11%;
+    grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+    margin-left: 13%;
+    margin-right: 8%;
+  }
+
+  .gallery-2 {
+    display: grid;
+    gap: 1rem;
+    grid-auto-rows: 3rem;
+    grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
+    margin-left: 13%;
     margin-right: 8%;
   }
 }
