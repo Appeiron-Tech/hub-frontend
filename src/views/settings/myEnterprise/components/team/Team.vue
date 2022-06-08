@@ -33,28 +33,28 @@
           <q-input
             outlined
             v-model="newMember.name"
-            label="Name"
+            :label="$t('team-dialog-name')"
             :rules="[(val) => !!val || 'Field is required']"
           />
           <br />
           <q-input
             outlined
             v-model="newMember.email"
-            label="Email"
+            :label="$t('team-dialog-email')"
             :rules="[(val) => !!val || 'Field is required']"
           />
           <br />
           <q-input
             outlined
             v-model="newMember.jobTitle"
-            label="Job Title"
+            :label="$t('team-dialog-job-title')"
             :rules="[(val) => !!val || 'Field is required']"
           />
           <br />
           <q-input
             outlined
             v-model="newMember.phone"
-            label="Telefono"
+            :label="$t('team-dialog-phone-number')"
             :rules="[
               (val) => val.length >= 7 || 'Please use minumin 7 characters',
             ]"
@@ -64,14 +64,14 @@
             outlined
             v-model="newMember.phoneType"
             :options="['MOB', 'TEL']"
-            label="Tipo de telefono"
+            :label="$t('team-dialog-phone-type')"
           />
           <br />
           <q-select
             outlined
             v-model="selectedStoreId"
             :options="teamController.localOptions"
-            label="Locales"
+            :label="$t('team-dialog-store-name')"
           />
           <br />
           <q-toggle
@@ -116,7 +116,7 @@ const openModal = () => {
   newMember.jobTitle = "";
   newMember.name = "";
   newMember.email = "";
-  newMember.phone = 0;
+  newMember.phone = undefined;
   newMember.phoneType = "";
   newMember.countryCode = 51;
   newMember.state = true;

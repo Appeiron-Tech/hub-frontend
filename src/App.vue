@@ -23,9 +23,9 @@
         notice shrink property since we are placing it
         as child of QToolbar
       -->
-          <q-tabs shrink>
+          <q-tabs shrink style="min-width: 220px">
             <img
-              :src="userProfileImage!"
+              :src="userProfileImage"
               loading="eager"
               color="secondary"
               text-color="white"
@@ -40,7 +40,7 @@
             />
             <div class="email-text">{{ userEmail }}</div>
 
-            <q-btn-dropdown stretch flat :label="userName!">
+            <q-btn-dropdown stretch flat :label="userName">
               <q-list>
                 <q-item-label header>Settings</q-item-label>
                 <q-item clickable v-close-popup tabindex="0">
@@ -82,7 +82,10 @@
       >
         <q-scroll-area class="fit">
           <q-list padding>
-            <template v-for="(route, index) in routesToShow" :key="'for_' + index">
+            <template
+              v-for="(route, index) in routesToShow"
+              :key="'for_' + index"
+            >
               <q-item clickable :to="route.path">
                 <q-item-section avatar>
                   <q-icon :name="getRouteIcon(route.meta)" />
@@ -98,7 +101,14 @@
 
       <q-page-container>
         <q-page class="q-px-lg q-py-md page-cnt">
-          <router-view v-if="!app.loadingConfig" />
+          <router-view v-if="!app.loadingConfig" v-slot="{ Component }">
+            <transition
+              enter-active-class="animate__animated animate__lightSpeedInLeft"
+              leave-active-class="animate__animated animate__zoomOutDown"
+            >
+              <component :is="Component" />
+            </transition>
+          </router-view>
         </q-page>
       </q-page-container>
     </q-layout>
@@ -120,8 +130,10 @@ const userProfileImage: Ref<string | null> = ref(
   "https://www.dzoom.org.es/wp-content/uploads/2020/02/portada-foto-perfil-redes-sociales-consejos.jpg"
 );
 
-const userName: Ref<string | null> = ref("Lola Lola");
-const userEmail: Ref<string | null> = ref("lola@gmail.com");
+const userName: Ref<string> = ref(app.user.m_profile?.userName ?? "");
+const userEmail: Ref<string> = ref(
+  app.user.m_profile?.email.toString().substring(0, 20) + "..." ?? ""
+);
 
 // Methods
 
@@ -130,11 +142,7 @@ const goToSetting = () => {
 };
 const menuClicker = () => {
   drawer.value = !drawer.value;
-  if (isMobile) {
-    miniState.value = true;
-  } else {
-    miniState.value = false;
-  }
+  miniState.value = isMobile;
 };
 
 const doLogout = async function (): Promise<void> {
@@ -149,12 +157,12 @@ const routesToShow = Object.assign(
   routes.filter((e) => e.meta!.hide === false)
 );
 
-const getRouteIcon = (_routeMeta: RouteMeta | undefined): string | undefined => {
-  if (_routeMeta && typeof _routeMeta.icon == 'string')
-    return _routeMeta!.icon
-  return undefined
-}
-
+const getRouteIcon = (
+  _routeMeta: RouteMeta | undefined
+): string | undefined => {
+  if (_routeMeta && typeof _routeMeta.icon == "string") return _routeMeta!.icon;
+  return undefined;
+};
 </script>
 
 <style lang="sass" scoped>

@@ -14,6 +14,8 @@ abstract class ApiService {
   constructor(config: { baseURL: string }, serviceProxy?: string) {
     this._baseUrl = config.baseURL;
     this._fullApiBase = serviceProxy ??  API_PREFIX_BASE + this._baseUrl;
+    console.log("-> this._fullApiBase", this._fullApiBase);
+
     this.setHeader();
   }
 

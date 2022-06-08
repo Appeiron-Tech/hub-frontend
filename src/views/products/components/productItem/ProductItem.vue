@@ -3,13 +3,13 @@
     <q-card class="card-products">
       <q-card-section horizontal>
         <q-img
-          v-if="props.product.images?.length!! > 0"
+          v-if="props.product.images?.length > 0"
           class="col imageProduct"
-          :src="props.product.images![0].src"
+          :src="props.product.images[0].src"
           style="height: 290px"
         >
           <div class="absolute-bottom-right text-caption">
-            Cantidad de imagenes: {{props.product.images?.length!}}
+            Cantidad de imagenes: {{props.product.images?.length}}
           </div></q-img
         >
         <q-img
@@ -119,7 +119,7 @@
           </div>
         </div>
         <q-uploader
-          v-if="props.product.images!.length < 6"
+          v-if="props.product.images.length < 6"
           style="
             max-width: 300px;
             margin-left: auto;

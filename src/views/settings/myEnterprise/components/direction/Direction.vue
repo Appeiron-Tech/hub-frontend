@@ -2,7 +2,7 @@
   <div class="direction-whole-container">
     <div id="app" class="modal-vue">
       <q-btn
-        label="Nueva Tienda"
+        :label="$t('direction-tab-new-store-btn')"
         style="background-color: #66af39"
         @click="openModal"
         id="btn-new-store-modal"
@@ -24,7 +24,7 @@
               <q-input
                 outlined
                 v-model="newStore.store"
-                label="Nombre de la tienda"
+                :label="$t('direction-tab-dialog-store-name')"
               />
             </div>
             <div class="col-lg-6 col-xs-12 col-sm-12">
@@ -36,24 +36,25 @@
               />
             </div>
           </div>
+          <br />
           <q-input
             outlined
             v-model="newStore.description"
             type="textarea"
-            label="Descripcion"
+            :label="$t('direction-tab-dialog-store-description')"
           />
           <q-toggle
             v-model="newStore.isMain"
             checked-icon="check"
             color="green"
-            label="Is main"
+            :label="$t('direccion-tab-dialog-is-main')"
             unchecked-icon="close"
           />
           <q-toggle
             v-model="newStore.isOpenAlways"
             checked-icon="check"
             color="green"
-            label="Is open always"
+            :label="$t('direction-tab-dialog-is-open-always')"
             unchecked-icon="close"
           />
           <br />
@@ -73,7 +74,7 @@
                 <q-input
                   outlined
                   v-model="newStore.phones[0].phone"
-                  label="Numero"
+                  :label="$t('direction-tab-dialog-number')"
                   :rules="[
                     (val) =>
                       val.length >= 7 || 'Please use minumin 7 characters',
@@ -84,7 +85,7 @@
                 <q-input
                   outlined
                   v-model="newStore.phones[0].countryCode"
-                  label="Country code"
+                  :label="$t('direction-tab-dialog-country-code')"
                   :rules="[
                     (val) => val.length === 2 || 'Please use 2 characters',
                   ]"
@@ -95,7 +96,7 @@
                   outlined
                   v-model="newStore.phones[0].type"
                   :options="['MOB', 'TEL']"
-                  label="Tipo de telefono"
+                  :label="$t('direction-tab-dialog-mobile-type')"
                 />
               </div>
             </div>
@@ -110,7 +111,7 @@
                 v-if="isStoreBeingEdited"
                 filled
                 v-model="newStore.address"
-                label="Filled"
+                :label="$t('direction-tab-dialog-address')"
                 disable
               />
             </div>
@@ -193,11 +194,17 @@ import type { Ref } from "vue";
 import { reactive, ref } from "vue";
 import directionController from "@/views/settings/myEnterprise/components/direction/direction";
 import { getDistanciaMetros } from "@/utils/distances";
-import type {IPosition, IStore, IStoreSave} from "@/views/settings/myEnterprise/components/direction/IDirection";
+import type {
+  IPosition,
+  IStore,
+  IStoreSave,
+} from "@/views/settings/myEnterprise/components/direction/IDirection";
 import PhoneModal from "@/views/settings/myEnterprise/components/direction/components/PhoneModal.vue";
-import SingleStoreInformation
-  from "@/views/settings/myEnterprise/components/direction/components/SingleStoreInformation.vue";
+import SingleStoreInformation from "@/views/settings/myEnterprise/components/direction/components/SingleStoreInformation.vue";
+import { useI18n } from "vue-i18n";
 //
+const { t, locale } = useI18n({ useScope: "global" });
+
 directionController.loadInfo();
 const zoomMap: Ref<number> = ref(
   directionController.markers.length == 1 ? 15 : 12
@@ -241,7 +248,10 @@ function defineZoom() {
 const selecStore = (p_marker: IPosition) => {
   directionController.centerMap = Object.assign(
     {},
-    { lat: parseFloat(String(p_marker.position.lat)),  lng: parseFloat(String(p_marker.position.lng)) }
+    {
+      lat: parseFloat(String(p_marker.position.lat)),
+      lng: parseFloat(String(p_marker.position.lng)),
+    }
   );
   zoomMap.value = 17;
 };
@@ -263,8 +273,7 @@ const setPlace = (e: any) => {
 // //******  MODAL NEW STORE     ***********************
 // //***************************************************
 // LINK: https://www-npmjs-com.translate.goog/package/vue3-country-intl?_x_tr_sl=auto&_x_tr_tl=es&_x_tr_hl=es
-const selectedCountry = () => {
-};
+const selectedCountry = () => {};
 const countryOptions = reactive([
   { country: "Perú", iso: "pe", label: "Perú" },
   { country: "España", iso: "es", label: "España" },
@@ -283,11 +292,11 @@ const openModal = () => {
   newStore.longitude = 0;
   opened.value = true;
   newStore?.phones?.push({
-    phone : '',
+    phone: "",
     isWspMain: false,
-    countryCode : '',
-    type: ''
-  })
+    countryCode: "",
+    type: "",
+  });
 };
 
 const editExistingStore = (store: IStore) => {
@@ -301,15 +310,14 @@ const editExistingStore = (store: IStore) => {
   newStore.longitude = store.longitude;
   newStore.isMain = store.isMain;
   newStore.isOpenAlways = store.isOpenAlways;
-  if (store.phones?.length === 0){
+  if (store.phones?.length === 0) {
     newStore?.phones?.push({
-      phone : '',
+      phone: "",
       isWspMain: false,
-      countryCode : '',
-      type: ''
-    })
-  }
-  else{
+      countryCode: "",
+      type: "",
+    });
+  } else {
     newStore.phones = store.phones;
   }
   opened.value = true;
@@ -331,7 +339,7 @@ let newStore: IStoreSave = reactive({
   longitude: 0,
   isOpenAlways: false,
   cityId: 0,
-  phones: []
+  phones: [],
 });
 const opened = ref(false);
 
@@ -352,7 +360,6 @@ const thumbStyle = {
   backgroundColor: "#027be3",
   width: "5px",
   opacity: "0.75",
-
 };
 
 const contentStyle = {
@@ -415,7 +422,7 @@ const contentStyle = {
 @media (min-width: 1300px) {
   .modal-vue .modal {
     position: fixed;
-    width: 40vw;
+    width: 41vw;
     z-index: 9999;
     padding: 20px 30px;
     color: black;
