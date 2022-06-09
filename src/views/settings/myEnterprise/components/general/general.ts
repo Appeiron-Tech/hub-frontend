@@ -1,12 +1,39 @@
+import PublicService from "@/views/settings/services/Public.services";
 import { reactive } from "vue";
-import type { IGeneralSettings, IGerneralOptions } from "./IGeneral";
+import type {
+  IClientQuestions,
+  IGeneralSettings,
+  IGerneralOptions,
+} from "./IGeneral";
+import GeneralService from "./service/General.services";
 
 export class GeneralSettings {
   private m_generalSettingInfo: IGeneralSettings | undefined = undefined;
 
   private m_generalOptions: IGerneralOptions | any = [];
 
+  private _m_clientQuestions: Array<IClientQuestions> | undefined = undefined;
+
+  private publicService: PublicService = new PublicService();
+  private generalService: GeneralService = new GeneralService();
+
   constructor() {}
+
+  /**
+   * Getter m_clientQuestions
+   * @return {Array<IClientQuestions> }
+   */
+  public get m_clientQuestions(): Array<IClientQuestions> {
+    return this._m_clientQuestions!;
+  }
+
+  /**
+   * Setter m_clientQuestions
+   * @param {Array<IClientQuestions> } value
+   */
+  public set m_clientQuestions(value: Array<IClientQuestions>) {
+    this._m_clientQuestions = value;
+  }
 
   /**
    * Getter $m_generalSettingInfo
@@ -40,62 +67,18 @@ export class GeneralSettings {
     this.m_generalOptions = value;
   }
 
-  loadInfo() {
+  async loadInfo() {
+    this.m_generalSettingInfo = (
+      await this.generalService.getClientInformation()
+    ).data;
+    console.log("%c⧭", "color: #7f2200", this.m_generalSettingInfo);
     this.loadOptions();
-    this.$m_generalSettingInfo = {
-      enterpriseName: "",
-      ordersNum: undefined,
-      mainNum: undefined,
-      language: "",
-      currency: "",
-      businessType: "",
-      businessSells: "",
-      customersPerWeek: "",
-      followers: "",
-      deliveryType: "",
-      igURL: "",
-      fbURL: "",
-    };
+    this._m_clientQuestions = await (
+      await this.publicService.getClientQuestions()
+    ).data;
   }
 
   loadOptions() {
-    this.m_generalOptions!.businessTypeOptions = [
-      "general-options-business-type-1",
-      "general-options-business-type-2",
-      "general-options-business-type-3",
-      "general-options-business-type-4",
-      "general-options-business-type-5",
-      "general-options-business-type-6",
-    ];
-    this.m_generalOptions!.sellsTypeOptions = [
-      "general-options-business-sell-1",
-      "general-options-business-sell-2",
-      "general-options-business-sell-3",
-      "general-options-business-sell-4",
-      "general-options-business-sell-5",
-    ];
-    this.m_generalOptions!.customerTypeOptions = [
-      "1-50",
-      "50-100",
-      "100-500",
-      "500-1000",
-      "1000-5000",
-      "+5000",
-    ];
-    this.m_generalOptions!.followersTypeOptions = [
-      "1-50",
-      "50-100",
-      "100-500",
-      "500-1000",
-      "1000-5000",
-      "+5000",
-    ];
-    this.m_generalOptions!.deliveryTypeOptions = [
-      "general-options-delivery-type-1",
-      "general-options-delivery-type-2",
-      "general-options-delivery-type-3",
-      "general-options-delivery-type-4",
-    ];
     this.$m_generalOptions.languageOptions = [
       "general-options-language-1",
       "general-options-language-2",

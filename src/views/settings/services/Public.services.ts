@@ -13,7 +13,10 @@ export default class PublicService extends ApiService {
    */
 
   async editUser(p_user: IProfileForEditing, p_email: string) {
-    console.log("%c⧭", "color: #cc0088", p_email);
     return await this.patch("/user/" + p_email, p_user);
+  }
+
+  async getClientQuestions(){
+    return await this.get("/client/questions");
   }
 }

@@ -1,16 +1,6 @@
 export interface IGerneralOptions {
-  businessTypeOptions: Array<string>;
-  sellsTypeOptions: Array<string>;
-  customerTypeOptions: Array<string>;
-  followersTypeOptions: Array<string>;
-  deliveryTypeOptions: Array<string>;
   languageOptions: Array<string>;
   currencyOptions: Array<string>;
-}
-
-export interface IOptions {
-  label: string;
-  value: string;
 }
 
 export interface IGeneralSettings {
@@ -19,26 +9,34 @@ export interface IGeneralSettings {
   mainNum?: number;
   language: string;
   currency: string;
-  businessType: string;
-  businessSells: string;
-  customersPerWeek: string;
-  followers: string;
-  deliveryType: string;
-  igURL: string;
-  fbURL: string;
+  urlIG: string;
+  urlFB: string;
+  answers: Array<IAnswer>;
 }
 
-interface ICurrency {
-  label: string;
-  value: string;
+//NOTE: THIS IS WHAT BACKEND EXPOSE
+export interface IClientQuestions {
+  id: number;
+  questionCode: string;
+  question: string;
+  type: string;
+  order: number;
+  createdAt: string;
+  options: Array<IOption>;
+}
+export interface IOption {
+  id: number;
+  optionCode: string;
+  option: string;
+  order: number;
 }
 
-interface ILanguage {
-  label: string;
-  value: string;
-}
-
-export interface IgeneralTypeValue {
-  label: string;
-  value: string;
+export interface IAnswer {
+  id?: number;
+  questionCode: string; //max length 16
+  question: string; //max length 16
+  questionOptionCode: string; //max length 16
+  answer: string; //max length 512
+  updatedAt: Date | string;
+  createdAt: Date | string;
 }
