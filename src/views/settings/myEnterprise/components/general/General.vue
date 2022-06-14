@@ -1,7 +1,7 @@
 <template>
   <Suspense>
     <template #default>
-      <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
+      <q-form @submit.prevent="saveInfo">
         <div class="mainContainer">
           <div class="selected-options-child"></div>
           <div class="form-cnt">
@@ -14,9 +14,6 @@
                   :label="$t('general-tab-form-business')"
                   v-model="generalInfo.enterpriseName"
                   lazy-rules
-                  :rules="[
-                    (val) => (val && val.length > 0) || 'Please type something',
-                  ]"
                 />
               </div>
               <div class="col-1"></div>
@@ -27,22 +24,36 @@
 
               <div class="col-10">
                 <vue-tel-input
+                  style="height: 55px; margin-right: 5px"
+                  enabledCountryCode
                   :inputOptions="{
                     placeholder: $t('general-number-wsp'),
                   }"
-                  v-model="generalInfo.ordersNum"
+                  v-model="generalInfo.phones[0].compleateNumber"
                 ></vue-tel-input>
               </div>
+
               <div class="col-1"></div>
               <div class="col-1"></div>
-              <div class="col-10" style="margin-top: 15px">
+              <div class="col-9" style="margin-top: 15px">
                 <vue-tel-input
+                  style="height: 55px; margin-right: 5px"
                   autoDefaultCountry
-                  v-model="generalInfo.mainNum"
+                  v-model="generalInfo.phones[1].compleateNumber"
                   :inputOptions="{
                     placeholder: $t('general-number-main'),
                   }"
                 ></vue-tel-input>
+              </div>
+              <div class="col-1" style="margin-top: 15px">
+                <q-select
+                  outlined
+                  v-model="generalInfo.phones[1].type"
+                  :options="phoneTypes"
+                  label="Type"
+                  style="height: 15px"
+                  emit-value
+                />
               </div>
             </div>
             <br />
@@ -56,7 +67,7 @@
                   transition-show="scale"
                   transition-hide="scale"
                   outlined
-                  v-model="generalInfo.currency"
+                  v-model="generalInfo.currencyName"
                   :options="generalSettings.$m_generalOptions.currencyOptions"
                 />
                 <br />
@@ -76,6 +87,7 @@
                   v-model="generalInfo.language"
                   :options="availableLanguages"
                 />
+                <br />
               </div>
               <div class="col-1"></div>
             </div>
@@ -96,7 +108,7 @@
               map-options
               stack-label
               emit-value
-              option-value="optionCode"
+              option-value="option"
               option-label="option"
               v-model="
                 generalInfo.answers.filter((e) => e.question === question)[0]
@@ -116,6 +128,7 @@
           <div>
             <q-input
               outlined
+              class="fb-input"
               v-model="generalInfo.urlFB"
               label="Facebook URL"
               :rules="[
@@ -124,22 +137,32 @@
               ]"
             >
               <template v-slot:prepend>
-                <q-icon name="fab fa-facebook" />
+                <q-icon
+                  name="fab fa-facebook"
+                  class="pointer-cursor"
+                  @click="goToPageFB"
+                />
               </template>
             </q-input>
           </div>
           <div>
             <q-input
               outlined
+              class="ig-input"
               v-model="generalInfo.urlIG"
               label="Instagram URL"
+              @click="goToPageIG"
               :rules="[
                 (val) => (val && val.length > 0) || 'Please type something',
                 (val) => validateIgUrl(val) || 'Please enter a valid URL',
               ]"
             >
               <template v-slot:prepend>
-                <q-icon name="fab fa-instagram" /> </template
+                <q-icon
+                  name="fab fa-instagram"
+                  class="pointer-cursor"
+                  @click="goToPageIG"
+                /> </template
             ></q-input>
           </div>
         </div>
@@ -173,17 +196,17 @@ await generalSettings.loadInfo();
 const generalInfo = reactive(generalSettings.$m_generalSettingInfo);
 console.log("%c⧭", "color: #02ec35", generalInfo);
 
-//TODO: DELETE THIS:
-/*const ordersWsp: Ref<number | null> = ref(null);
-const principalNum: Ref<number | null> = ref(null);
-const currency = ref("PEN");
-const availableCurrency: Array<string> = ["PEN", "USD", "EUR"];
-const language: Ref<string> = ref("Español");
-const availableLanguages: Array<string> = ["Español", "English"];*/
-
-//********* FOLLOWERS **********
 const followers: Ref<number | null> = ref(null);
-
+const phoneTypes: Array<{ label: string; value: string }> = [
+  {
+    label: "Mobile",
+    value: "MOB",
+  },
+  {
+    label: "Landline phone",
+    value: "TEL",
+  },
+];
 //*******Language
 const availableLanguages =
   generalSettings.$m_generalOptions.languageOptions.map((e) => {
@@ -191,10 +214,18 @@ const availableLanguages =
   });
 //************ */
 
-const onSubmit = () => {
-  console.log("%c⧭", "color: #99adcc", generalInfo);
+const saveInfo = () => {
+  console.log("%c⧭", "color: #99adcc", generalInfo + "  submitted");
+  generalSettings.saveAnswers(generalInfo);
 };
-const onReset = () => {};
+
+const goToPageFB = () => {
+  window.open(generalInfo.urlFB);
+};
+
+const goToPageIG = () => {
+  window.open(generalInfo.urlIG);
+};
 
 const questionSelectors = Object.assign(
   [],
@@ -218,10 +249,9 @@ for (let i = 0; i < questionSelectors.length; i++) {
   const a: IAnswer = {
     question: currentCompleateQuestion?.question!,
     answer: "",
-    createdAt: new Date(),
-    updatedAt: new Date(),
     questionCode: currentCompleateQuestion?.questionCode!,
     questionOptionCode: "",
+    id: currentCompleateQuestion?.id ?? undefined,
   };
   if (
     !generalInfo.answers.find(
@@ -275,6 +305,21 @@ watch(
 .gallery-checkbox {
   position: absolute;
 }
+.ig-input:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 10px 20px 2px rgba(123, 0, 255, 0.7);
+  height: 55px;
+  cursor: auto;
+}
+.fb-input:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 10px 20px 2px rgb(11, 158, 255);
+  height: 55px;
+  cursor: auto;
+}
+.pointer-cursor {
+  cursor: pointer;
+}
 
 @media (min-width: 700px) {
   .gallery {
@@ -282,7 +327,7 @@ watch(
     gap: 1rem;
     grid-auto-rows: 5rem;
     grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
-    margin-left: 9.25%;
+    margin-left: 8.5%;
     margin-right: 8%;
   }
   .gallery-2 {
@@ -290,7 +335,7 @@ watch(
     gap: 1rem;
     grid-auto-rows: 5rem;
     grid-template-columns: repeat(auto-fit, minmax(60rem, 1fr));
-    margin-left: 9.25%;
+    margin-left: 8.5%;
     margin-right: 8%;
   }
 }

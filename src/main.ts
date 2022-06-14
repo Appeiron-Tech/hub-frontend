@@ -22,6 +22,7 @@ import { GOOGLE_MAPS_KEY } from "@/constants";
 const globalOptions = {
   mode: "international",
   defaultCountry: 51,
+  autoFormat: true
 };
 
 const app = createApp(App);

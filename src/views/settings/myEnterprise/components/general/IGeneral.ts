@@ -4,14 +4,16 @@ export interface IGerneralOptions {
 }
 
 export interface IGeneralSettings {
-  enterpriseName: string;
-  ordersNum?: number;
-  mainNum?: number;
-  language: string;
-  currency: string;
+  enterpriseName?: string;
+  language?: string;
+  currencyName?: string;
+  //currencySymbol?: string;
   urlIG: string;
   urlFB: string;
   answers: Array<IAnswer>;
+  phones?: Array<IPhoneSaving>;
+  id: number;
+  createdAt?: undefined;
 }
 
 //NOTE: THIS IS WHAT BACKEND EXPOSE
@@ -21,7 +23,7 @@ export interface IClientQuestions {
   question: string;
   type: string;
   order: number;
-  createdAt: string;
+  //createdAt: string;
   options: Array<IOption>;
 }
 export interface IOption {
@@ -36,7 +38,28 @@ export interface IAnswer {
   questionCode: string; //max length 16
   question: string; //max length 16
   questionOptionCode: string; //max length 16
-  answer: string; //max length 512
-  updatedAt: Date | string;
-  createdAt: Date | string;
+  answer: string | any; //max length 512
+  //updatedAt?: Date | string;
+  //createdAt?: Date | string;
+  compleateModel?: any;
+}
+
+export interface IPhones {
+  id: number;
+  phone: number;
+  countryCode: number;
+  type: string; //"MOB": Mobile phone | "TEL": Landline phone
+  client: any;
+  isWspMain: boolean;
+  //createdAt: number
+}
+export interface IPhoneSaving {
+  phone: number;
+  countryCode: number;
+  id?: number;
+  type: string;
+  isWspMain: boolean;
+  compleateNumber?: string;
+  //createdAt?: Date;
+  //updatedAt?: Date
 }
