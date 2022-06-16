@@ -118,12 +118,14 @@ export class GeneralSettings {
     if (this.m_generalSettingInfo?.phones!.length === 1) {
       if (this.m_generalSettingInfo?.phones![0].isWspMain) {
         this.m_generalSettingInfo!.phones![0].compleateNumber =
+          "+" +
           this.m_generalSettingInfo?.phones![0].countryCode.toString() +
           this.m_generalSettingInfo?.phones![0].phone.toString();
         this.m_generalSettingInfo!.phones!.push(emptyPhones);
       } else {
         this.m_generalSettingInfo!.phones!.unshift(emptyPhones);
         this.m_generalSettingInfo!.phones![1].compleateNumber =
+          "+" +
           this.m_generalSettingInfo!.phones![1].countryCode.toString() +
           this.m_generalSettingInfo!.phones![1].phone.toString();
       }
@@ -132,7 +134,8 @@ export class GeneralSettings {
         this.m_generalSettingInfo!.phones!.map((e) => {
           return {
             phone: e.phone,
-            compleateNumber: e.countryCode.toString() + e.phone.toString(),
+            compleateNumber:
+              "+" + e.countryCode.toString() + e.phone.toString(),
             type: e.type,
             countryCode: e.countryCode,
             isWspMain: e.isWspMain,

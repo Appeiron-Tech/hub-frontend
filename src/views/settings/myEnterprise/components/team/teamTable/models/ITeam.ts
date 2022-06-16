@@ -20,6 +20,7 @@ export interface ITeamSave {
   phoneType?: string;
   storeId?: number;
   countryCode?: number;
+  compleateNumber?: string;
 }
 
 export interface ITeamUpdate {
@@ -33,7 +34,12 @@ export interface ITeamUpdate {
   isActive?: boolean;
 }
 
-export interface ILocalOptions{
+export interface ILocalOptions {
   id: number;
-  label: string
+  label: string;
+}
+
+export interface IJobTitle {
+  code: string;
+  title: string;
 }

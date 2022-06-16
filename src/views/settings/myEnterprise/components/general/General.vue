@@ -320,7 +320,6 @@ watch(
 .pointer-cursor {
   cursor: pointer;
 }
-
 @media (min-width: 700px) {
   .gallery {
     display: grid;

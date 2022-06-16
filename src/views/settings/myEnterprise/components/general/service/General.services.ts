@@ -13,4 +13,5 @@ export default class GeneralService extends ApiService {
   async updateClient(p_client: any, id: number){
     return await this.patch(`/${id}`, p_client);
   }
+
 }

@@ -1,5 +1,4 @@
-import type {ITeam} from "@/views/settings/myEnterprise/components/team/teamTable/models/ITeam";
-
+import type { ITeam } from "@/views/settings/myEnterprise/components/team/teamTable/models/ITeam";
 
 export interface IStore {
   id: number;
@@ -17,6 +16,7 @@ export interface IStore {
   country?: string;
   phones?: Array<IPhone>;
   workers?: Array<ITeam>;
+  compleateNumber?: string;
 }
 
 export interface IStoreSave {
@@ -32,6 +32,7 @@ export interface IStoreSave {
   isOpenAlways: boolean;
   phones?: Array<IPhone>;
   cityId?: number;
+  compleateNumber?: string;
 }
 
 interface IAddressComponent {
@@ -52,9 +53,9 @@ export interface ICountry {
   image: string;
 }
 
-export interface IPosition{
+export interface IPosition {
   position: {
     lat: number;
     lng: number;
-  }
+  };
 }

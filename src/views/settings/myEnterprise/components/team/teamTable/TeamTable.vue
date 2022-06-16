@@ -20,16 +20,22 @@
               <td>{{ props.collaborator.email }}</td>
             </tr>
             <tr>
-              <td>Rol</td>
+              <td>Job Title</td>
               <td>{{ props.collaborator.jobTitle }}</td>
             </tr>
             <tr>
               <td>Phone</td>
-              <td>{{ props.collaborator.phone }}</td>
+              <td>
+                {{
+                  `+${props.collaborator.countryCode} ${props.collaborator.phone}`
+                }}
+              </td>
             </tr>
             <tr>
-              <td>Creacion</td>
-              <td>{{ props.collaborator.createdAt }}</td>
+              <td>Fecha de alta</td>
+              <td>
+                {{ creationDate }}
+              </td>
             </tr>
           </tbody>
         </q-markup-table>
@@ -79,6 +85,22 @@ const editCollaborator = () => {
 function removeCollaborator() {
   teamController.removeCollaborator(props.collaborator.id);
 }
+
+const thumbStyle = {
+  right: "2px",
+  borderRadius: "5px",
+  backgroundColor: "#027be3",
+  width: "5px",
+  opacity: "0.75",
+};
+
+const contentStyle = {
+  backgroundColor: "#fff",
+  color: "#000000",
+};
+
+let formatedDate = new Date(props.collaborator.createdAt);
+const creationDate = `${formatedDate.getDay()}/${formatedDate.getMonth()}/${formatedDate.getFullYear()}`;
 </script>
 <style scoped>
 .cardContainer {
@@ -90,6 +112,20 @@ function removeCollaborator() {
   border-radius: 20px;
   max-width: 70vw;
   margin: 10px auto;
+}
+.scroll-area {
+  height: 20vh;
+  color: #fff;
+}
+.cardContainer:hover {
+  display: flex !important;
+  box-shadow: 0 50px 10px rgba(56, 59, 68, 0.05), 0 15px 40px rgba(7, 7, 7, 0.2);
+  padding: 40px;
+  background: #fff;
+  border-radius: 20px;
+  max-width: 70vw;
+  margin: 10px auto;
+  transform: translateY(-5px);
 }
 .info-cnt {
   flex-grow: 10 !important;

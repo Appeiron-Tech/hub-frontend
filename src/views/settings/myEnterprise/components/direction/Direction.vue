@@ -15,7 +15,6 @@
           :thumb-style="thumbStyle"
           :content-style="contentStyle"
           class="scroll-area-for-modal"
-          visible
         >
           <button class="close" @click="opened = false">x</button>
           <h3 style="font-size: large">{{ modalStoreTitle }}</h3>
@@ -24,7 +23,7 @@
               <q-input
                 outlined
                 v-model="newStore.store"
-                label="Nombre de la tienda"
+                :label="translate('direction-form-name')"
               />
             </div>
             <div class="col-lg-6 col-xs-12 col-sm-12">
@@ -40,63 +39,71 @@
             outlined
             v-model="newStore.description"
             type="textarea"
-            label="Descripcion"
+            :label="translate('direction-form-description')"
+            style="height: 150px; margin-top: 15px"
           />
           <q-toggle
             v-model="newStore.isMain"
             checked-icon="check"
             color="green"
-            label="Is main"
+            :label="translate('direction-form-is-main')"
             unchecked-icon="close"
           />
           <q-toggle
             v-model="newStore.isOpenAlways"
             checked-icon="check"
             color="green"
-            label="Is open always"
+            :label="translate('direction-form-open-always')"
             unchecked-icon="close"
           />
           <br />
 
           <q-card style="max-height: 260px">
             <div class="row" style="gap: 5px">
-              <div class="col-lg-3 col-xs-12 col-sm-12">
+              <div class="col-lg-5 col-xs-12 col-sm-12">
+                <vue-tel-input
+                  style="height: 55px; margin-right: 5px"
+                  autoDefaultCountry
+                  v-model="newStore.compleateNumber"
+                  :inputOptions="{
+                    placeholder: 'Telefono',
+                  }"
+                ></vue-tel-input>
+              </div>
+              <div class="col-lg-4 col-xs-12 col-sm-12">
+                <q-select
+                  outlined
+                  v-model="newStore.phones[0].type"
+                  :options="phoneTypes"
+                  label="Tipo de telefono"
+                  emit-value
+                  map-options
+                />
+              </div>
+              <div
+                class="col-lg-2 col-xs-12 col-sm-12 tooltip"
+                style="margin-right: 10px"
+                v-if="newStore.phones[0].type !== 'TEL'"
+              >
+                <q-icon
+                  name="fab fa-whatsapp"
+                  class="pointer-cursor"
+                  size="1.5rem"
+                />
                 <q-toggle
                   v-model="newStore.phones[0].isWspMain"
                   checked-icon="check"
                   color="green"
-                  label="Is WhatsApp Main"
                   unchecked-icon="close"
-                />
-              </div>
-              <div class="col-lg-3 col-xs-12 col-sm-12">
-                <q-input
-                  outlined
-                  v-model="newStore.phones[0].phone"
-                  label="Numero"
-                  :rules="[
-                    (val) =>
-                      val.length >= 7 || 'Please use minumin 7 characters',
-                  ]"
-                />
-              </div>
-              <div class="col-lg-2 col-xs-5 col-sm-5">
-                <q-input
-                  outlined
-                  v-model="newStore.phones[0].countryCode"
-                  label="Country code"
-                  :rules="[
-                    (val) => val.length === 2 || 'Please use 2 characters',
-                  ]"
-                />
-              </div>
-              <div class="col-lg-2 col-xs-5 col-sm-5">
-                <q-select
-                  outlined
-                  v-model="newStore.phones[0].type"
-                  :options="['MOB', 'TEL']"
-                  label="Tipo de telefono"
-                />
+                >
+                </q-toggle>
+                <q-tooltip
+                  class="bg-purple text-body2"
+                  :offset="[10, 10]"
+                  transition-show="scale"
+                  transition-hide="scale"
+                  >{{ translate("direction-form-icon-tooltip") }}
+                </q-tooltip>
               </div>
             </div>
 
@@ -110,7 +117,7 @@
                 v-if="isStoreBeingEdited"
                 filled
                 v-model="newStore.address"
-                label="Filled"
+                :label="translate('direction-form-address')"
                 disable
               />
             </div>
@@ -166,7 +173,6 @@
       >
         <GMapCluster>
           <GMapMarker
-            class="sddsdsdsd"
             :key="index"
             v-for="(m, index) in directionController.markers"
             :position="m.position"
@@ -189,14 +195,20 @@
 //LINK https://vue-map.netlify.app/components/marker.html
 //LINk: https://developers.google.com/maps/documentation/javascript/places-autocomplete
 //
-import type { Ref } from "vue";
+import { watch, type Ref } from "vue";
 import { reactive, ref } from "vue";
 import directionController from "@/views/settings/myEnterprise/components/direction/direction";
 import { getDistanciaMetros } from "@/utils/distances";
-import type {IPosition, IStore, IStoreSave} from "@/views/settings/myEnterprise/components/direction/IDirection";
+import type {
+  IPosition,
+  IStore,
+  IStoreSave,
+} from "@/views/settings/myEnterprise/components/direction/IDirection";
 import PhoneModal from "@/views/settings/myEnterprise/components/direction/components/PhoneModal.vue";
-import SingleStoreInformation
-  from "@/views/settings/myEnterprise/components/direction/components/SingleStoreInformation.vue";
+import SingleStoreInformation from "@/views/settings/myEnterprise/components/direction/components/SingleStoreInformation.vue";
+import ModalFormVue from "./components/modalForm.vue";
+import { translate } from "@/plugins/i18n/i18n";
+import { createWarnNotification } from "@/utils/notifications";
 //
 directionController.loadInfo();
 const zoomMap: Ref<number> = ref(
@@ -241,7 +253,10 @@ function defineZoom() {
 const selecStore = (p_marker: IPosition) => {
   directionController.centerMap = Object.assign(
     {},
-    { lat: parseFloat(String(p_marker.position.lat)),  lng: parseFloat(String(p_marker.position.lng)) }
+    {
+      lat: parseFloat(String(p_marker.position.lat)),
+      lng: parseFloat(String(p_marker.position.lng)),
+    }
   );
   zoomMap.value = 17;
 };
@@ -263,8 +278,8 @@ const setPlace = (e: any) => {
 // //******  MODAL NEW STORE     ***********************
 // //***************************************************
 // LINK: https://www-npmjs-com.translate.goog/package/vue3-country-intl?_x_tr_sl=auto&_x_tr_tl=es&_x_tr_hl=es
-const selectedCountry = () => {
-};
+const selectedCountry = () => {};
+const isNewStore = ref(false);
 const countryOptions = reactive([
   { country: "Perú", iso: "pe", label: "Perú" },
   { country: "España", iso: "es", label: "España" },
@@ -273,6 +288,7 @@ const countryModel = ref("");
 const modalStoreTitle: Ref<string> = ref("Nueva Tienda");
 const openModal = () => {
   modalStoreTitle.value = "Nueva Tienda";
+  isNewStore.value = true;
   newStore.store = "";
   newStore.address = "";
   newStore.cityId = 0;
@@ -281,35 +297,48 @@ const openModal = () => {
   newStore.description = "";
   newStore.latitude = 0;
   newStore.longitude = 0;
+  newStore.compleateNumber = "";
   opened.value = true;
   newStore?.phones?.push({
-    phone : '',
+    phone: "",
     isWspMain: false,
-    countryCode : '',
-    type: ''
-  })
+    countryCode: "",
+    type: "",
+  });
 };
+
+const phoneTypes: Array<{ label: string; value: string }> = [
+  {
+    label: translate("global-phone-mobile"),
+    value: "MOB",
+  },
+  {
+    label: translate("global-phone-tel"),
+    value: "TEL",
+  },
+];
 
 const editExistingStore = (store: IStore) => {
   isStoreBeingEdited.value = true;
   newStore.id = store.id;
   modalStoreTitle.value = "Editar tienda: " + store.store;
+  isNewStore.value = false;
   newStore.store = store.store;
   newStore.description = store.description;
   newStore.latitude = store.latitude;
   newStore.address = store.address;
+  newStore.compleateNumber = store.compleateNumber;
   newStore.longitude = store.longitude;
   newStore.isMain = store.isMain;
   newStore.isOpenAlways = store.isOpenAlways;
-  if (store.phones?.length === 0){
+  if (store.phones?.length === 0) {
     newStore?.phones?.push({
-      phone : '',
+      phone: "",
       isWspMain: false,
-      countryCode : '',
-      type: ''
-    })
-  }
-  else{
+      countryCode: "",
+      type: "",
+    });
+  } else {
     newStore.phones = store.phones;
   }
   opened.value = true;
@@ -331,18 +360,25 @@ let newStore: IStoreSave = reactive({
   longitude: 0,
   isOpenAlways: false,
   cityId: 0,
-  phones: []
+  phones: [],
 });
 const opened = ref(false);
 
 const saveStore = () => {
   //newStore.country = countryModel.value;
-  if (modalStoreTitle.value === "Nueva Tienda") {
-    directionController.saveOrEditNewStore(newStore, true);
-  } else {
-    directionController.saveOrEditNewStore(newStore, false);
+  if (newStore.phones) {
+    newStore.phones[0].countryCode = newStore.compleateNumber?.split(" ")[0]!;
+    newStore.phones[0].phone = newStore.compleateNumber
+      ?.split(" ")
+      .slice(1)
+      .join("")!;
+
+    if (newStore.phones[0].type === "TEL") {
+      newStore.phones[0].isWspMain = false;
+    }
   }
 
+  directionController.saveOrEditNewStore(newStore, isNewStore.value);
   opened.value = false;
 };
 
@@ -352,13 +388,25 @@ const thumbStyle = {
   backgroundColor: "#027be3",
   width: "5px",
   opacity: "0.75",
-
 };
 
 const contentStyle = {
   backgroundColor: "#fff",
   color: "#000000",
 };
+
+watch(
+  () => newStore.phones,
+  () => {
+    if (newStore.phones) {
+      if (newStore.phones?.filter((e) => (e.isWspMain = true)).length > 1)
+        createWarnNotification(
+          "WhatsApp For more than one mobile is not posible"
+        );
+    }
+  },
+  { immediate: true, deep: true }
+);
 </script>
 
 <style scoped>
@@ -410,6 +458,9 @@ const contentStyle = {
 
 .item-store-active {
   background-color: aqua;
+}
+.tooltip:hover {
+  cursor: help;
 }
 
 @media (min-width: 1300px) {

@@ -104,5 +104,16 @@
   "toolbar-logout": "Log out",
   "toolbar-settings": "Settings",
   "toolbar-settings-dropdown": "Account settings",
-  "toolbar-settings-enterprise": "My company"
+  "toolbar-settings-enterprise": "My company",
+
+  "global-phone-mobile": "Mobile",
+  "global-phone-tel": "Landing Phone",
+
+  "direction-form-is-main": "is Main",
+  "direction-form-open-always": "Is open Always",
+  "direction-form-is-whatsapp-main": "Is WhatsApp Main",
+  "direction-form-address": "Address",
+  "direction-form-description": "Description",
+  "direction-form-name": "Store name",
+  "direction-form-icon-tooltip": "Number will be used as WhatsApp Business Number"
 }

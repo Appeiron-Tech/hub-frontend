@@ -106,5 +106,16 @@
   "calendar-abbr-september": "Sep",
   "calendar-abbr-october": "Oct",
   "calendar-abbr-november": "Nov",
-  "calendar-abbr-december": "Dic"
+  "calendar-abbr-december": "Dic",
+
+  "global-phone-mobile": "Movil",
+  "global-phone-tel": "Fijo",
+
+  "direction-form-is-main": "Tienda principal",
+  "direction-form-open-always": "Siempre abierto",
+  "direction-form-is-whatsapp-main": "Whatsapp principal",
+  "direction-form-address": "Dirección",
+  "direction-form-description": "Descripción",
+  "direction-form-name": "Nombre",
+  "direction-form-icon-tooltip": "El número será usado como el número principal de whatsapp del negocio"
 }
