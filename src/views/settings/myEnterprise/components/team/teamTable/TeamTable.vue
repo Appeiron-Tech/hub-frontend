@@ -34,7 +34,7 @@
             <tr>
               <td>Fecha de alta</td>
               <td>
-                {{ creationDate }}
+                {{ formatedDate.toLocaleDateString() }}
               </td>
             </tr>
           </tbody>
@@ -100,7 +100,6 @@ const contentStyle = {
 };
 
 let formatedDate = new Date(props.collaborator.createdAt);
-const creationDate = `${formatedDate.getDay()}/${formatedDate.getMonth()}/${formatedDate.getFullYear()}`;
 </script>
 <style scoped>
 .cardContainer {

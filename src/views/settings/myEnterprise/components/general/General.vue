@@ -26,6 +26,7 @@
                 <vue-tel-input
                   style="height: 55px; margin-right: 5px"
                   enabledCountryCode
+                  :defaultCountry="userCountry"
                   :inputOptions="{
                     placeholder: $t('general-number-wsp'),
                   }"
@@ -194,7 +195,6 @@ const app: Controller = injectStrict("appController");
 await generalSettings.loadInfo();
 
 const generalInfo = reactive(generalSettings.$m_generalSettingInfo);
-console.log("%c⧭", "color: #02ec35", generalInfo);
 
 const followers: Ref<number | null> = ref(null);
 const phoneTypes: Array<{ label: string; value: string }> = [
@@ -215,7 +215,6 @@ const availableLanguages =
 //************ */
 
 const saveInfo = () => {
-  console.log("%c⧭", "color: #99adcc", generalInfo + "  submitted");
   generalSettings.saveAnswers(generalInfo);
 };
 
@@ -262,7 +261,7 @@ for (let i = 0; i < questionSelectors.length; i++) {
   }
 }
 
-console.log("%c⧭", "color: #33cc99", generalInfo);
+const userCountry = app.user.m_profile?.country.substring(0, 2);
 
 const selectorChanged = (question: any, val: any) => {
   console.log("%c⧭", "color: #eeff00", val);
