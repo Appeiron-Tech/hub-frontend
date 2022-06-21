@@ -82,7 +82,10 @@
       >
         <q-scroll-area class="fit">
           <q-list padding>
-            <template v-for="(route, index) in routesToShow" :key="'for_' + index">
+            <template
+              v-for="(route, index) in routesToShow"
+              :key="'for_' + index"
+            >
               <q-item clickable :to="route.path">
                 <q-item-section avatar>
                   <q-icon :name="getRouteIcon(route.meta)" />
@@ -96,11 +99,16 @@
         </q-scroll-area>
       </q-drawer>
 
-      <q-page-container>
-        <q-page class="q-px-lg q-py-md page-cnt">
-          <router-view v-if="!app.loadingConfig" />
-        </q-page>
-      </q-page-container>
+      <Suspense>
+        <template #default>
+          <q-page-container>
+            <q-page class="page-cnt">
+              <router-view v-if="!app.loadingConfig" />
+            </q-page>
+          </q-page-container>
+        </template>
+        <template #fallback> cargando... </template>
+      </Suspense>
     </q-layout>
   </div>
 </template>
@@ -149,12 +157,12 @@ const routesToShow = Object.assign(
   routes.filter((e) => e.meta!.hide === false)
 );
 
-const getRouteIcon = (_routeMeta: RouteMeta | undefined): string | undefined => {
-  if (_routeMeta && typeof _routeMeta.icon == 'string')
-    return _routeMeta!.icon
-  return undefined
-}
-
+const getRouteIcon = (
+  _routeMeta: RouteMeta | undefined
+): string | undefined => {
+  if (_routeMeta && typeof _routeMeta.icon == "string") return _routeMeta!.icon;
+  return undefined;
+};
 </script>
 
 <style lang="sass" scoped>
