@@ -1,8 +1,7 @@
 import { createApp } from "vue";
 import { Quasar, Dialog, Notify } from "quasar";
-
 import App from "./App.vue";
-
+import HighchartsVue from 'highcharts-vue'
 // Plugins
 import router from "./plugins/router";
 import quasarUserOptions from "./plugins/quasar/quasar-user-options";
@@ -31,6 +30,8 @@ const app = createApp(App);
 app.use(router);
 app.use(Quasar, { plugins: { Dialog, Notify } }, quasarUserOptions);
 app.use(i18n);
+// @ts-ignore
+app.use(HighchartsVue)
 // @ts-ignore
 app.use(VueTelInput, globalOptions);
 app.use(VueGoogleMaps, {
