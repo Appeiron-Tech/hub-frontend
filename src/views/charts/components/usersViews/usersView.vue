@@ -2,11 +2,12 @@
   <Suspense>
     <template #default>
       <div>
-  <highcharts :options="chartOptions" ></highcharts>
-  <q-dialog v-model="userViewController.showDialog">
-    <selected-country />
-  </q-dialog>
-
+        <div >
+        <highcharts  :options="chartOptions"></highcharts>
+        <q-dialog v-model="userViewController.showDialog">
+          <selected-country/>
+        </q-dialog>
+      </div>
       </div>
     </template>
     <template #fallback>
@@ -17,7 +18,7 @@
 
 <script lang="ts" setup>
 import userViewController from "@/views/charts/components/usersViews/userView";
-import {defineProps, reactive, ref, watch} from "vue";
+import {reactive, watch} from "vue";
 import SelectedCountry from "@/views/charts/components/usersViews/components/selectedCountry.vue";
 
 //NOTE: This is the used library
@@ -30,7 +31,7 @@ watch(
   () => userViewController.getChartOptions(),
   () => {
     // chartOptions.series[0].data = userViewController.getChartOptions().series[0].data;
-    console.log('sdadasd',userViewController.getChartOptions());
+    console.log('sdadasd', userViewController.getChartOptions());
     chartOptions = userViewController.getChartOptions();
   },
   {immediate: true, deep: true}

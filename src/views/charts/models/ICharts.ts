@@ -6,7 +6,7 @@ export interface IAnalyticsResponse {
 }
 
 export interface ICountryResults {
-  country: string
+  name: string
   pageViews: string
   sessions: string
   users: string
@@ -20,5 +20,22 @@ interface IAnalyticsChart {
   country: string;
   pageViews: number;
 }
+
+
+export interface IAnalyticsCountryRegionResponse {
+  pageViews: string
+  sessions: string
+  users: string
+  data: IRegionResults
+}
+
+
+export interface IRegionResults {
+  country: string
+  regions: ICountryResults[]
+}
+
+
+
 
 
