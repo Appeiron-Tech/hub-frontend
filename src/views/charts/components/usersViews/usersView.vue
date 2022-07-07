@@ -2,42 +2,34 @@
   <Suspense>
     <template #default>
       <div>
-        <div >
-        <highcharts  :options="chartOptions"></highcharts>
-        <q-dialog v-model="userViewController.showDialog">
-          <selected-country/>
-        </q-dialog>
-      </div>
+        <div>
+          <highcharts :options="chartOptions"></highcharts>
+          <q-dialog v-model="userViewController.showDialog">
+            <selected-country />
+          </q-dialog>
+        </div>
       </div>
     </template>
     <template #fallback>
-      <h5>cargando</h5>
+      <ListSkeleton />
     </template>
   </Suspense>
 </template>
 
 <script lang="ts" setup>
 import userViewController from "@/views/charts/components/usersViews/userView";
-import {reactive, watch} from "vue";
+import { toRef } from "vue";
 import SelectedCountry from "@/views/charts/components/usersViews/components/selectedCountry.vue";
+import ListSkeleton from "../../../../components/skeletons/ListSkeleton.vue";
 
 //NOTE: This is the used library
 //LINK: https://www.npmjs.com/package/highcharts-vue
 
+const props = defineProps<{
+  chartOpt: any;
+}>();
 
-await userViewController.loadInfo();
-let chartOptions = reactive(userViewController.getChartOptions());
-watch(
-  () => userViewController.getChartOptions(),
-  () => {
-    // chartOptions.series[0].data = userViewController.getChartOptions().series[0].data;
-    console.log('sdadasd', userViewController.getChartOptions());
-    chartOptions = userViewController.getChartOptions();
-  },
-  {immediate: true, deep: true}
-);
+const chartOptions = toRef(props, "chartOpt");
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -1,28 +1,34 @@
 <template>
-    <q-card class="selectedCountry" >
-      <highcharts :options="chartOptions" ref="lineCharts"></highcharts>
+  <q-card class="selectedCountry">
+    <highcharts :options="chartOptions" ref="lineCharts"></highcharts>
 
-      <q-card-actions align="right">
-        <q-btn flat label="OK" color="primary" v-close-popup @click="closeDialog" />
-      </q-card-actions>
-    </q-card>
-
-
+    <q-card-actions align="right">
+      <q-btn
+        flat
+        label="OK"
+        color="primary"
+        v-close-popup
+        @click="closeDialog"
+      />
+    </q-card-actions>
+  </q-card>
 </template>
 
 <script lang="ts" setup>
 import userViewController from "@/views/charts/components/usersViews/userView";
 
 userViewController.showLoadingAnimation = false;
-const selectedCountryData = userViewController.analyticsInformationForSelectedCountry!.data.regions.map(
-  e => {
-    return [e.name, Number(e.pageViews)]
-  }
-)
+const selectedCountryData =
+  userViewController.analyticsInformationForSelectedCountry!.data.regions.map(
+    (e) => {
+      return [e.name, Number(e.pageViews)];
+    }
+  );
 
-const  chartOptions= {
+const chartOptions = {
   title: {
-    text: userViewController.analyticsInformationForSelectedCountry!.data.country
+    text: userViewController.analyticsInformationForSelectedCountry!.data
+      .country,
   },
   chart: {
     type: "bar",
@@ -33,7 +39,7 @@ const  chartOptions= {
       text: null,
     },
     min: 0,
-    max: selectedCountryData.length -1,
+    max: selectedCountryData.length - 1,
     scrollbar: {
       enabled: true,
     },
@@ -41,7 +47,12 @@ const  chartOptions= {
   },
   yAxis: {
     min: 0,
-    max: Number(userViewController.analyticsInformationForSelectedCountry!.pageViews) > 5 ? '5' : userViewController.analyticsInformationForSelectedCountry!.pageViews ,
+    max:
+      Number(
+        userViewController.analyticsInformationForSelectedCountry!.pageViews
+      ) > 5
+        ? "5"
+        : userViewController.analyticsInformationForSelectedCountry!.pageViews,
     title: {
       text: "Views",
       align: "high",
@@ -64,18 +75,19 @@ const  chartOptions= {
     {
       name: "Views",
       data: selectedCountryData,
-      colorKey: 15
+      colorKey: 15,
     },
   ],
-}
+  colors: ["#f28f43", "#77a1e5", "#c42525", "#a6c96a"],
+};
 
-const closeDialog=() => {
+const closeDialog = () => {
   userViewController.showDialog = false;
-}
+};
 </script>
 
 <style scoped>
-.selectedCountry{
+.selectedCountry {
   width: 80vw;
 }
 </style>

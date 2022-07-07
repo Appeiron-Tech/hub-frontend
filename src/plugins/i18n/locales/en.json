@@ -74,5 +74,11 @@
 	"calendar-abbr-september"	: "Sep",
 	"calendar-abbr-october"		: "Oct",
 	"calendar-abbr-november"	: "Nov",
-	"calendar-abbr-december"	: "Dec"
+	"calendar-abbr-december"	: "Dec",
+
+	"my-page-business-name": "Business name",
+	"my-page-description": "Description",
+	"my-page-show-whatsApp-contact": "Show WhatsApp contact",
+	"my-page-change-logo": "Change logo",
+	"ma-page-change-cover": "Change cover"
 }

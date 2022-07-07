@@ -10,7 +10,7 @@
       class="absolute all-pointer-events logo-icon"
       size="32px"
       name="info"
-      color="black"
+      color="blue-grey-10"
     ></q-icon>
     <q-tooltip
       class="bg-indigo"
@@ -29,10 +29,10 @@
     src="@/assets/no_image.jpg"
   >
     <q-icon
-      class="absolute all-pointer-events"
+      class="absolute all-pointer-events logo-icon"
       size="32px"
       name="info"
-      color="black"
+      color="blue-grey-10"
       style="top: 50%; left: 8px"
     ></q-icon>
     <q-tooltip
@@ -58,14 +58,12 @@ const props = defineProps<{
   cursor: pointer;
 }
 
-.logo-icon:hover {
-  top: 50%;
-  left: 50%;
-  bottom: 50%;
-  right: 50%;
-}
-
 .logo-icon {
-  display: none !important;
+  color: darkgray;
+  visibility: hidden;
+}
+.logo-icon:hover {
+  color: darkgray;
+  visibility: visible;
 }
 </style>

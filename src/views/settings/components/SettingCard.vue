@@ -39,7 +39,9 @@ import type {Controller} from "@/controller/Controller";
 import {injectStrict} from "@/utils/injections";
 import {ref} from "vue";
 import type {ITenancies} from "@/models/user/IUser";
+import { translate } from "@/plugins/i18n/i18n";
 const app: Controller = injectStrict("appController");
+
 
 const userEmail: Ref<string | undefined> = ref( app.user.m_profile?.email!)
 const userName: Ref<string | undefined> = ref( app.user.m_profile?.userName!)

@@ -1,14 +1,25 @@
 <template>
-  <q-btn round class="color-btn" />
+  <q-btn round class="color-btn" @click="selectColor">
+    <q-icon v-if="props.color.selected" name="check" />
+  </q-btn>
 </template>
 
 <script lang="ts" setup>
-const props = defineProps<{
-  color: string;
-}>();
-const color = props.color;
+import type { IColor } from "../models/IMyPage";
+import myPageController from "../MyPage";
 
-console.log("%c⧭", "color: #00a3cc", props);
+const props = defineProps<{
+  color: IColor;
+}>();
+const color = props.color.color;
+
+const emits = defineEmits<{
+  (e: "colorSelected", color: IColor): void;
+}>();
+
+function selectColor() {
+  emits("colorSelected", props.color);
+}
 </script>
 <style scoped>
 .color-btn {

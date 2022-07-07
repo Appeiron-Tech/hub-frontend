@@ -19,14 +19,14 @@
               @change="onFileSelectedForLogo"
             />
             <ClientImage
-              style="max-height: 200px"
+              style="max-height: 300px"
               :image-url="myPageInfo.cover!"
-              :tooltip-msg="'Cambiar Cover'"
+              :tooltip-msg="translate('ma-page-change-cover')"
               @click="$refs.fileInputCover.click()"
             /><ClientImage
               class="logo-imgage"
               :image-url="myPageInfo.logo!"
-              :tooltip-msg="'Cambiar Logo'"
+              :tooltip-msg="translate('my-page-change-logo')"
               @click="$refs.fileInputLogo.click()"
             />
             <q-btn color="teal" class="btn-temas" @click="openDialog">
@@ -41,7 +41,7 @@
             <q-input
               outlined
               v-model="myPageInfo.tenancyName"
-              label="Nombre del negocio"
+              :label="translate('my-page-business-name')"
               class="business-name"
             />
           </div>
@@ -63,7 +63,7 @@
               outlined
               autogrow
               color="green-8"
-              label="descipcion"
+              :label="translate('my-page-description')"
             />
             <br />
             <q-toggle
@@ -72,7 +72,7 @@
               color="green"
               left-label
               style="font-weight: bold"
-              label="Show whatsApp contact"
+              :label="translate('my-page-show-whatsApp-contact')"
               unchecked-icon="clear"
             />
             <br />
@@ -122,14 +122,15 @@ import MyPageController from "./MyPage";
 import ClientImage from "./components/ClientImage.vue";
 import { ref } from "vue";
 import Theme from "./components/Theme.vue";
+import { translate } from "@/plugins/i18n/i18n";
 
 const showDialog = ref(false);
 const app: Controller = injectStrict("appController");
 let formData = new FormData();
 await myPageController.loadInfo();
 const myPageInfo = Object.assign({}, myPageController.$clientInformation);
+//TODO: change this tmp variable
 const tmp = true;
-console.log("%c⧭", "color: #f27999", myPageController.$clientInformation);
 
 const openDialog = () => {
   showDialog.value = !showDialog.value;
@@ -184,7 +185,7 @@ const onFileSelectedForLogo = (event: any) => {
   max-width: 300px;
 }
 
-@media (width < 800px) {
+@media (width < 1023px) {
   .business-name {
     position: relative;
     left: calc(80% - 250px);
@@ -197,11 +198,11 @@ const onFileSelectedForLogo = (event: any) => {
     border-radius: 5%;
     left: 10px;
     top: calc(100vh - 30vh);
-    right: 15px;
+    right: 55px;
   }
 }
 
-@media (width >= 800px) {
+@media (width >= 1023px) {
   .btn-temas {
     position: relative;
     border-radius: 5%;
