@@ -60,7 +60,7 @@
 
           <q-card style="max-height: 260px">
             <div class="row" style="gap: 5px">
-              <div class="col-lg-3 col-xs-12 col-sm-12">
+              <div v-if="newStore.phones && newStore.phones[0]" class="col-lg-3 col-xs-12 col-sm-12">
                 <q-toggle
                   v-model="newStore.phones[0].isWspMain"
                   checked-icon="check"
@@ -69,7 +69,7 @@
                   unchecked-icon="close"
                 />
               </div>
-              <div class="col-lg-3 col-xs-12 col-sm-12">
+              <div v-if="newStore.phones && newStore.phones[0]" class="col-lg-3 col-xs-12 col-sm-12">
                 <q-input
                   outlined
                   v-model="newStore.phones[0].phone"
@@ -80,7 +80,7 @@
                   ]"
                 />
               </div>
-              <div class="col-lg-2 col-xs-5 col-sm-5">
+              <div v-if="newStore.phones && newStore.phones[0]" class="col-lg-2 col-xs-5 col-sm-5">
                 <q-input
                   outlined
                   v-model="newStore.phones[0].countryCode"
@@ -90,7 +90,7 @@
                   ]"
                 />
               </div>
-              <div class="col-lg-2 col-xs-5 col-sm-5">
+              <div v-if="newStore.phones && newStore.phones[0]" class="col-lg-2 col-xs-5 col-sm-5">
                 <q-select
                   outlined
                   v-model="newStore.phones[0].type"
