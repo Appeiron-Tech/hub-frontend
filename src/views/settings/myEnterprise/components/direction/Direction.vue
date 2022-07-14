@@ -190,13 +190,14 @@
 //LINk: https://developers.google.com/maps/documentation/javascript/places-autocomplete
 //
 import type { Ref } from "vue";
-import { reactive, ref } from "vue";
+import { inject, reactive, ref } from "vue";
 import directionController from "@/views/settings/myEnterprise/components/direction/direction";
 import { getDistanciaMetros } from "@/utils/distances";
 import type {IPosition, IStore, IStoreSave} from "@/views/settings/myEnterprise/components/direction/IDirection";
 import PhoneModal from "@/views/settings/myEnterprise/components/direction/components/PhoneModal.vue";
 import SingleStoreInformation
   from "@/views/settings/myEnterprise/components/direction/components/SingleStoreInformation.vue";
+import type { Controller } from "@/controller/Controller";
 //
 directionController.loadInfo();
 const zoomMap: Ref<number> = ref(

@@ -65,22 +65,37 @@
         </div>
 
         <div class="cardContainer col-xl-10 col-md-10 col-sm-12">
-          <DeviceConecctions />
+          <DevicesManager :chart-information="userViewController.chartAudienceDevices" />
+        </div>
+
+        <div class="cardContainer col-xl-10 col-md-10 col-sm-12">
+          <ReturningManager :chart-information="userViewController.chartAudienceTypes" />
+        </div>
+        <div class="cardContainer col-xl-10 col-md-10 col-sm-12">
+         <AudiencePerDayController />
         </div>
       </div>
     </template>
     <template #fallback>
-      <UiCardSkeleton />
+      <div>
+        <h6>Cargando...</h6>
+        <UiCardSkeleton />
+      </div>
+
     </template>
   </Suspense>
 </template>
 
 <script lang="ts" setup>
-import UsersView from "@/views/charts/components/usersViews/usersView.vue";
+import UsersView from "@/views/charts/components/usersViews/components/usersView.vue";
 import { reactive, ref, watch } from "vue";
 import DeviceConecctions from "./components/usersViews/components/deviceConecctions.vue";
-import userViewController from "./components/usersViews/userView";
+import userViewController from "./chartsController";
 import UiCardSkeleton from "../../components/skeletons/UiCardSkeleton.vue";
+import ReturningManager from "@/views/charts/components/ReturningManager.vue";
+import DevicesManager from "@/views/charts/components/DevicesManager.vue";
+import AudiencePerDay from "@/views/charts/components/usersViews/components/AudiencePerDay.vue";
+import AudiencePerDayController from "@/views/charts/components/AudiencePerDayController.vue";
 
 await userViewController.loadInfo();
 const tabSelectedForUserView = ref("views");

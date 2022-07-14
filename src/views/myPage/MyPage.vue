@@ -2,6 +2,7 @@
   <Suspense>
     <template #default>
       <div class="">
+
         <div class="row">
           <div class="col-12 cover">
             <input
@@ -20,12 +21,13 @@
             />
             <ClientImage
               style="max-height: 300px"
-              :image-url="myPageInfo.cover!"
+              :image-url="myPageInfo.cover"
               :tooltip-msg="translate('ma-page-change-cover')"
               @click="$refs.fileInputCover.click()"
             /><ClientImage
               class="logo-imgage"
-              :image-url="myPageInfo.logo!"
+
+              :image-url="myPageInfo.logo"
               :tooltip-msg="translate('my-page-change-logo')"
               @click="$refs.fileInputLogo.click()"
             />
@@ -106,6 +108,13 @@
         <q-dialog v-model="showDialog">
           <Theme />
         </q-dialog>
+        <q-dialog v-model="showDialogForImageCroppingLogo">
+        <ImageCropper :image-src="imageForCropping" @image-saved="imageCroppedLogo" />
+        </q-dialog>
+        <q-dialog v-model="showDialogForImageCroppingCover">
+          <RectangleImageCropper :image-src="imageForCropping" @image-saved="imageCroppedCover" />
+        </q-dialog>
+        <br>
       </div>
     </template>
     <template #fallback>
@@ -123,12 +132,22 @@ import ClientImage from "./components/ClientImage.vue";
 import { ref } from "vue";
 import Theme from "./components/Theme.vue";
 import { translate } from "@/plugins/i18n/i18n";
+import ImageCropper from "@/views/myPage/components/ImageCropper.vue";
+import RectangleImageCropper from "@/views/myPage/components/RectangleImageCropper.vue";
 
 const showDialog = ref(false);
+const showDialogForImageCroppingLogo = ref(false);
+const showDialogForImageCroppingCover = ref(false);
 const app: Controller = injectStrict("appController");
+const imageForCropping = ref('');
 let formData = new FormData();
 await myPageController.loadInfo();
 const myPageInfo = Object.assign({}, myPageController.$clientInformation);
+const coverImageMetadata = new Image();
+coverImageMetadata.src = myPageInfo.cover!;
+const coverHeight: number = coverImageMetadata.height;
+const userId = myPageInfo.id;
+console.log({userId})
 //TODO: change this tmp variable
 const tmp = true;
 
@@ -137,18 +156,30 @@ const openDialog = () => {
 };
 
 const onFileSelectedForCover = (event: any) => {
-  const selectedFile: string | Blob = event.target.files[0];
-  const formData = new FormData();
-  formData.append("image", selectedFile);
-  myPageController.changeImage(formData, true);
+  const selectedFile:  Blob = event.target.files[0];
+  const imgToCropper = new Image();
+  imgToCropper.src = URL.createObjectURL(selectedFile);
+  imageForCropping.value = imgToCropper.src;
+  showDialogForImageCroppingCover.value = true;
 };
 
 const onFileSelectedForLogo = (event: any) => {
-  const selectedFile: string | Blob = event.target.files[0];
-  const formData = new FormData();
-  formData.append("image", selectedFile);
-  myPageController.changeImage(formData, false);
+  const selectedFile:   Blob = event.target.files[0];
+  const imgToCropper = new Image();
+  imgToCropper.src = URL.createObjectURL(selectedFile);
+  imageForCropping.value = imgToCropper.src;
+  showDialogForImageCroppingLogo.value = true;
 };
+
+function imageCroppedLogo(p_formData: FormData) {
+  myPageController.changeImage(p_formData, userId, true);
+  showDialogForImageCroppingLogo.value = false;
+}
+
+function imageCroppedCover(p_formData: FormData) {
+  myPageController.changeImage(p_formData, userId, false);
+  showDialogForImageCroppingCover.value = false;
+}
 </script>
 
 <style scoped>
@@ -174,7 +205,6 @@ const onFileSelectedForLogo = (event: any) => {
   width: 250px;
   position: relative;
   top: -75px;
-  height: 200px;
   clip-path: circle();
   left: 40px;
 }

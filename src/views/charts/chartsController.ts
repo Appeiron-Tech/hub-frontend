@@ -6,6 +6,8 @@ import type {
   IAnalyticsResponse,
 } from "@/views/charts/models/ICharts";
 import { Loading, QSpinnerFacebook, QSpinnerGears, QSpinnerPie } from "quasar";
+import type { IAnalyticsAudienceGenResponse } from "@/views/charts/models/IAudienceTypes";
+import type { IAnalyticsViewsResponse } from "@/views/charts/models/IAnalyticsViews";
 
 export class UserViewController {
   containerId: string | undefined = undefined;
@@ -20,8 +22,22 @@ export class UserViewController {
     | undefined = undefined;
   private _showLoadingAnimation: boolean;
 
+  private _chartAudienceTypes: IAnalyticsAudienceGenResponse | undefined = undefined;
+  private _chartAudienceDevices:  IAnalyticsAudienceGenResponse | undefined = undefined;
+  private _chartGeneralAudience: IAnalyticsViewsResponse | undefined = undefined;
+
+
   constructor() {
     this._showLoadingAnimation = false;
+  }
+
+
+  get chartAudienceTypes(): IAnalyticsAudienceGenResponse | undefined {
+    return this._chartAudienceTypes;
+  }
+
+  set chartAudienceTypes(value: IAnalyticsAudienceGenResponse | undefined) {
+    this._chartAudienceTypes = value;
   }
 
   set AnalyticsInformationForSelectedCountry(
@@ -63,6 +79,23 @@ export class UserViewController {
     return this._showDialog;
   }
 
+
+  get chartGeneralAudience(): IAnalyticsViewsResponse | undefined {
+    return this._chartGeneralAudience;
+  }
+
+  set chartGeneralAudience(value: IAnalyticsViewsResponse | undefined) {
+    this._chartGeneralAudience = value;
+  }
+
+  get chartAudienceDevices(): IAnalyticsAudienceGenResponse | undefined {
+    return this._chartAudienceDevices;
+  }
+
+  set chartAudienceDevices(value: IAnalyticsAudienceGenResponse | undefined) {
+    this._chartAudienceDevices = value;
+  }
+
   get showLoadingAnimation(): boolean {
     return this._showLoadingAnimation;
   }
@@ -72,8 +105,21 @@ export class UserViewController {
   }
 
   async loadInfo() {
-    this._analyticsInformation =
-      await this.chartService.getUsersViewsByCountry();
+    /*this._analyticsInformation =
+      await this.chartService.getUsersViewsByCountry();*/
+
+    const responses = await Promise.all([
+      this.chartService.getUsersViewsByCountry(),
+      this.chartService.getUsersReturningTypes('2022-07-01'),
+      this.chartService.getUserDevices('2022-07-01'),
+      this.chartService.getGeneralStats('2022-05-24')
+    ])
+
+    this._analyticsInformation = responses[0];
+    this._chartAudienceTypes = responses[1];
+    this._chartAudienceDevices = responses[2];
+    this._chartGeneralAudience = responses[3];
+
     this._chartInformation = Object.assign(
       [],
       this._analyticsInformation.countries.map((e) => {
@@ -93,6 +139,8 @@ export class UserViewController {
         return [e.name, Number(e.users)];
       })
     );
+
+
   }
 
   getChartInformationByCategorie(categorySelected: string) {

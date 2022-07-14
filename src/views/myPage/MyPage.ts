@@ -3,17 +3,20 @@ import ClientService from "@/services/client.services";
 import { reactive } from "vue";
 import type { IColor } from "./models/IMyPage";
 import MyPageService from "./services/MyPage.services";
+import { createErrorNotification, createPositiveNotification } from "@/utils/notifications";
 
 class MyPageController {
   private clientService: ClientService = new ClientService();
   private clientInformation: IClient | undefined = undefined;
   private myPageService: MyPageService = new MyPageService();
-
-  constructor() {}
+  constructor() {
+  }
 
   async loadInfo() {
-    this.clientInformation = await this.clientService.getClientInformation();
+    this.clientInformation = structuredClone(await this.clientService.getClientInformation());
   }
+
+
 
   /**
    * Getter $clientInformation
@@ -31,10 +34,7 @@ class MyPageController {
     this.clientInformation = value;
   }
 
-  async changeImage(p_formdata: FormData, isCover: boolean) {
-    console.log("%c⧭", "color: #ff0000", "Image from controller", isCover);
-    await this.clientService.changeImage(p_formdata);
-  }
+
 
   async saveColor(
     primaryColors: Array<IColor>,
@@ -42,13 +42,26 @@ class MyPageController {
   ) {
     console.log("%c⧭", "color: #f200e2", "FROM CONTROLLER");
     console.log("%c⧭", "color: #f200e2", { primaryColors, secondaryColors });
-    const primaryColor = primaryColors.filter((e) => e.selected === true);
-    const secondaryColor = secondaryColors.filter((e) => e.selected === true);
-    this.myPageService.saveSelectedColors(
+    const primaryColor = primaryColors.filter((e) => e.selected);
+    const secondaryColor = secondaryColors.filter((e) => e.selected);
+    await this.myPageService.saveSelectedColors(
       primaryColor[0].color,
       secondaryColor[0].color
     );
     //TODO: backend communication
+  }
+
+  async changeImage(form: FormData, clientId: number, isLogo: boolean){
+   const response = await this.myPageService.saveImage(form, clientId, isLogo);
+   if(response.status.toString().startsWith('2')){
+      createPositiveNotification('Actualizado correctamente');
+      await this.loadInfo();
+   }
+   else{
+     createErrorNotification('Hubo un error al cambiar la imagen')
+     await this.loadInfo();
+    }
+   console.log('Response for image is: ', response);
   }
 }
 

@@ -35,6 +35,27 @@ export interface IRegionResults {
   regions: ICountryResults[]
 }
 
+export interface IAnalyticsAudienceData {
+  name: string
+  sessions: number
+  users: number
+  newUsers: number
+  bounceRate: number
+  viewsPerSession: number
+  avgSessionDuration: number
+}
+
+export interface IBasicResults {
+  name?: string
+  pageViews?: number
+  sessions?: number
+  users?: number
+  bounceRate?: number
+  sessionDuration?: number
+  date?: string
+}
+
+
 
 
 

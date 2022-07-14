@@ -12,3 +12,5 @@ export const API_LOGIN_BASE_URL: string = import.meta.env
 
 export const API_PUBLIC_BASE_URL: string = import.meta.env
   .VITE_APP_API_PUBLIC_PREFIX_BASE;
+
+export const API_WEB_BASE_URL: string = import.meta.env.VITE_APP_API_WEB_PREFIX_BASE;

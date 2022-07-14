@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts" setup>
-import userViewController from "@/views/charts/components/usersViews/userView";
+import userViewController from "@/views/charts/chartsController";
 
 userViewController.showLoadingAnimation = false;
 const selectedCountryData =

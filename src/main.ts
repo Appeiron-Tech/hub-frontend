@@ -1,7 +1,7 @@
 import { createApp } from "vue";
-import { Quasar, Dialog, Notify,Loading, QSpinnerGears} from "quasar";
+import { Quasar, Dialog, Notify, Loading, QSpinnerGears } from "quasar";
 import App from "./App.vue";
-import HighchartsVue from 'highcharts-vue'
+import HighchartsVue from "highcharts-vue";
 // Plugins
 import router from "./plugins/router";
 import quasarUserOptions from "./plugins/quasar/quasar-user-options";
@@ -12,10 +12,11 @@ import "vue-tel-input/dist/vue-tel-input.css";
 import VueGoogleMaps from "@fawmi/vue-google-maps";
 
 
+import "vue-advanced-cropper/dist/style.css";
 
 //TODO: uncomment this appController when working with backend
 // main Controllers
-import appController from '@/controller/Controller';
+import appController from "@/controller/Controller";
 
 // Style
 import "@/styles/base.css";
@@ -28,10 +29,14 @@ const globalOptions = {
 const app = createApp(App);
 
 app.use(router);
-app.use(Quasar, { plugins: { Dialog, Notify, Loading, QSpinnerGears } }, quasarUserOptions);
+app.use(
+  Quasar,
+  { plugins: { Dialog, Notify, Loading, QSpinnerGears } },
+  quasarUserOptions
+);
 app.use(i18n);
 // @ts-ignore
-app.use(HighchartsVue)
+app.use(HighchartsVue);
 // @ts-ignore
 app.use(VueTelInput, globalOptions);
 app.use(VueGoogleMaps, {
@@ -40,5 +45,5 @@ app.use(VueGoogleMaps, {
     libraries: "places",
   },
 });
-app.provide('appController', appController )
+app.provide("appController", appController);
 app.mount("#app");
