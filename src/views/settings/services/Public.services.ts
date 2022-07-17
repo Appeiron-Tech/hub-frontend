@@ -17,11 +17,7 @@ export default class PublicService extends ApiService {
     return await this.patch("/user/" + p_email, p_user);
   }
 
-  async editUserPrivacy(p_email: string, p_privacy: IPrivacy) {
-    return await this.patch(`/user/${p_email}/privacy`, p_privacy);
-  }
-
-  async editUserPhoto(p_email: string, p_formData: FormData) {
-    return await this.patch(`/user/upload/${p_email}`, p_formData);
+  async getClientQuestions(){
+    return await this.get("/client/questions");
   }
 }

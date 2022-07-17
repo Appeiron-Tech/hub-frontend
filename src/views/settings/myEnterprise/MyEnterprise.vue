@@ -1,95 +1,102 @@
 <template>
-  <div class="contains-all">
-    <div id="q-app" class="tabs-pos">
-      <q-tabs
-        v-model="tab"
-        align="justify"
-        narrow-indicator
-        active-color="pink-13"
-        active-bg-color="grey-1"
-        mobile-arrows
-        style="margin-left: -23px; margin-right: -22px; height: 60px"
-      >
-        <q-tab
-          icon="power_settings_new"
-          class="text-purple individual-tab generalTab aligment"
-          name="general"
-          :label="$t('my-enterprise-tab-general')"
-        ></q-tab>
-        <q-tab
-          icon="location_on"
-          class="text-blue individual-tab directionTab aligment"
-          name="direction"
-          :label="$t('my-enterprise-tab-direction')"
-        ></q-tab>
-        <q-tab
-          icon="schedule"
-          class="text-orange individual-tab horarioTab aligment"
-          name="horario"
-          :label="$t('my-enterprise-tab-schedule')"
-        ></q-tab>
-        <q-tab
-          icon="group_add"
-          class="text-teal individual-tab equipoTab aligment"
-          name="equipo"
-          :label="$t('my-enterprise-tab-team')"
-        ></q-tab>
-      </q-tabs>
-    </div>
+  <Suspense>
+    <template #default>
+      <div class="contains-all">
+        <div id="q-app" class="tabs-pos">
+          <q-tabs
+            v-model="tab"
+            align="justify"
+            narrow-indicator
+            active-color="pink-13"
+            active-bg-color="grey-1"
+            mobile-arrows
+            style="margin-left: -23px; margin-right: -22px; height: 60px"
+          >
+            <q-tab
+              icon="power_settings_new"
+              class="text-purple individual-tab generalTab aligment"
+              name="general"
+              :label="$t('my-enterprise-tab-general')"
+            ></q-tab>
+            <q-tab
+              icon="location_on"
+              class="text-blue individual-tab directionTab aligment"
+              name="direction"
+              :label="$t('my-enterprise-tab-direction')"
+            ></q-tab>
+            <q-tab
+              icon="schedule"
+              class="text-orange individual-tab horarioTab aligment"
+              name="horario"
+              :label="$t('my-enterprise-tab-schedule')"
+            ></q-tab>
+            <q-tab
+              icon="group_add"
+              class="text-teal individual-tab equipoTab aligment"
+              name="equipo"
+              :label="$t('my-enterprise-tab-team')"
+            ></q-tab>
+          </q-tabs>
+        </div>
 
-    <div id="q-app" class="forms-cont form-stl">
-      <div class="q-gutter-y-sm">
-        <q-tab-panels
-          v-model="tab"
-          animated
-          transition-prev="scale"
-          transition-next="scale"
-          class="text-white text-center firstTab"
-        >
-          <q-tab-panel name="general">
-            <General />
-          </q-tab-panel>
-        </q-tab-panels>
+        <div id="q-app" class="forms-cont form-stl">
+          <div class="q-gutter-y-sm">
+            <q-tab-panels
+              v-model="tab"
+              animated
+              transition-prev="scale"
+              transition-next="scale"
+              class="text-white text-center firstTab"
+            >
+              <q-tab-panel name="general">
+                <General />
+              </q-tab-panel>
+            </q-tab-panels>
 
-        <q-tab-panels
-          v-model="tab"
-          animated
-          transition-prev="fade"
-          transition-next="fade"
-          class="text-white text-center firstTab"
-        >
-          <q-tab-panel name="equipo">
-            <Team />
-          </q-tab-panel>
-        </q-tab-panels>
-        <q-tab-panels
-          v-model="tab"
-          animated
-          transition-prev="fade"
-          transition-next="fade"
-          class="text-white text-center firstTab"
-        >
-          <q-tab-panel name="direction">
-            <Direction />
-          </q-tab-panel>
-        </q-tab-panels>
+            <q-tab-panels
+              v-model="tab"
+              animated
+              transition-prev="fade"
+              transition-next="fade"
+              class="text-white text-center firstTab"
+            >
+              <q-tab-panel name="equipo">
+                <Team />
+              </q-tab-panel>
+            </q-tab-panels>
+            <q-tab-panels
+              v-model="tab"
+              animated
+              transition-prev="fade"
+              transition-next="fade"
+              class="text-white text-center firstTab"
+            >
+              <q-tab-panel name="direction">
+                <Direction />
+              </q-tab-panel>
+            </q-tab-panels>
 
-        <q-tab-panels
-          v-model="tab"
-          animated
-          transition-prev="jump-up"
-          transition-next="jump-down"
-          class="text-center firstTab"
-        >
-          <q-tab-panel name="horario">
-            <Suspense>
-              <Schedule />
-            </Suspense>
-          </q-tab-panel>
-        </q-tab-panels>
+            <q-tab-panels
+              v-model="tab"
+              animated
+              transition-prev="jump-up"
+              transition-next="jump-down"
+              class="text-center firstTab"
+            >
+              <q-tab-panel name="horario">
+                <Suspense>
+                  <Schedule />
+                </Suspense>
+              </q-tab-panel>
+            </q-tab-panels>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
+    </template>
+    <template #fallback>
+      <h3>Cargando</h3>
+    </template>
+  </Suspense>
 </template>
 
 <script setup lang="ts">

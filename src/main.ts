@@ -15,7 +15,7 @@ import VueGoogleMaps from "@fawmi/vue-google-maps";
 //LINK: (documentacion) https://animate.style/
 import "animate.css";
 
-
+//TODO: uncomment this appController when working with backend
 // main Controllers
 import appController from "@/controller/Controller";
 
@@ -23,8 +23,8 @@ import appController from "@/controller/Controller";
 import "@/styles/base.css";
 import { GOOGLE_MAPS_KEY } from "@/constants";
 const globalOptions = {
-  mode: "auto",
-  defaultCountry: 51,
+  mode: "international",
+  autoFormat: true
 };
 
 const app = createApp(App);

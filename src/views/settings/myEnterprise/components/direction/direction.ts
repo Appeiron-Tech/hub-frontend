@@ -43,6 +43,17 @@ export class DirectionController {
       [],
       await this._m_storeService.getAllStores()
     );
+
+    for (let i = 0; i < this._m_stores.length; i++) {
+      if (this._m_stores[i].phones) {
+        this._m_stores[i].compleateNumber =
+          "+" +
+          this._m_stores[i].phones![0].countryCode +
+          this._m_stores[i].phones![0].phone;
+      }
+    }
+
+    console.log("%c⧭", "color: #cc0036", this._m_stores);
     this._markers = Object.assign(
       [],
       this._m_stores.map((e) => {
@@ -92,7 +103,11 @@ export class DirectionController {
 
   async removeStore(p_store: IStore) {
     const response = await this._m_storeService.deleteStore(p_store.id);
-    this.showOperationNotification(response.status.toString(), 'Eliminado correctamente', 'Hubo un error');
+    this.showOperationNotification(
+      response.status.toString(),
+      "Eliminado correctamente",
+      "Hubo un error"
+    );
     await this.loadInfo();
   }
 

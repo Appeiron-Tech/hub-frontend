@@ -34,6 +34,39 @@
   "general-tab-form-followers-ig": "Cuántos seguidores en Instagram",
   "general-tab-form-food-app": "Apps de comida con la que trabajas",
   "general-tab-form-delivery": "Como envías el delivery",
+
+  "general-options-business-type-1": "Servicio en mesa o tradicional",
+  "general-options-business-type-2": "Servicio para llevar o Food Truck",
+  "general-options-business-type-3": "Servicio a domicilio o Cocina en Casa",
+  "general-options-business-type-4": "Hotel o lugar de arte y eventos",
+  "general-options-business-type-5": "Restaurante o bar",
+  "general-options-business-type-6": "Market place o Logistica de entrega",
+  "general-options-business-type-7": "Otro tipo de negocio",
+  "general-options-business-sell-1": "Comida",
+  "general-options-business-sell-2": "Bebidas",
+  "general-options-business-sell-3": "Comida y bebidas",
+  "general-options-business-sell-4": "Cervezas",
+  "general-options-business-sell-5": "Otro",
+  "general-options-customers-1": "1-50",
+  "general-options-customers-2": "50-100",
+  "general-options-customers-3": "100-500",
+  "general-options-customers-4": "500-1000",
+  "general-options-followers-1": "1-50",
+  "general-options-followers-2": "50-100",
+  "general-options-followers-3": "100-500",
+  "general-options-followers-4": "500-1000",
+  "general-options-followers-5": "1000-5000",
+  "general-options-followers-6": "5000-10000",
+  "general-options-delivery-type-1": "Un repartidor propio",
+  "general-options-delivery-type-2": "Un repartidor independiente",
+  "general-options-delivery-type-3": "Un repartidor de una empresa especializada",
+  "general-options-delivery-type-4": "Un repartidor de una app de comida",
+  "general-options-language-1": "Español",
+  "general-options-language-2": "Inglés",
+  "general-options-language-3": "Portugués",
+  "general-number-main": "Número principal",
+  "general-number-wsp": "Número de WhatsApp",
+
   "general-tab-clients-per-week": "Cuántos clientes por semana",
 
   "calendar-sunday": "Domingo",
@@ -78,6 +111,17 @@
   "calendar-abbr-november": "Nov",
   "calendar-abbr-december": "Dic",
 
+  "global-phone-mobile": "Movil",
+  "global-phone-tel": "Fijo",
+
+  "direction-form-is-main": "Tienda principal",
+  "direction-form-open-always": "Siempre abierto",
+  "direction-form-is-whatsapp-main": "Whatsapp principal",
+  "direction-form-address": "Dirección",
+  "direction-form-description": "Descripción",
+  "direction-form-name": "Nombre",
+  "direction-form-icon-tooltip": "El número será usado como el número principal de whatsapp del negocio"
+
   "settings-tittle": "Ajustes de cuenta",
   "settings-edit-btn": "Editar",
 	"settings-card-email": "Correo electrónico",
@@ -118,4 +162,5 @@
   "team-dialog-phone-number": "Número de teléfono",
   "team-dialog-phone-type": "Tipo de teléfono",
   "team-dialog-store-name": "Nombre de la tienda"
+
 }
