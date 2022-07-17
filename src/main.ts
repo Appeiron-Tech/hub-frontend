@@ -10,13 +10,14 @@ import i18n from "./plugins/i18n/i18n";
 // @ts-ignore
 import VueTelInput from "vue-tel-input";
 import "vue-tel-input/dist/vue-tel-input.css";
+//LINK: (documentacion) https://www.npmjs.com/package/vue-google-maps
 import VueGoogleMaps from "@fawmi/vue-google-maps";
+//LINK: (documentacion) https://animate.style/
+import "animate.css";
 
 
-
-//TODO: uncomment this appController when working with backend
 // main Controllers
-import appController from '@/controller/Controller';
+import appController from "@/controller/Controller";
 
 // Style
 import "@/styles/base.css";
@@ -39,5 +40,5 @@ app.use(VueGoogleMaps, {
     libraries: "places",
   },
 });
-app.provide('appController', appController )
+app.provide("appController", appController);
 app.mount("#app");

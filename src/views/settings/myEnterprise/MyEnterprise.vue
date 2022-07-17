@@ -83,7 +83,7 @@
         >
           <q-tab-panel name="horario">
             <Suspense>
-            <Schedule />
+              <Schedule />
             </Suspense>
           </q-tab-panel>
         </q-tab-panels>

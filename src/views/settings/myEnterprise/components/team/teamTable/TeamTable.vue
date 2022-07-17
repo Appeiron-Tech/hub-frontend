@@ -16,20 +16,30 @@
         >
           <tbody>
             <tr>
-              <td>Email</td>
+              <td>{{ $t("team-card-state") }}</td>
+              <td>{{ props.collaborator.isActive ? "Active" : "Inactive" }}</td>
+            </tr>
+            <tr>
+              <td>{{ $t("team-card-email") }}</td>
               <td>{{ props.collaborator.email }}</td>
             </tr>
             <tr>
-              <td>Rol</td>
+              <td>{{ $t("team-card-role") }}</td>
               <td>{{ props.collaborator.jobTitle }}</td>
             </tr>
             <tr>
-              <td>Phone</td>
+              <td>{{ $t("team-phone-number") }}</td>
               <td>{{ props.collaborator.phone }}</td>
             </tr>
             <tr>
-              <td>Creacion</td>
-              <td>{{ props.collaborator.createdAt }}</td>
+              <td>{{ $t("team-creation-time") }}</td>
+              <td>
+                {{
+                  formatDateToDayMonthYear(
+                    new Date(props.collaborator.createdAt)
+                  )
+                }}
+              </td>
             </tr>
           </tbody>
         </q-markup-table>
@@ -60,6 +70,7 @@
 </template>
 
 <script setup lang="ts">
+import { formatDateToDayMonthYear } from "@/utils/dates";
 import type { ITeam } from "./models/ITeam";
 import teamController from "./models/Team";
 

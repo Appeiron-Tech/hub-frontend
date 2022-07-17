@@ -6,7 +6,7 @@ export interface IProfile {
   lastName: string;
   language?: string;
   password: string;
-  photo_url: string | null;
+  photo: string | null;
   tenancies: Array<ITenancies>;
   country: string;
 }
@@ -28,5 +28,10 @@ export interface IProfileForEditing {
   userName: string;
   language?: string;
   rol?: string;
-  password?: string;
+}
+
+export interface IProfileForEditigCredentials {
+  oldPassword: string;
+  newPassword: string;
+  email?: string;
 }
