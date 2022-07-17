@@ -3,6 +3,8 @@ import axios from "axios";
 import { API_PREFIX_BASE } from "@/constants";
 import { createErrorNotification } from "@/utils/notifications";
 import tokenService from "@/services/tokenStorage/token.services";
+import { StatusCodes } from "http-status-codes";
+import router from "@/plugins/router"
 
 // https://medium.com/@zitko/structuring-a-vue-project-authentication-87032e5bfe16
 abstract class ApiService {
@@ -21,7 +23,8 @@ abstract class ApiService {
    * Methods
    ****************/
   public setHeader() {
-    axios.defaults.headers.common["Authorization"] = `Bearer ${tokenService.getToken()}`
+    axios.defaults.withCredentials = true;
+    //axios.defaults.headers.common["Authorization"] = `Bearer ${tokenService.getToken()}`
   }
 
   protected removeHeader() {
@@ -38,6 +41,10 @@ abstract class ApiService {
         return response;
       })
       .catch((error: AxiosError) => {
+        if (error.response?.status == StatusCodes.UNAUTHORIZED){
+          tokenService.removeToken();
+          router.push("/login")
+        }
         return Promise.reject(error.response);
       });
   }
@@ -53,6 +60,10 @@ abstract class ApiService {
         return response;
       })
       .catch((error: AxiosError) => {
+        if (error.response?.status == StatusCodes.UNAUTHORIZED){
+          tokenService.removeToken();
+          router.push("/login")
+        }
         createErrorNotification("Hubo un error");
         return Promise.reject(error.response);
       });
@@ -69,6 +80,10 @@ abstract class ApiService {
         return response;
       })
       .catch((error: AxiosError) => {
+        if (error.response?.status == StatusCodes.UNAUTHORIZED){
+          tokenService.removeToken();
+          router.push("/login")
+        }
         createErrorNotification("Hubo un error");
         return Promise.reject(error.response);
       });
@@ -84,6 +99,10 @@ abstract class ApiService {
         return response;
       })
       .catch((error: AxiosError) => {
+        if (error.response?.status == StatusCodes.UNAUTHORIZED){
+          tokenService.removeToken();
+          router.push("/login")
+        }
         return Promise.reject(error.response);
       });
   }
@@ -99,6 +118,10 @@ abstract class ApiService {
         return response;
       })
       .catch((error: AxiosError) => {
+        if (error.response?.status == StatusCodes.UNAUTHORIZED){
+          tokenService.removeToken();
+          router.push("/login")
+        }
         createErrorNotification("Hubo un error");
         return Promise.reject(error.response);
       });
