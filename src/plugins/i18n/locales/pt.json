@@ -185,8 +185,27 @@
   "direction-tab-dialog-mobile-type": "Tipo de celular",
   "direction-tab-dialog-address": "Endereço",
 
+  "calendar-abbr-january"       : "Jan",
+  "calendar-abbr-february"  : "Fev",
+  "calendar-abbr-march"     : "Mar",
+  "calendar-abbr-april"     : "Abr",
+  "calendar-abbr-may"           : "Mai",
+  "calendar-abbr-june"      : "Jun",
+  "calendar-abbr-july"      : "Jul",
+  "calendar-abbr-august"        : "Ago",
+  "calendar-abbr-september" : "Set",
+  "calendar-abbr-october"       : "Out",
+  "calendar-abbr-november"  : "Nov",
+  "calendar-abbr-december"  : "Dez",
+
+  "my-page-business-name": "Nome da empresa",
+  "my-page-description": "Descrição",
+  "my-page-show-whatsApp-contact": "Mostrar contato WhatsApp",
+  "my-page-change-logo": "Alterar logotipo",
+  "ma-page-change-cover": "Alterar capa"
+
   "team-card-email": "Email",
-   "team-card-state": "Estado",
+  "team-card-state": "Estado",
   "team-card-role": "Função",
   "team-phone-number": "Número de telefone",
   "team-creation-time": "Criado em",

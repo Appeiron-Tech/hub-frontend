@@ -1,8 +1,7 @@
 import { createApp } from "vue";
-import { Quasar, Dialog, Notify } from "quasar";
-
+import { Quasar, Dialog, Notify, Loading, QSpinnerGears } from "quasar";
 import App from "./App.vue";
-
+import HighchartsVue from "highcharts-vue";
 // Plugins
 import router from "./plugins/router";
 import quasarUserOptions from "./plugins/quasar/quasar-user-options";
@@ -12,6 +11,9 @@ import VueTelInput from "vue-tel-input";
 import "vue-tel-input/dist/vue-tel-input.css";
 //LINK: (documentacion) https://www.npmjs.com/package/vue-google-maps
 import VueGoogleMaps from "@fawmi/vue-google-maps";
+
+import "vue-advanced-cropper/dist/style.css";
+
 //LINK: (documentacion) https://animate.style/
 import "animate.css";
 
@@ -30,8 +32,14 @@ const globalOptions = {
 const app = createApp(App);
 
 app.use(router);
-app.use(Quasar, { plugins: { Dialog, Notify } }, quasarUserOptions);
+app.use(
+  Quasar,
+  { plugins: { Dialog, Notify, Loading, QSpinnerGears } },
+  quasarUserOptions
+);
 app.use(i18n);
+// @ts-ignore
+app.use(HighchartsVue);
 // @ts-ignore
 app.use(VueTelInput, globalOptions);
 app.use(VueGoogleMaps, {

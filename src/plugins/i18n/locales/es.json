@@ -1,7 +1,7 @@
 {
-	"general-submit": "Enviar",
-	"general-save": "Guardar",
-	"general-saved": "Guardado",
+  "general-submit": "Enviar",
+  "general-save": "Guardar",
+  "general-saved": "Guardado",
 
   "toolbar-enterprise-stats": "Estadística",
   "toolbar-enterprise-my-page": "Mi Pígina",
@@ -15,7 +15,7 @@
   "toolbar-logout": "Cerrar sesion",
   "toolbar-settings-enterprise": "Mi empresa",
 
-  "sidebar-account" : "Cuenta",
+  "sidebar-account": "Cuenta",
 
   "my-enterprise-tab-general": "General",
   "my-enterprise-tab-direction": "Dirección",
@@ -110,6 +110,12 @@
   "calendar-abbr-october": "Oct",
   "calendar-abbr-november": "Nov",
   "calendar-abbr-december": "Dic",
+  
+  "my-page-business-name": "Nombre del negocio",
+  "my-page-description": "Descripción",
+  "my-page-show-whatsApp-contact": "Mostrar contacto en WhatsApp",
+  "my-page-change-logo": "Cambiar logo",
+  "ma-page-change-cover": "Cambiar portada"
 
   "global-phone-mobile": "Movil",
   "global-phone-tel": "Fijo",

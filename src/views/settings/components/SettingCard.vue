@@ -51,19 +51,18 @@
 </template>
 
 <script setup lang="ts">
-import type { Ref } from "vue";
-import type { Controller } from "@/controller/Controller";
-import { injectStrict } from "@/utils/injections";
-import { ref } from "vue";
-import type { ITenancies } from "@/models/user/IUser";
-import { useI18n } from "vue-i18n";
-
+import type {Ref} from "vue";
+import type {Controller} from "@/controller/Controller";
+import {injectStrict} from "@/utils/injections";
+import {ref} from "vue";
+import type {ITenancies} from "@/models/user/IUser";
+import { translate } from "@/plugins/i18n/i18n";
 const app: Controller = injectStrict("appController");
-const { t, locale } = useI18n({ useScope: "global" });
-const userEmail: Ref<string | undefined> = ref(app.user.m_profile?.email!);
-const userName: Ref<string | undefined> = ref(app.user.m_profile?.userName!);
-const userPhoto: Ref<string | undefined> = ref(app.user.m_profile?.photo!);
-const userCountry: Ref<string | undefined> = ref(app.user.m_profile?.country);
+
+
+const userEmail: Ref<string | undefined> = ref( app.user.m_profile?.email!)
+const userName: Ref<string | undefined> = ref( app.user.m_profile?.userName!)
+const userCountry: Ref<string | undefined> = ref( app.user.m_profile?.country)
 const tenancies = app.user.m_profile?.tenancies!;
 
 const emits = defineEmits<{

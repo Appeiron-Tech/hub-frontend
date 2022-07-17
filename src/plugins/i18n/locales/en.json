@@ -130,7 +130,13 @@
 	"calendar-abbr-november"	: "Nov",
 	"calendar-abbr-december"	: "Dec",
 
-	"settings-tittle": "Account settings",
+	"my-page-business-name": "Business name",
+	"my-page-description": "Description",
+	"my-page-show-whatsApp-contact": "Show WhatsApp contact",
+	"my-page-change-logo": "Change logo",
+	"ma-page-change-cover": "Change cover"
+
+  "settings-tittle": "Account settings",
 	"settings-edit-btn": "Edit",
 	"settings-card-email": "Email",
 	"settings-dialog-tittle": "Edit account settings",

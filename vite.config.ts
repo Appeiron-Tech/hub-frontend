@@ -18,15 +18,19 @@ export default defineConfig({
     },
   },
   server: {
+    //TODO: check if it is possible to set the target as variables
     proxy: {
       "/api": {
         target: "http://dev.minegocio:3000",
         changeOrigin: true,
-        //rewrite: (path) => path.replace(/^\/api/, '')
       },
       "/auth": {
         target: "http://localhost:3000",
         changeOrigin: true,
+      },
+      "/web" : {
+        target: "http://dev.localhost:3000",
+        changeOrigin: true
       },
       "/public": {
         target: "http://localhost:3000",

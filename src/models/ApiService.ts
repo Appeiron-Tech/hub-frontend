@@ -14,10 +14,16 @@ abstract class ApiService {
   //TODO: cambiar apiPrefix
   //NOTE: apiPrefix se debería quitar cuando login sea una app a parte.
   constructor(config: { baseURL: string }, serviceProxy?: string) {
+    //TODO: the commented code (in line 18) is working just for/AUTH
+    //TODO: the uncommented code (from line 19 to 24) is wortking with other proxies like /WEB OR /PUBLIC
     this._baseUrl = config.baseURL;
-    this._fullApiBase = serviceProxy ??  API_PREFIX_BASE + this._baseUrl;
-    console.log("-> this._fullApiBase", this._fullApiBase);
-
+    //this._fullApiBase = serviceProxy ??  API_PREFIX_BASE + this._baseUrl;
+    if (serviceProxy != null){
+      this._fullApiBase = serviceProxy + this._baseUrl;
+    }
+    else {
+      this._fullApiBase =   API_PREFIX_BASE + this._baseUrl;
+    }
     this.setHeader();
   }
 

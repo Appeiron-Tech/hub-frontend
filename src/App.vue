@@ -99,18 +99,16 @@
         </q-scroll-area>
       </q-drawer>
 
-      <q-page-container>
-        <q-page class="q-px-lg q-py-md page-cnt">
-          <router-view v-if="!app.loadingConfig" v-slot="{ Component }">
-            <transition
-              enter-active-class="animate__animated animate__lightSpeedInLeft"
-              leave-active-class="animate__animated animate__zoomOutDown"
-            >
-              <component :is="Component" />
-            </transition>
-          </router-view>
-        </q-page>
-      </q-page-container>
+      <Suspense>
+        <template #default>
+          <q-page-container>
+            <q-page class="page-cnt">
+              <router-view v-if="!app.loadingConfig" />
+            </q-page>
+          </q-page-container>
+        </template>
+        <template #fallback> cargando... </template>
+      </Suspense>
     </q-layout>
   </div>
 </template>

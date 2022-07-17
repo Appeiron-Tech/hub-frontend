@@ -98,6 +98,15 @@ const routes: Array<RouteRecordRaw> = [
     },
   },
   {
+    path: "/charts",
+    name: 'charts',
+    component: () => import("@/views/charts/Charts.vue"),
+    meta: {
+      icon: "query_stats",
+      hide: false
+    },
+  },
+  {
     path: "/settings",
     name: translate("toolbar-settings"),
     component: () => import("@/views/settings/Settings.vue"),

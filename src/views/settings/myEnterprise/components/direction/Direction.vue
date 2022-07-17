@@ -197,8 +197,8 @@
 //LINK https://vue-map.netlify.app/components/marker.html
 //LINk: https://developers.google.com/maps/documentation/javascript/places-autocomplete
 //
-import { watch, type Ref } from "vue";
-import { reactive, ref } from "vue";
+import type { Ref } from "vue";
+import { inject, reactive, ref } from "vue";
 import directionController from "@/views/settings/myEnterprise/components/direction/direction";
 import { getDistanciaMetros } from "@/utils/distances";
 import type {
@@ -207,10 +207,9 @@ import type {
   IStoreSave,
 } from "@/views/settings/myEnterprise/components/direction/IDirection";
 import PhoneModal from "@/views/settings/myEnterprise/components/direction/components/PhoneModal.vue";
-import SingleStoreInformation from "@/views/settings/myEnterprise/components/direction/components/SingleStoreInformation.vue";
-import ModalFormVue from "./components/modalForm.vue";
-import { translate } from "@/plugins/i18n/i18n";
-import { createWarnNotification } from "@/utils/notifications";
+import SingleStoreInformation
+  from "@/views/settings/myEnterprise/components/direction/components/SingleStoreInformation.vue";
+import type { Controller } from "@/controller/Controller";
 //
 const { t, locale } = useI18n({ useScope: "global" });
 
