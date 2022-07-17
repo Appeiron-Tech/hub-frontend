@@ -33,14 +33,14 @@
           <q-input
             outlined
             v-model="newMember.name"
-            label="Name"
+            :label="$t('team-dialog-name')"
             :rules="[(val) => !!val || 'Field is required']"
           />
           <br />
           <q-input
             outlined
             v-model="newMember.email"
-            label="Email"
+            :label="$t('team-dialog-email')"
             :rules="[(val) => !!val || 'Field is required']"
           />
           <br />
@@ -78,7 +78,7 @@
             outlined
             v-model="selectedStoreId"
             :options="teamController.localOptions"
-            label="Locales"
+            :label="$t('team-dialog-store-name')"
           />
           <br />
           <q-toggle

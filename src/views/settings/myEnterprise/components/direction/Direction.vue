@@ -2,7 +2,7 @@
   <div class="direction-whole-container">
     <div id="app" class="modal-vue">
       <q-btn
-        label="Nueva Tienda"
+        :label="$t('direction-tab-new-store-btn')"
         style="background-color: #66af39"
         @click="openModal"
         id="btn-new-store-modal"
@@ -35,12 +35,14 @@
               />
             </div>
           </div>
+          <br />
           <q-input
             outlined
             v-model="newStore.description"
             type="textarea"
             :label="translate('direction-form-description')"
             style="height: 150px; margin-top: 15px"
+
           />
           <q-toggle
             v-model="newStore.isMain"
@@ -210,6 +212,8 @@ import ModalFormVue from "./components/modalForm.vue";
 import { translate } from "@/plugins/i18n/i18n";
 import { createWarnNotification } from "@/utils/notifications";
 //
+const { t, locale } = useI18n({ useScope: "global" });
+
 directionController.loadInfo();
 const zoomMap: Ref<number> = ref(
   directionController.markers.length == 1 ? 15 : 12
@@ -466,7 +470,7 @@ watch(
 @media (min-width: 1300px) {
   .modal-vue .modal {
     position: fixed;
-    width: 40vw;
+    width: 41vw;
     z-index: 9999;
     padding: 20px 30px;
     color: black;

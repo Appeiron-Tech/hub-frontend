@@ -16,7 +16,11 @@
         >
           <tbody>
             <tr>
-              <td>Email</td>
+              <td>{{ $t("team-card-state") }}</td>
+              <td>{{ props.collaborator.isActive ? "Active" : "Inactive" }}</td>
+            </tr>
+            <tr>
+              <td>{{ $t("team-card-email") }}</td>
               <td>{{ props.collaborator.email }}</td>
             </tr>
             <tr>
@@ -66,6 +70,7 @@
 </template>
 
 <script setup lang="ts">
+import { formatDateToDayMonthYear } from "@/utils/dates";
 import type { ITeam } from "./models/ITeam";
 import teamController from "./models/Team";
 

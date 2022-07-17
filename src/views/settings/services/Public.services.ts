@@ -1,6 +1,7 @@
 import { API_PUBLIC_BASE_URL } from "@/constants";
 import ApiService from "@/models/ApiService";
 import type { IProfileForEditing } from "@/models/user/IUser";
+import type { IPrivacy } from "../ISettings";
 
 export default class PublicService extends ApiService {
   constructor() {
