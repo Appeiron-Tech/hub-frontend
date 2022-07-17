@@ -6,15 +6,40 @@ import {
 import { reactive } from "vue";
 import StoreService from "../../../../services/store/Store.services";
 import TeamService from "../../service/Team.services";
-import type { ILocalOptions, ITeam, ITeamSave, ITeamUpdate } from "./ITeam";
+import type {
+  IJobTitle,
+  ILocalOptions,
+  ITeam,
+  ITeamSave,
+  ITeamUpdate,
+} from "./ITeam";
 
 export class Team {
   private _m_teamList: Array<any> = [];
   private _m_team_service: TeamService = new TeamService();
   private _m_localOptions: Array<ILocalOptions> = [];
   private _m_shared_service: StoreService = new StoreService();
+  private jobTitleOptions: Array<IJobTitle> = [];
 
-  constructor() {}
+  constructor() { }
+
+
+    /**
+     * Getter $jobTitleOptions
+     * @return {Array<IJobTitle> }
+     */
+	public get $jobTitleOptions(): Array<IJobTitle>  {
+		return this.jobTitleOptions;
+	}
+
+    /**
+     * Setter $jobTitleOptions
+     * @param {Array<IJobTitle> } value
+     */
+	public set $jobTitleOptions(value: Array<IJobTitle> ) {
+		this.jobTitleOptions = value;
+	}
+  
 
   get localOptions(): Array<ILocalOptions> {
     return this._m_localOptions;
@@ -37,6 +62,7 @@ export class Team {
         };
       }
     );
+    this.jobTitleOptions = await this._m_team_service.getJobTitles();
   }
 
   /**
@@ -77,6 +103,8 @@ export class Team {
       this.editCollaborator(p_collaborator, p_collaboratorId!);
     }
   }
+
+  formatPhone(p_phone: string) {}
 
   /**
    * It takes a collaborator object and an id, and then it edits the collaborator with the given id.

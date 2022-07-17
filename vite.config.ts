@@ -21,7 +21,7 @@ export default defineConfig({
     //TODO: check if it is possible to set the target as variables
     proxy: {
       "/api": {
-        target: "http://dev.localhost:3000",
+        target: "http://dev.minegocio:3000",
         changeOrigin: true,
       },
       "/auth": {

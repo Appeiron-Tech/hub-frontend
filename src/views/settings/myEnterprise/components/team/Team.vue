@@ -33,51 +33,58 @@
           <q-input
             outlined
             v-model="newMember.name"
-            label="Name"
+            :label="$t('team-dialog-name')"
             :rules="[(val) => !!val || 'Field is required']"
           />
           <br />
           <q-input
             outlined
             v-model="newMember.email"
-            label="Email"
+            :label="$t('team-dialog-email')"
             :rules="[(val) => !!val || 'Field is required']"
-          />
-          <br />
-          <q-input
-            outlined
-            v-model="newMember.jobTitle"
-            label="Job Title"
-            :rules="[(val) => !!val || 'Field is required']"
-          />
-          <br />
-          <q-input
-            outlined
-            v-model="newMember.phone"
-            label="Telefono"
-            :rules="[
-              (val) => val.length >= 7 || 'Please use minumin 7 characters',
-            ]"
           />
           <br />
           <q-select
             outlined
+            v-model="newMember.jobTitle"
+            label="Job Title"
+            :options="teamController.$jobTitleOptions"
+            emit-value
+            option-value="code"
+            option-label="title"
+            map-options
+          />
+          <br />
+
+          <vue-tel-input
+            style="height: 55px; margin-right: 5px"
+            autoDefaultCountry
+            v-model="newMember.compleateNumber"
+            :inputOptions="{
+              placeholder: 'Telefono',
+            }"
+          ></vue-tel-input>
+          <br />
+          <q-select
+            outlined
             v-model="newMember.phoneType"
-            :options="['MOB', 'TEL']"
+            :options="phoneTypes"
             label="Tipo de telefono"
+            emit-value
+            map-options
           />
           <br />
           <q-select
             outlined
             v-model="selectedStoreId"
             :options="teamController.localOptions"
-            label="Locales"
+            :label="$t('team-dialog-store-name')"
           />
           <br />
           <q-toggle
             v-model="newMember.state"
             checked-icon="check"
-            color="red"
+            color="green"
             :label="
               newMember.state === true ? 'Estado activo' : 'Estado Inactivo'
             "
@@ -103,22 +110,40 @@
 import TeamTable from "@/views/settings/myEnterprise/components/team/teamTable/TeamTable.vue";
 import teamController from "@/views/settings/myEnterprise/components/team/teamTable/models/Team";
 import { onMounted, reactive, ref, type Ref } from "vue";
-import type { ILocalOptions, ITeam, ITeamSave } from "./teamTable/models/ITeam";
+import type {
+  IJobTitle,
+  ILocalOptions,
+  ITeam,
+  ITeamSave,
+} from "./teamTable/models/ITeam";
 import directionController from "@/views/settings/myEnterprise/components/direction/direction";
 import { number } from "@intlify/core-base";
+import { translate } from "@/plugins/i18n/i18n";
 teamController.loadInfo();
 const opened = ref(false);
 const isNew = ref(false);
 const selectedStoreId: Ref<ILocalOptions | null> = ref(null);
 const idForExistingCollaborator = ref(0);
 
+const phoneTypes: Array<{ label: string; value: string }> = [
+  {
+    label: translate("global-phone-mobile"),
+    value: "MOB",
+  },
+  {
+    label: translate("global-phone-tel"),
+    value: "TEL",
+  },
+];
+
 const openModal = () => {
   newMember.jobTitle = "";
   newMember.name = "";
   newMember.email = "";
+  newMember.compleateNumber = "";
   newMember.phone = 0;
   newMember.phoneType = "";
-  newMember.countryCode = 51;
+  newMember.countryCode = 0;
   newMember.state = true;
   isNew.value = true;
   opened.value = true;
@@ -129,6 +154,10 @@ let newMember: ITeamSave = reactive({
   jobTitle: "",
 });
 const saveNewMember = () => {
+  newMember.countryCode = Number(newMember.compleateNumber?.split(" ")[0]);
+  newMember.phone = Number(
+    newMember.compleateNumber?.split(" ").slice(1).join("")
+  );
   opened.value = false;
   teamController.saveCollaborator(
     newMember,
@@ -144,6 +173,8 @@ function editCollaboratorModal(p_collab: ITeam) {
   newMember.email = p_collab.email!;
   newMember.name = p_collab.name;
   newMember.jobTitle = p_collab.jobTitle;
+  newMember.compleateNumber =
+    "+" + p_collab.countryCode.toString() + p_collab.phone?.toString();
   newMember.phone = p_collab.phone;
   newMember.phoneType = p_collab.phoneType;
   newMember.state = true;

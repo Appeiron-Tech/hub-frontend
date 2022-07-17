@@ -27,4 +27,5 @@ export default class AuthService extends ApiService {
   async getProfile(): Promise<IProfile> {
     return (await this.get("/profile")).data;
   }
+
 }
