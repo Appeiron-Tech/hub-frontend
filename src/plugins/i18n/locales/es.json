@@ -3,6 +3,8 @@
   "general-save": "Guardar",
   "general-saved": "Guardado",
 
+  "should-not-be-empty": "Por favor, ingresa algún valor",
+
   "toolbar-enterprise-stats": "Estadística",
   "toolbar-enterprise-my-page": "Mi Pígina",
   "toolbar-enterprise-products": "Productos",
@@ -115,7 +117,7 @@
   "my-page-description": "Descripción",
   "my-page-show-whatsApp-contact": "Mostrar contacto en WhatsApp",
   "my-page-change-logo": "Cambiar logo",
-  "ma-page-change-cover": "Cambiar portada"
+  "ma-page-change-cover": "Cambiar portada",
 
   "global-phone-mobile": "Movil",
   "global-phone-tel": "Fijo",
@@ -126,7 +128,7 @@
   "direction-form-address": "Dirección",
   "direction-form-description": "Descripción",
   "direction-form-name": "Nombre",
-  "direction-form-icon-tooltip": "El número será usado como el número principal de whatsapp del negocio"
+  "direction-form-icon-tooltip": "El número será usado como el número principal de whatsapp del negocio",
 
   "settings-tittle": "Ajustes de cuenta",
   "settings-edit-btn": "Editar",

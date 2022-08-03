@@ -35,7 +35,7 @@ const routes: Array<RouteRecordRaw> = [
     },
   },
   {
-    path: "/clients",
+    path: "/admin/clients",
     name: translate("toolbar-enterprise-clients"),
     component: Clients,
     meta: {
@@ -44,7 +44,7 @@ const routes: Array<RouteRecordRaw> = [
     },
   },
   {
-    path: "/orders",
+    path: "/admin/orders",
     name: translate("toolbar-enterprise-orders"),
     component: () => import("@/views/orders/Orders.vue"),
     meta: {
@@ -53,7 +53,7 @@ const routes: Array<RouteRecordRaw> = [
     },
   },
   {
-    path: "/mypage",
+    path: "/admin/mypage",
     name: translate("toolbar-enterprise-my-page"),
     component: () => import("@/views/myPage/MyPage.vue"),
     meta: {
@@ -62,7 +62,7 @@ const routes: Array<RouteRecordRaw> = [
     },
   },
   {
-    path: "/stats",
+    path: "/admin/stats",
     name: translate("toolbar-enterprise-stats"),
     component: () => import("@/views/stats/Stats.vue"),
     meta: {
@@ -71,7 +71,7 @@ const routes: Array<RouteRecordRaw> = [
     },
   },
   {
-    path: "/inventoryprd",
+    path: "/admin/inventoryprd",
     name: translate("toolbar-enterprise-inventory"),
     component: () => import("@/views/inventory/Inventory.vue"),
     meta: {
@@ -80,7 +80,7 @@ const routes: Array<RouteRecordRaw> = [
     },
   },
   {
-    path: "/productsconfig",
+    path: "/admin/productsconfig",
     name: translate("toolbar-enterprise-products"),
     component: () => import("@/views/products/Products.vue"),
     meta: {
@@ -89,7 +89,7 @@ const routes: Array<RouteRecordRaw> = [
     },
   },
   {
-    path: "/historic",
+    path: "/admin/historic",
     name: translate("toolbar-enterprise-historic"),
     component: () => import("@/views/historic/Historic.vue"),
     meta: {
@@ -98,7 +98,7 @@ const routes: Array<RouteRecordRaw> = [
     },
   },
   {
-    path: "/charts",
+    path: "/admin/charts",
     name: 'charts',
     component: () => import("@/views/charts/Charts.vue"),
     meta: {
@@ -107,7 +107,7 @@ const routes: Array<RouteRecordRaw> = [
     },
   },
   {
-    path: "/settings",
+    path: "/admin/settings",
     name: translate("toolbar-settings"),
     component: () => import("@/views/settings/Settings.vue"),
     meta: {
@@ -116,7 +116,7 @@ const routes: Array<RouteRecordRaw> = [
     },
   },
   {
-    path: "/myenterprise",
+    path: "/admin/myenterprise",
     name: translate("toolbar-settings-enterprise"),
     component: () => import("@/views/settings/myEnterprise/MyEnterprise.vue"),
     meta: {
@@ -131,27 +131,30 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
-  // if (to.name !== 'Login' && !isAuthenticated) next({ name: 'Login' })
-  // else next();
+// ******************************************************************
+// **** Logout is managed but the apiService,
+// **** if it return an unauthorized the page is redirect to Login
+// ******************************************************************
 
+// router.beforeEach((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
+//   // if (to.name !== 'Login' && !isAuthenticated) next({ name: 'Login' })
+//   // else next();
 
-  const isPublic = to.matched.some(record => record.meta.public)
-  const onlyWhenLoggedOut = to.matched.some(record => record.meta.onlyWhenLoggedOut)
+//   const isPublic = to.matched.some(record => record.meta.public)
+//   const onlyWhenLoggedOut = to.matched.some(record => record.meta.onlyWhenLoggedOut)
 
-  if (!isPublic && !appController.user.getIsAuthenticated()) {
-    return next({
-      path:'/login',
-      query: {redirect: to.fullPath}  // Store the full path to redirect the user to after login
-    });
-  }
-
-  // Do not allow user to visit login page or register page if they are logged in
-  if (appController.user.getIsAuthenticated() && onlyWhenLoggedOut) {
-    return next('/')
-  }
-  else next();
-
-})
+//   // if (!isPublic && !appController.user.getIsAuthenticated()) {
+//   //   return next({
+//   //     path:'/login',
+//   //     query: {redirect: to.fullPath}  // Store the full path to redirect the user to after login
+//   //   });
+//   // }
+//   // Do not allow user to visit login page or register page if they are logged in
+//   // if (appController.user.getIsAuthenticated() && onlyWhenLoggedOut) {
+//   //   return next('/')
+//   // }
+//   // else
+//   next();
+// })
 
 export default router;

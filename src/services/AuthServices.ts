@@ -2,11 +2,10 @@ import type { IProfile } from "@/models/user/IUser";
 import ApiService from "@/models/ApiService";
 import { StatusCodes } from "http-status-codes";
 import type { ILoginForm, IResLogin } from "./interfaces/IAuth";
-import { API_LOGIN_BASE_URL } from "@/constants";
 
 export default class AuthService extends ApiService {
   constructor() {
-    super({ baseURL: "/auth" }, API_LOGIN_BASE_URL);
+    super({ context: "/auth" });
   }
 
   /**

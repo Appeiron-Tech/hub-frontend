@@ -104,7 +104,7 @@
   "toolbar-logout": "Sair",
   "toolbar-settings": "Justificações",
   "toolbar-settings-dropdown": "Configurações da conta",
-  "toolbar-settings-enterprise": "Minha empresa"
+  "toolbar-settings-enterprise": "Minha empresa",
 
   "general-tab-form-business-type": "Tipo de Negócio",
   "general-tab-form-business-sell": "O que você vende",
@@ -202,7 +202,7 @@
   "my-page-description": "Descrição",
   "my-page-show-whatsApp-contact": "Mostrar contato WhatsApp",
   "my-page-change-logo": "Alterar logotipo",
-  "ma-page-change-cover": "Alterar capa"
+  "ma-page-change-cover": "Alterar capa",
 
   "team-card-email": "Email",
   "team-card-state": "Estado",

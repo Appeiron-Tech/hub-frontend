@@ -20,8 +20,9 @@ export default defineConfig({
   server: {
     //TODO: check if it is possible to set the target as variables
     proxy: {
-      "/api": {
-        target: "http://dev.minegocio:3000",
+      "/tenant": {
+        // target: "http://dev.minegocio:3000",
+        target: "http://localhost:3000",
         changeOrigin: true,
       },
       "/auth": {
@@ -29,7 +30,8 @@ export default defineConfig({
         changeOrigin: true,
       },
       "/web" : {
-        target: "http://dev.localhost:3000",
+        // target: "http://dev.localhost:3000",
+        target: "http://localhost:3000",
         changeOrigin: true
       },
       "/public": {

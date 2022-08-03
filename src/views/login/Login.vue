@@ -28,7 +28,7 @@
                 class="frmInput"
                 outlined
                 color="primary"
-                label="Email"
+                label="Password"
                 label-color="primary"
                 lazy-rules
                 :rules="[
@@ -101,8 +101,8 @@ const loginForm: Ref<any> = ref(null);
 
 <style scoped>
 .container {
-  width: 90vw;
-  height: 87vh;
+  width: 100vw;
+  height: 100vh;
   background: url(https://img.freepik.com/foto-gratis/tecnologia-fondo-toque-humano-nueva-version-moderna-creacion-adan_53876-129794.jpg)
     no-repeat;
   background-size: 100% 100%;

@@ -8,34 +8,28 @@ import router from "@/plugins/router"
 
 // https://medium.com/@zitko/structuring-a-vue-project-authentication-87032e5bfe16
 abstract class ApiService {
-  private readonly _baseUrl: string = "";
-  private _fullApiBase: string ='';
+  private readonly _context: string = "";
 
-  //TODO: cambiar apiPrefix
-  //NOTE: apiPrefix se debería quitar cuando login sea una app a parte.
-  constructor(config: { baseURL: string }, serviceProxy?: string) {
-    //TODO: the commented code (in line 18) is working just for/AUTH
-    //TODO: the uncommented code (from line 19 to 24) is wortking with other proxies like /WEB OR /PUBLIC
-    this._baseUrl = config.baseURL;
-    //this._fullApiBase = serviceProxy ??  API_PREFIX_BASE + this._baseUrl;
-    if (serviceProxy != null){
-      this._fullApiBase = serviceProxy + this._baseUrl;
-    }
-    else {
-      this._fullApiBase =   API_PREFIX_BASE + this._baseUrl;
-    }
-    this.setHeader();
+  constructor(config: { context: string }) {
+
+    axios.defaults.withCredentials = true;
+
+    this._context = config.context;
+    // this.setHeader();
   }
 
   /****************
    * Methods
    ****************/
-  public setHeader() {
-    axios.defaults.withCredentials = true;
-    //axios.defaults.headers.common["Authorization"] = `Bearer ${tokenService.getToken()}`
+  public static setHeader(header: {key: string, value: string}) {
+    axios.defaults.headers.common[header.key] = header.value
   }
 
-  protected removeHeader() {
+  protected deleteHeader(key: string){
+    delete axios.defaults.headers.common[key];
+  }
+
+  protected removeHeaders() {
     axios.defaults.headers.common = {};
   }
 
@@ -44,7 +38,7 @@ abstract class ApiService {
     config?: AxiosRequestConfig
   ): Promise<AxiosResponse<any>> {
     return axios
-      .get(this._fullApiBase + url, config)
+      .get(this._context + url, config)
       .then((response: AxiosResponse) => {
         return response;
       })
@@ -63,7 +57,7 @@ abstract class ApiService {
     config?: AxiosRequestConfig
   ): Promise<AxiosResponse<any>> {
     return axios
-      .post(this._fullApiBase + url, data, config)
+      .post(this._context + url, data, config)
       .then((response: AxiosResponse) => {
         return response;
       })
@@ -83,7 +77,7 @@ abstract class ApiService {
     config?: AxiosRequestConfig
   ): Promise<AxiosResponse<any>> {
     return axios
-      .patch(this._fullApiBase + url, data, config)
+      .patch(this._context + url, data, config)
       .then((response: AxiosResponse) => {
         return response;
       })
@@ -102,7 +96,7 @@ abstract class ApiService {
     config?: AxiosRequestConfig
   ): Promise<AxiosResponse<any>> {
     return axios
-      .head(this._fullApiBase + url, config)
+      .head(this._context + url, config)
       .then((response: AxiosResponse) => {
         return response;
       })
@@ -121,7 +115,7 @@ abstract class ApiService {
 
   protected async delete(url: string) {
     return axios
-      .delete(this._fullApiBase + url)
+      .delete(this._context + url)
       .then((response: AxiosResponse) => {
         return response;
       })

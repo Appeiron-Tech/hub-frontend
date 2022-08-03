@@ -1,4 +1,6 @@
 {
+  "should-not-be-empty"			: "Please type something",
+  
   "calendar-abbr-april": "Abr",
   "calendar-abbr-august": "Ago",
   "calendar-abbr-december": "Dic",
@@ -115,7 +117,7 @@
   "direction-form-address": "Address",
   "direction-form-description": "Description",
   "direction-form-name": "Store name",
-  "direction-form-icon-tooltip": "Number will be used as WhatsApp Business Number"
+  "direction-form-icon-tooltip": "Number will be used as WhatsApp Business Number",
 
 	"calendar-abbr-january"		: "Jan",
 	"calendar-abbr-february"	: "Feb",
@@ -134,7 +136,7 @@
 	"my-page-description": "Description",
 	"my-page-show-whatsApp-contact": "Show WhatsApp contact",
 	"my-page-change-logo": "Change logo",
-	"ma-page-change-cover": "Change cover"
+	"ma-page-change-cover": "Change cover",
 
   "settings-tittle": "Account settings",
 	"settings-edit-btn": "Edit",

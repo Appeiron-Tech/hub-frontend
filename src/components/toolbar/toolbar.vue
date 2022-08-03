@@ -1,132 +1,126 @@
 <template>
-  <h2>tooolbar</h2>
+  <div>
+    <q-toolbar>
+      <q-btn flat @click="menuClicker" round dense icon="menu" />
+      <q-toolbar-title>
+        <q-img class="logo-img" src="@/assets/logo_blanco.png" />
+      </q-toolbar-title>
+      <q-space />
+      <!--
+        notice shrink property since we are placing it
+        as child of QToolbar
+      -->
+      <q-tabs shrink style="min-width: 220px">
+        <img
+          :src="userProfileImage"
+          loading="eager"
+          color="secondary"
+          text-color="white"
+          style="
+            height: 45px;
+            width: 55px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+            margin-top: 7px;
+          "
+          alt="Profile Image"
+        />
+        <div class="email-text">{{ userEmail }}</div>
+
+        <q-btn-dropdown stretch flat :label="userName">
+          <q-list>
+            <q-item-label header>Settings</q-item-label>
+            <q-item clickable v-close-popup tabindex="0">
+              <q-item-section avatar>
+                <q-avatar
+                  icon="settings"
+                  color="secondary"
+                  text-color="white"
+                ></q-avatar>
+              </q-item-section>
+              <q-item-section v-on:click="goToSetting">
+                <q-item-label>Settings</q-item-label>
+                <q-item-label caption>Account settings</q-item-label>
+              </q-item-section>
+              <q-item-section side>
+                <q-icon name="info"></q-icon>
+              </q-item-section>
+            </q-item>
+            <q-separator inset spaced></q-separator>
+            <q-item clickable @click="doLogout()">
+              <q-item-section>{{ $t("toolbar-logout") }}</q-item-section>
+            </q-item>
+          </q-list>
+        </q-btn-dropdown>
+      </q-tabs>
+    </q-toolbar>
+  </div>
 </template>
+
 <script setup lang="ts">
-//LINK: https://github.com/yaminncco/vue-sidebar-menu/tree/next
-//link: https://yaminncco.github.io/vue-sidebar-menu/#/basic-usage
-import { watch, type Ref } from "vue";
-import { ref } from "vue";
-import { useI18n } from "vue-i18n";
-import router from "@/plugins/router";
-import type { Controller } from "@/controller/Controller";
-import { injectStrict } from "@/utils/injections";
-import sharedAttributes from "./shared";
+import { ref, type Ref } from "vue";
+import router from "../../plugins/router";
+import type { Controller } from "../../controller/Controller";
+import { injectStrict } from "../../utils/injections";
 
-//const app: Controller = injectStrict("appController");
-const { t } = useI18n();
+const app: Controller = injectStrict("appController");
+const menuClicker = () => {
+  app.drawer = !(app.drawer);
+  app.miniState = !(app.miniState);
+};
 
-const menuList = [
-  {
-    icon: "inbox",
-    label: "Inbox",
-    separator: true,
-  },
-  {
-    icon: "send",
-    label: "Outbox",
-    separator: false,
-  },
-  {
-    icon: "delete",
-    label: "Trash",
-    separator: false,
-  },
-  {
-    icon: "error",
-    label: "Spam",
-    separator: true,
-  },
-  {
-    icon: "settings",
-    label: "Settings",
-    separator: false,
-  },
-  {
-    icon: "feedback",
-    label: "Send Feedback",
-    separator: false,
-  },
-  {
-    icon: "help",
-    iconColor: "primary",
-    label: "Help",
-    separator: false,
-  },
-];
+const userProfileImage: string = "https://www.dzoom.org.es/wp-content/uploads/2020/02/portada-foto-perfil-redes-sociales-consejos.jpg";
 
-// TODO: Borrar esto
-//menu = menu.filter((e) => e.title != t("toolbar-enterprise-my-page"));
-
-const isMobile: boolean = window.innerWidth < 700;
-
-const userProfileImage: Ref<string> = ref(
-  "https://d2qp0siotla746.cloudfront.net/img/use-cases/profile-picture/template_3.jpg"
+const userName: Ref<string> = ref(app.user.profile?.userName ?? "");
+const userEmail: Ref<string> = ref(
+  app.user.profile?.email.toString().substring(0, 20) + "..." ?? ""
 );
-const userName: Ref<string> = ref("Lola Lola");
-const userEmail: Ref<string> = ref("lolalola@gmail.com");
-const persistanceMenu: Ref<boolean> = isMobile ? ref(false) : ref(true);
+
+// Methods
 
 const goToSetting = () => {
   router.push("/settings");
 };
 
-const doLogout = async () => {
-  //await app.user.logout();
-  //router.push("/login");
-};
-const drawer = ref(false);
-
-const onItemClick = (event: any, item: any) => {};
-
-const onMenuShowen = () => {
-  sharedAttributes.isSideBarExpanded = true;
+const doLogout = async function (): Promise<void> {
+  await app.user.logout();
+  await router.push({ name: "Login" });
 };
 
-const onMenuHidden = () => {
-  sharedAttributes.isSideBarExpanded = false;
-};
-
-watch(
-  () => sharedAttributes.isSideBarExpanded,
-  () => {},
-  { immediate: true, deep: true }
-);
-
-//window.innerWidth
 </script>
 
-<style lang="scss" scoped>
-.menu-ctn {
-  min-height: 1000px;
-  min-width: 300px;
-}
+<style lang="sass" scoped>
+.minegocio-title
+  font-size: 25px
+  padding-bottom: 15px
 
-.informationContainer {
-  display: table-cell;
-  vertical-align: middle;
-  text-align: center;
-}
+.online-badge
+  position: absolute
+  left: 130px
+  top: 30px
+  background-color: #ffffff
+  color: #000000
 
-.informationItems {
-  display: inline-block;
-  text-align: center;
-}
+.logo-img
+  height: 55px
+  width: 150px
 
-.my-sidebar {
-  margin-top: 50px;
-  border-top-right-radius: 1%;
-}
+.email-text
+  position: absolute
+  top: 37px
+  left: 63px
 
-.my-toolbar {
-  background-color: #2a2a2e;
-}
+.mini-slot
+  transition: background-color .28s
+  &:hover
+    background-color: rgba(0, 0, 0, .04)
 
-.informationItems {
-  display: inline-block;
-  text-align: center;
-}
-.email-chip {
-  background-color: transparent;
-  color: aliceblue;
-}
+.mini-icon
+  font-size: 1.718em
+
+  & + &
+    margin-top: 18px
+
+.headerTool
+  padding-top: 0px !important
 </style>

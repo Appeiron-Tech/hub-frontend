@@ -3,7 +3,7 @@ import type { IClient } from "@/models/IClient";
 
 export default class ClientService extends ApiService {
   constructor() {
-    super({ baseURL: "/client" });
+    super({ context: "/api/client" });
   }
 
   /**
