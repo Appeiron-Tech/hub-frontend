@@ -1,13 +1,15 @@
 import type { IProfile } from "./IUser";
-import { normalizeClass } from "vue";
-import AuthService from "@/services/auth.services";
+import AuthService from "@/services/AuthServices";
 import tokenService from "@/services/tokenStorage/token.services";
 import type { ILoginForm, IResLogin } from "@/services/interfaces/IAuth";
+import { ConcreteSubject } from "../observer/Subject";
 
 export default class User {
-  m_name: string | null = null;
-  m_password: string | null = null;
-  m_profile: IProfile | null = null;
+  private m_name: string | null = null;
+  private m_password: string | null = null;
+  private m_profile: IProfile | null = null;
+
+  public loginSubject = new ConcreteSubject();
 
   m_apiService = new AuthService();
 
@@ -33,7 +35,7 @@ export default class User {
     return tokenService.getToken();
   }
 
-  get mprofile(): IProfile | null {
+  get profile(): IProfile | null {
     return this.m_profile;
   }
   set profile(p_value: IProfile | null) {
@@ -51,11 +53,8 @@ export default class User {
     });
     if (rsLogin !== null) {
       this.m_password = null;
-      tokenService.saveToken(rsLogin.access_token);
-      // this.m_tokenService.saveRefreshToken(rsLogin.access_token)
-      this.m_apiService.setHeader();
       await this.getProfile();
-      // ApiService.setHeader(rsLogin.access_token)
+      this.loginSubject.someBusinessLogic();
       return true;
     }
 
