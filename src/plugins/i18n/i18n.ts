@@ -5,7 +5,6 @@ import { createI18n } from "vue-i18n";
  */
 import es from "@/plugins/i18n/locales/es.json";
 import en from "@/plugins/i18n/locales/en.json";
-import pt from "@/plugins/i18n/locales/pt.json";
 import { DEFAULT_LANGUAGE } from "@/constants";
 
 // TODO
@@ -29,7 +28,6 @@ const i18n = createI18n({
   messages: {
     es: es,
     en: en,
-    pt: pt,
   },
   globalInjection: true,
 });

@@ -1,8 +1,17 @@
 import { reactive } from "vue";
 
-import type { IConfig } from "@/controller/IController";
+import type { IConfig, IMenuItem } from "@/controller/IController";
 import User from "@/models/user/User";
-import { StatusCodes } from "http-status-codes";
+import type { IEnvironment } from "@/controller/IController";
+
+import { ROUTER_NAME } from "@/plugins/router";
+
+export enum ENVIRONMENT{
+	HUB = "HUB",
+	WEB = "WEB",
+	ECOMMERCE = "ECOMMERCE",
+	PAY = "PAY"
+}
 
 export class Controller {
 	private _config: IConfig; 
@@ -10,6 +19,8 @@ export class Controller {
 
 	private _drawer: boolean = false;
 	private _miniState: boolean = window.innerWidth < 500;
+
+	private _environment: string = ENVIRONMENT.PAY;
 
 	// TODO: this any is a temporal solution
 	private m_user: User | any = reactive(new User());
@@ -53,6 +64,13 @@ export class Controller {
 		this.m_user = p_user;
 	}
 
+	get environment(): string{
+		return this._environment;
+	}
+	set environment(value: string){
+		this._environment = value;
+	}
+
 	/**
 	 * Methods
 	 */
@@ -62,7 +80,41 @@ export class Controller {
 		this.m_user.getProfile().finally(() => {
       this._loadingConfig = false;
     });
+	}
 
+	public get getMenu(): Array<IMenuItem> {
+		return Controller.menu().filter((item) => item.environment?.filter((_env) => _env === this._environment).length)
+	}
+
+	public static environments(): Array<IEnvironment>{
+		return [
+			{code: ENVIRONMENT.HUB, label: "toolbar-environment-hub"},
+			{code: ENVIRONMENT.WEB, label: "toolbar-environment-web"},
+			{code: ENVIRONMENT.ECOMMERCE, label: "toolbar-environment-ecommerce"},
+			{code: ENVIRONMENT.PAY, label: "toolbar-environment-pay"},
+		]
+	}
+
+	private static menu(): Array<IMenuItem> {
+		return [
+		{code: ROUTER_NAME.LOGIN, },
+		{code: ROUTER_NAME.DASHBOARD, environment: [ENVIRONMENT.WEB, ENVIRONMENT.PAY]},
+		// {code: ROUTER_NAME.ANALYTICS, environment: [ENVIRONMENT.HUB]},
+		// {code: ROUTER_NAME.PAYMENT_LINK, environment: [ENVIRONMENT.PAY]},
+		// {code: ROUTER_NAME.REPORTS, environment: [ENVIRONMENT.PAY]},
+		{code: ROUTER_NAME.CLIENTS, environment: []},
+		{code: ROUTER_NAME.ORDERS, environment: []},
+		{code: ROUTER_NAME.MYPAGE, environment: []},
+		{code: ROUTER_NAME.STATS, environment: []},
+		{code: ROUTER_NAME.INVENTORY, environment: []},
+		{code: ROUTER_NAME.PRODUCTS, environment: []},
+		{code: ROUTER_NAME.HISTORIC, environment: []},
+		{code: ROUTER_NAME.CHARTS, environment: []},
+		// {code: ROUTER_NAME.CONTENT, environment: [ENVIRONMENT.HUB, ENVIRONMENT.WEB, ENVIRONMENT.PAY]},
+		// {code: ROUTER_NAME.APPEARANCE, environment: [ENVIRONMENT.HUB, ENVIRONMENT.WEB, ENVIRONMENT.PAY]},
+		{code: ROUTER_NAME.SETTINGS, environment: [ENVIRONMENT.HUB, ENVIRONMENT.WEB, ENVIRONMENT.PAY]},
+		{code: ROUTER_NAME.ENTERPRISE, environment: [ENVIRONMENT.PAY]},
+	]
 	}
 }
 

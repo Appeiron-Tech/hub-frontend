@@ -2,10 +2,30 @@
   <div>
     <q-toolbar>
       <q-btn flat @click="menuClicker" round dense icon="menu" />
+
+      <!-- Title -->
       <q-toolbar-title>
-        <q-img class="logo-img" src="@/assets/logo_blanco.png" />
+        <span style="font-size: 28px;">AppeironHub</span>
       </q-toolbar-title>
+
       <q-space />
+
+      <q-btn
+        v-for="(_environment, _idx) in Controller.environments()"
+        :key="'for_' + _idx"
+        class="q-mx-xs"
+        padding="xs lg"
+        color="primary"
+        round
+        @click="app.environment = _environment.code"
+      >
+        <span style="font-size: 12px">{{$t(_environment.label)}}</span>
+      </q-btn>
+      
+
+      <q-space />
+
+      <!-- User Info -->
       <!--
         notice shrink property since we are placing it
         as child of QToolbar
@@ -60,7 +80,7 @@
 <script setup lang="ts">
 import { ref, type Ref } from "vue";
 import router from "../../plugins/router";
-import type { Controller } from "../../controller/Controller";
+import  { Controller } from "../../controller/Controller";
 import { injectStrict } from "../../utils/injections";
 
 const app: Controller = injectStrict("appController");
@@ -84,7 +104,7 @@ const goToSetting = () => {
 
 const doLogout = async function (): Promise<void> {
   await app.user.logout();
-  await router.push({ name: "Login" });
+  await router.push({ name: "LOGIN" });
 };
 
 </script>

@@ -1,22 +1,37 @@
 import {createRouter, createWebHistory, type NavigationGuardNext, type RouteLocationNormalized} from "vue-router";
 import type { RouteRecordRaw } from "vue-router";
 
-import { BASE_URL } from "@/constants";
-
 // Pages
 import Dashboard from "@/views/dashboard/Dashboard.vue";
 import Clients from "@/views/clients/Clients.vue";
-import { useI18n } from "vue-i18n";
-import { translate } from "@/plugins/i18n/i18n";
-import appController from "@/controller/Controller";
 
 const history = createWebHistory();
+
+export enum ROUTER_NAME {
+  LOGIN = "LOGIN",
+  DASHBOARD = "DASHBOARD",
+  // ANALYTICS = "ANALYTICS",
+  // PAYMENT_LINK = "PAYMENT_LINK",
+  // REPORTS = "REPORTS",
+  CLIENTS = "CLIENTS",
+  ORDERS = "ORDERS", 
+  MYPAGE = "MYPAGE",
+  STATS = "STATS",
+  INVENTORY = "INVENTORY",
+  PRODUCTS = "PRODUCTS",
+  HISTORIC = "HISTORIC",
+  CHARTS = "CHARTS",
+  // CONTENT = "CONTENT",
+  // APPEARANCE = "APPEARANCE",
+  SETTINGS = "SETTINGS",
+  ENTERPRISE = "ENTERPRISE"
+}
 
 const routes: Array<RouteRecordRaw> = [
   //public paths
   {
     path: "/login",
-    name: "Login",
+    name: ROUTER_NAME.LOGIN,
     component: () => import("@/views/login/Login.vue"),
     meta: {
       icon: "login",
@@ -27,99 +42,110 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: "/",
-    name: "dashboard",
+    name: ROUTER_NAME.DASHBOARD,
     component: Dashboard,
     meta: {
+      label: "menu-dashboard",
       icon: "home",
       hide: false
     },
   },
   {
     path: "/admin/clients",
-    name: translate("toolbar-enterprise-clients"),
+    name: ROUTER_NAME.CLIENTS,
     component: Clients,
     meta: {
+      label: "menu-enterprise-clients",
       icon: "groups",
       hide: false
     },
   },
   {
     path: "/admin/orders",
-    name: translate("toolbar-enterprise-orders"),
+    name: ROUTER_NAME.ORDERS,
     component: () => import("@/views/orders/Orders.vue"),
     meta: {
+      label: "menu-enterprise-orders",
       icon: "list_alt",
       hide: false
     },
   },
   {
     path: "/admin/mypage",
-    name: translate("toolbar-enterprise-my-page"),
+    name: ROUTER_NAME.MYPAGE,
     component: () => import("@/views/myPage/MyPage.vue"),
     meta: {
+      label: "menu-enterprise-my-page",
       icon: "web",
       hide: false
     },
   },
   {
     path: "/admin/stats",
-    name: translate("toolbar-enterprise-stats"),
+    name: ROUTER_NAME.STATS,
     component: () => import("@/views/stats/Stats.vue"),
     meta: {
+      label: "menu-enterprise-stats",
       icon: "insights",
       hide: false
     },
   },
   {
     path: "/admin/inventoryprd",
-    name: translate("toolbar-enterprise-inventory"),
+    name: ROUTER_NAME.INVENTORY,
     component: () => import("@/views/inventory/Inventory.vue"),
     meta: {
+      label: "menu-enterprise-inventory",
       icon: "inventory_2",
       hide: false
     },
   },
   {
     path: "/admin/productsconfig",
-    name: translate("toolbar-enterprise-products"),
+    name: ROUTER_NAME.PRODUCTS,
     component: () => import("@/views/products/Products.vue"),
     meta: {
+      label: "menu-enterprise-products",
       icon: "category",
       hide: false
     },
   },
   {
     path: "/admin/historic",
-    name: translate("toolbar-enterprise-historic"),
+    name: ROUTER_NAME.HISTORIC,
     component: () => import("@/views/historic/Historic.vue"),
     meta: {
+      label: "menu-enterprise-historic",
       icon: "query_stats",
       hide: false
     },
   },
   {
     path: "/admin/charts",
-    name: 'charts',
+    name: ROUTER_NAME.CHARTS,
     component: () => import("@/views/charts/Charts.vue"),
     meta: {
+      label: "menu-charts",
       icon: "query_stats",
       hide: false
     },
   },
   {
     path: "/admin/settings",
-    name: translate("toolbar-settings"),
+    name: ROUTER_NAME.SETTINGS,
     component: () => import("@/views/settings/Settings.vue"),
     meta: {
+      label: "menu-settings",
       icon: "settings",
       hide: false
     },
   },
   {
     path: "/admin/myenterprise",
-    name: translate("toolbar-settings-enterprise"),
+    name: ROUTER_NAME.ENTERPRISE,
     component: () => import("@/views/settings/myEnterprise/MyEnterprise.vue"),
     meta: {
+      label: "menu-settings-enterprise",
       icon: "business",
       hide: false
     },

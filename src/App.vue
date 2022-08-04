@@ -15,7 +15,7 @@
         </div>
       </template>
 
-      <template v-else-if="useRoute().name === undefined || useRoute().name == 'Login'">
+      <template v-else-if="useRoute().name === undefined || useRoute().name == 'LOGIN'">
         <router-view v-if="!(app.loadingConfig)" />
       </template>
 
