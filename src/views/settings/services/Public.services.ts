@@ -5,7 +5,7 @@ import type { IPrivacy } from "../ISettings";
 
 export default class PublicService extends ApiService {
   constructor() {
-    super({ baseURL: "/public" }, API_PUBLIC_BASE_URL);
+    super({ context: "" });
   }
   /**
    * It takes a user object, and sends it to the server

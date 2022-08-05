@@ -1,12 +1,12 @@
-import ApiService from "@/models/ApiService";
 import type { ITeam, ITeamSave } from "@/views/settings/myEnterprise/components/team/teamTable/models/ITeam";
 import type { IResOpeningHours, IReqOpeningHours } from "@/views/settings/myEnterprise/components/schedule/models/ISchedule";
 import type { AxiosResponse } from "axios";
 import type {IStore, IStoreSave} from "@/views/settings/myEnterprise/components/direction/IDirection";
+import TenancyService from "@/services/TenancyService";
 
-export default class StoreService extends ApiService {
+export default class StoreService extends TenancyService {
   constructor() {
-    super({ baseURL: "/store" });
+    super("/store" );
   }
 
   //****************************************************** */

@@ -1,9 +1,10 @@
 import ApiService from "@/models/ApiService";
+import TenancyService from "@/services/TenancyService";
 import type {IGeneralSettings} from "@/views/settings/myEnterprise/components/general/IGeneral";
 
-export default class GeneralService extends ApiService {
+export default class GeneralService extends TenancyService {
   constructor() {
-    super({ baseURL: "/client" });
+    super("/client");
   }
 
   async getClientInformation(): Promise<IGeneralSettings> {
