@@ -1,6 +1,13 @@
 {
   "should-not-be-empty"			: "Please type something",
-  
+
+  "calendar-today"	: "Today",
+	"calendar-week"		: "Week",
+	"calendar-month"	: "Month",
+	"calendar-3months"	: "3 Months",
+	"calendar-6months"	: "6 Months",
+	"calendar-year"		: "Year",
+
   "calendar-abbr-april": "Abr",
   "calendar-abbr-august": "Ago",
   "calendar-abbr-december": "Dic",
@@ -42,6 +49,8 @@
   "calendar-thursday": "Thursday",
   "calendar-tuesday": "Martes",
   "calendar-wednesday": "Wednesday",
+
+  "dashboard-than-last-period": "Compared to the previous period",
 
   "direccion-tab-new-store-btn": "New shop",
 

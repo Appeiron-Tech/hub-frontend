@@ -5,6 +5,7 @@ import User from "@/models/user/User";
 import type { IEnvironment } from "@/controller/IController";
 
 import { ROUTER_NAME } from "@/plugins/router";
+import { EPeriod } from "@/utils/dates";
 
 export enum ENVIRONMENT{
 	HUB = "HUB",
@@ -20,7 +21,9 @@ export class Controller {
 	private _drawer: boolean = false;
 	private _miniState: boolean = window.innerWidth < 500;
 
-	private _environment: string = ENVIRONMENT.PAY;
+	private _environment: ENVIRONMENT = ENVIRONMENT.PAY;
+
+	private _period: EPeriod = EPeriod.MONTH3;
 
 	// TODO: this any is a temporal solution
 	private m_user: User | any = reactive(new User());
@@ -64,11 +67,19 @@ export class Controller {
 		this.m_user = p_user;
 	}
 
-	get environment(): string{
+	get environment(): ENVIRONMENT{
 		return this._environment;
 	}
-	set environment(value: string){
+	set environment(value: ENVIRONMENT){
 		this._environment = value;
+	}
+
+	get period(): EPeriod {
+		return this._period;
+	}
+
+	set period(value: EPeriod){
+		this._period = value;
 	}
 
 	/**

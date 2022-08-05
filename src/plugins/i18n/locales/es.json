@@ -31,6 +31,8 @@
   "my-enterprise-tab-schedule": "Horario",
   "my-enterprise-tab-team": "Equipo",
 
+  "dashboard-than-last-period": "Comparado con el periodo anterior",
+
   "direccion-tab-new-store-btn": "Nueva tienda",
 
   "general-tab-form-business": "Nombre del negocio",
@@ -77,6 +79,13 @@
   "general-number-wsp": "Número de WhatsApp",
 
   "general-tab-clients-per-week": "Cuántos clientes por semana",
+
+  "calendar-today": "Hoy",
+  "calendar-week": "Semana",
+  "calendar-month": "Mes",
+  "calendar-3months": "3 Meses",
+  "calendar-6months": "6 Meses",
+  "calendar-year": "Año",
 
   "calendar-sunday": "Domingo",
   "calendar-monday": "Lunes",

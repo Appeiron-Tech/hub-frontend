@@ -1,13 +1,16 @@
+import type { ROUTER_NAME } from "@/plugins/router";
+import type { ENVIRONMENT } from "./Controller";
+
 export interface IConfig {
  // Config params
 }
 
 export interface IEnvironment {
-	code: string;
+	code: ENVIRONMENT;
 	label: string;
 }
 
 export interface IMenuItem {
-	code: string;
+	code: ROUTER_NAME;
 	environment?: Array<string>
 }
