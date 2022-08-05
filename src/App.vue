@@ -35,16 +35,11 @@
         <!-- ======================= -->
         <!-- === MAIN PAGE       === -->
         <!-- ======================= -->
-        <Suspense>
-          <template #default>
-            <q-page-container>
-              <q-page class="page-cnt">
-                <router-view v-if="!app.loadingConfig" />
-              </q-page>
-            </q-page-container>
-          </template>
-          <template #fallback> cargando... </template>
-        </Suspense>
+        <q-page-container>
+          <q-page class="page-cnt">
+            <router-view v-if="!app.loadingConfig" />
+          </q-page>
+        </q-page-container>
       </template>
     </q-layout>
   </div>
@@ -60,8 +55,6 @@ import { useRoute } from "vue-router";
 
 const app: Controller = injectStrict("appController");
 
-
-console.log("Router name:", ...[useRoute().name])
 </script>
 
 <style lang="sass" scoped>

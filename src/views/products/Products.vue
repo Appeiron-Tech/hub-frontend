@@ -26,8 +26,6 @@
 import ProductItem from "@/views/products/components/productItem/ProductItem.vue";
 import productController from "@/views/products/models/Product";
 
-
-
 await productController.loadInfo();
 
 const addNewProduct = () => {

@@ -75,8 +75,6 @@ export interface ICardArea{
 
 const cardArea = defineProps<ICardArea>()
 
-console.log("***** cardArea:", cardArea)
-
 const emit = defineEmits<{
   (e: 'selected', value: CARD_CODES): void
 }>()
