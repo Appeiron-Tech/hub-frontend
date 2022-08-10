@@ -22,4 +22,6 @@ RUN mkdir /app
 
 COPY --from=build-stage /app/dist /app
 
-COPY nginx.conf /etc/nginx/nginx.conf
+COPY nginx/nginx.conf /etc/nginx/nginx.conf
+# The last .template is important!
+COPY nginx/conf.d/default.conf /etc/nginx/templates/default.conf.template
