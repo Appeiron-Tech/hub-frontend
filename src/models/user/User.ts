@@ -68,6 +68,6 @@ export default class User {
   }
 
   async logout(): Promise<void> {
-    tokenService.removeToken();
+    await this.m_apiService.doLogout()
   }
 }

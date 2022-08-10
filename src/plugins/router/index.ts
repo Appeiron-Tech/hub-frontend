@@ -1,8 +1,12 @@
 import {createRouter, createWebHistory} from "vue-router";
 import type { RouteRecordRaw } from "vue-router";
 
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// !!! IMPORTANT
+// !!! Dynamic page import is important
+// !!! in order to wait until policy is done!
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 // Pages
-import Dashboard from "@/views/dashboard/Dashboard.vue";
 import Clients from "@/views/clients/Clients.vue";
 
 const history = createWebHistory();
@@ -43,7 +47,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
     name: ROUTER_NAME.DASHBOARD,
-    component: Dashboard,
+    component: () => import("@/views/dashboard/Dashboard.vue"),
     meta: {
       label: "menu-dashboard",
       icon: "home",

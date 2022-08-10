@@ -5,7 +5,7 @@ import User from "@/models/user/User";
 import type { IEnvironment } from "@/controller/IController";
 
 import { ROUTER_NAME } from "@/plugins/router";
-import { EPeriod } from "@/utils/dates";
+import { EPeriod, getDaysFromPeriod, getRangesFromPeriod, type IDateRanges } from "@/utils/dates";
 
 export enum ENVIRONMENT{
 	HUB = "HUB",
@@ -23,7 +23,7 @@ export class Controller {
 
 	private _environment: ENVIRONMENT = ENVIRONMENT.PAY;
 
-	private _period: EPeriod = EPeriod.MONTH3;
+	private _period: EPeriod = EPeriod.WEEK;
 
 	// TODO: this any is a temporal solution
 	private m_user: User | any = reactive(new User());
@@ -97,11 +97,19 @@ export class Controller {
 		return Controller.menu().filter((item) => item.environment?.filter((_env) => _env === this._environment).length)
 	}
 
+	public getDaysFromPeriod(): number {
+		return getDaysFromPeriod(this._period)
+	}
+
+	public getRangesFromPeriod(): IDateRanges{
+		return getRangesFromPeriod(this._period)
+	}
+
 	public static environments(): Array<IEnvironment>{
 		return [
-			{code: ENVIRONMENT.HUB, label: "toolbar-environment-hub"},
-			{code: ENVIRONMENT.WEB, label: "toolbar-environment-web"},
-			{code: ENVIRONMENT.ECOMMERCE, label: "toolbar-environment-ecommerce"},
+			{code: ENVIRONMENT.HUB, label: "toolbar-environment-hub", disabled: true},
+			{code: ENVIRONMENT.WEB, label: "toolbar-environment-web", disabled: true},
+			{code: ENVIRONMENT.ECOMMERCE, label: "toolbar-environment-ecommerce", disabled: true},
 			{code: ENVIRONMENT.PAY, label: "toolbar-environment-pay"},
 		]
 	}
@@ -123,8 +131,8 @@ export class Controller {
 		{code: ROUTER_NAME.CHARTS, environment: []},
 		// {code: ROUTER_NAME.CONTENT, environment: [ENVIRONMENT.HUB, ENVIRONMENT.WEB, ENVIRONMENT.PAY]},
 		// {code: ROUTER_NAME.APPEARANCE, environment: [ENVIRONMENT.HUB, ENVIRONMENT.WEB, ENVIRONMENT.PAY]},
-		{code: ROUTER_NAME.SETTINGS, environment: [ENVIRONMENT.HUB, ENVIRONMENT.WEB, ENVIRONMENT.PAY]},
-		{code: ROUTER_NAME.ENTERPRISE, environment: [ENVIRONMENT.PAY]},
+		{code: ROUTER_NAME.SETTINGS, environment: [ENVIRONMENT.HUB, ENVIRONMENT.WEB, ENVIRONMENT.PAY], disabled: true},
+		{code: ROUTER_NAME.ENTERPRISE, environment: [ENVIRONMENT.PAY], disabled: true},
 	]
 	}
 }

@@ -1,7 +1,7 @@
 import { createApp } from "vue";
 import { Quasar, Dialog, Notify, Loading, QSpinnerGears } from "quasar";
 import App from "./App.vue";
-import HighchartsVue from "highcharts-vue";
+// import HighchartsVue from "highcharts-vue";
 // Plugins
 import router from "./plugins/router";
 import quasarUserOptions from "./plugins/quasar/quasar-user-options";
@@ -17,12 +17,12 @@ import "vue-advanced-cropper/dist/style.css";
 //LINK: (documentacion) https://animate.style/
 import "animate.css";
 
-//TODO: uncomment this appController when working with backend
 // main Controllers
 import appController from "@/controller/Controller";
 
 // Style
 import "@/styles/base.css";
+
 import { GOOGLE_MAPS_KEY } from "@/constants";
 const globalOptions = {
   mode: "international",
@@ -39,8 +39,8 @@ app.use(
 );
 app.use(i18n);
 // @ts-ignore
-app.use(HighchartsVue);
-// @ts-ignore
+// app.use(HighchartsVue);
+
 app.use(VueTelInput, globalOptions);
 app.use(VueGoogleMaps, {
   load: {

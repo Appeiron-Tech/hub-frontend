@@ -18,11 +18,13 @@
             disabled
             style="font-weight: bold;"
           >
-            {{ cardArea.title }}
+            {{ $t(cardArea.title) }}
           </p>
         </div>
         <div class="row q-gutter-none justify-center">
-          <span class="app-text-title">{{ cardArea.value }}</span>
+          <span class="app-text-title">
+            {{ cardArea.currency ? 'S/. ' + $n(cardArea.value, 'decimal') : $n(cardArea.value, 'decimal') }}
+          </span>
         </div>
         <div class="row q-gutter-none justify-center">
           <q-chip
@@ -30,7 +32,7 @@
             text-color="white"
             :icon="cardArea.diffs > 0 ? 'arrow_upward' : 'arrow_downward'"
           >
-            {{ cardArea.diffs }} %
+            {{ $n(cardArea.diffs, 'decimal') }}%
           </q-chip>
         </div>
         <div class="row q-gutter-none justify-center">
@@ -43,7 +45,9 @@
           <span
             class="app-text-subtitle2 q-mt-xs"
             disabled
-          >{{ cardArea.from }} - {{ cardArea.to }}</span>
+          >
+            {{ cardArea.from ? $d(new Date(cardArea.from)) : "" }} - {{ cardArea.to ? $d(new Date(cardArea.to)) : "" }}
+          </span>
         </div>
       </q-card-section>
 
@@ -63,13 +67,13 @@ import type { CARD_CODES } from '../../IDashboard.js';
 export interface ICardArea{
   code: CARD_CODES;
   title: string;
-  value: number | string;
+  value: number;
   diffs: number;
   from: string;
   to: string;
+  currency?: boolean;
 
-	color: string;
-	active?: boolean;
+  active?: boolean;
 	loading?: boolean;
 }
 

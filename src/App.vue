@@ -36,8 +36,8 @@
         <!-- === MAIN PAGE       === -->
         <!-- ======================= -->
         <q-page-container>
-          <q-page class="page-cnt">
-            <router-view v-if="!app.loadingConfig" />
+          <q-page class="page-cnt" v-if="!(app.loadingConfig)" >
+            <router-view />
           </q-page>
         </q-page-container>
       </template>

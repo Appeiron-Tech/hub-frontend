@@ -8,9 +8,11 @@ export interface IConfig {
 export interface IEnvironment {
 	code: ENVIRONMENT;
 	label: string;
+	disabled?: boolean;
 }
 
 export interface IMenuItem {
 	code: ROUTER_NAME;
-	environment?: Array<string>
+	environment?: Array<string>;
+	disabled?: boolean;
 }

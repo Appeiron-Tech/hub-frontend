@@ -20,7 +20,7 @@ export default class TenancyService extends ApiService {
   // *********************
   // *** Observer function
   // *********************
-  public update(subject: ISubject): void {
+  private update(subject: ISubject): void {
     if (subject instanceof ConcreteSubject) {
           const _tenancy: string = appController.user.profile?.tenancies[0].name || ''
           ApiService.setHeader({key: TENANCY_HEADER_KEY, value: _tenancy});

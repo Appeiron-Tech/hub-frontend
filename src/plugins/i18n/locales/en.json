@@ -51,6 +51,11 @@
   "calendar-wednesday": "Wednesday",
 
   "dashboard-than-last-period": "Compared to the previous period",
+  "dashboard-payment-list": "Payment list",
+  "dashboard-card-sales-number": "Number of sales",
+  "dashboard-card-sales-amount": "Sales S/.",
+  "dashboard-card-tickets": "Average ticket",
+  "dashboard-chart-previous-period": "previous period",
 
   "direccion-tab-new-store-btn": "New shop",
 
@@ -114,7 +119,7 @@
   "menu-enterprise-orders": "Requests",
   "menu-enterprise-products": "Products",
   "menu-enterprise-stats": "Statistics",
-  "menu-logout": "Log out",
+  "menu-logout": "Logout",
   "menu-settings": "Settings",
   "menu-settings-dropdown": "Account settings",
   "menu-settings-enterprise": "My company",

@@ -16,7 +16,7 @@
           v-for="(route, index) in routesToShow"
           :key="'for_' + index"
         >
-          <q-item clickable :to="route.path">
+          <q-item clickable :to="route.path" :disable="isDisabled(route)">
             <q-item-section avatar>
               <q-icon :name="getRouteIcon(route.meta)" />
             </q-item-section>
@@ -33,7 +33,7 @@
 <script setup lang="ts">
 import type Controller from "@/controller/Controller";
 import { injectStrict } from "@/utils/injections";
-import type { RouteMeta } from "vue-router";
+import type { RouteMeta, RouteRecordRaw } from "vue-router";
 import router from "@/plugins/router";
 import { computed } from "vue";
 
@@ -46,6 +46,10 @@ const routes = router.options.routes;
 const routesToShow = computed(() => {
   return routes.filter((e) => app.getMenu.find((_itemMenu) => _itemMenu.code === e.name))
 });
+
+const isDisabled = (_route: RouteRecordRaw): boolean | undefined => {
+  return app.getMenu.find((_itemMenu) => _itemMenu.code === _route.name)?.disabled
+}
 
 const getRouteIcon = (
   _routeMeta: RouteMeta | undefined

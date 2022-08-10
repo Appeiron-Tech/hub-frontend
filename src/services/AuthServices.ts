@@ -23,6 +23,10 @@ export default class AuthService extends ApiService {
     else return null;
   }
 
+  async doLogout(): Promise<void> {
+    await this.post("/logout");
+  }
+
   async getProfile(): Promise<IProfile> {
     return (await this.get("/profile")).data;
   }

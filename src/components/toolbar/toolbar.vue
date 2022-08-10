@@ -18,68 +18,75 @@
         color="primary"
         round
         @click="app.environment = _environment.code"
+        :disable="_environment.disabled"
       >
         <span style="font-size: 12px">{{$t(_environment.label)}}</span>
       </q-btn>
       
 
       <q-space />
-
-      <!-- User Info -->
-      <!--
-        notice shrink property since we are placing it
-        as child of QToolbar
-      -->
-      <q-tabs shrink style="min-width: 220px">
-        <img
-          :src="userProfileImage"
-          loading="eager"
-          color="secondary"
-          text-color="white"
-          style="
-            height: 45px;
-            width: 55px;
-            border-radius: 50%;
-            margin-bottom: 10px;
-            margin-top: 7px;
-          "
-          alt="Profile Image"
-        />
-        <div class="email-text">{{ userEmail }}</div>
-
-        <q-btn-dropdown stretch flat :label="userName">
-          <q-list>
-            <q-item-label header>Settings</q-item-label>
-            <q-item clickable v-close-popup tabindex="0">
-              <q-item-section avatar>
-                <q-avatar
-                  icon="settings"
-                  color="secondary"
-                  text-color="white"
-                ></q-avatar>
-              </q-item-section>
-              <q-item-section v-on:click="goToSetting">
-                <q-item-label>Settings</q-item-label>
-                <q-item-label caption>Account settings</q-item-label>
-              </q-item-section>
-              <q-item-section side>
-                <q-icon name="info"></q-icon>
-              </q-item-section>
-            </q-item>
-            <q-separator inset spaced></q-separator>
-            <q-item clickable @click="doLogout()">
-              <q-item-section>{{ $t("toolbar-logout") }}</q-item-section>
-            </q-item>
-          </q-list>
-        </q-btn-dropdown>
-      </q-tabs>
+      <!-- ================= -->
+      <!-- === User Info === -->
+      <!-- ================= -->
+      <div class="row q-gutter-none" style="width: 220px">
+        <div class="col-4">
+          <q-img v-if="userProfile?.photo"
+            :src="userProfile.photo"
+            color="secondary"
+            text-color="white"
+            loading="eager"
+            class="icon-account"
+          />
+          <q-img v-else
+            src="@/assets/noAccountPhoto.png"
+            color="secondary"
+            text-color="white"
+            loading="eager"
+            class="icon-account"
+          />
+        </div>
+        <div class="col-8">
+          <div class="row q-gutter-none">
+            <div class="col-12">
+              <q-btn-dropdown stretch flat :label="userProfile?.userName" class="q-pl-none">
+                <q-list>
+                  <q-item-label header>{{ $t('menu-settings') }}</q-item-label>
+                  <q-item :disabled="true" clickable v-close-popup tabindex="0">
+                    <q-item-section avatar>
+                      <q-avatar
+                        icon="settings"
+                        color="secondary"
+                        text-color="white"
+                      ></q-avatar>
+                    </q-item-section>
+                    <!-- <q-item-section v-on:click="goToSetting"> -->
+                    <q-item-section>
+                      <q-item-label>{{ $t('menu-settings') }}</q-item-label>
+                      <q-item-label caption>{{ $t('menu-settings-dropdown') }}</q-item-label>
+                    </q-item-section>
+                    <q-item-section side>
+                      <q-icon name="info"></q-icon>
+                    </q-item-section>
+                  </q-item>
+                  <q-separator inset spaced></q-separator>
+                  <q-item clickable @click="doLogout()">
+                    <q-item-section>{{ $t("menu-logout") }}</q-item-section>
+                  </q-item>
+                </q-list>
+              </q-btn-dropdown>
+            </div>
+            <div class="col-12">
+              <div class="email-text">{{ userProfile?.email }}</div>
+            </div>
+          </div>
+        </div>        
+      </div>
     </q-toolbar>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, type Ref } from "vue";
-import router from "../../plugins/router";
+import router, { ROUTER_NAME } from "../../plugins/router";
 import  { Controller } from "../../controller/Controller";
 import { injectStrict } from "../../utils/injections";
 
@@ -89,22 +96,17 @@ const menuClicker = () => {
   app.miniState = !(app.miniState);
 };
 
-const userProfileImage: string = "https://www.dzoom.org.es/wp-content/uploads/2020/02/portada-foto-perfil-redes-sociales-consejos.jpg";
-
-const userName: Ref<string> = ref(app.user.profile?.userName ?? "");
-const userEmail: Ref<string> = ref(
-  app.user.profile?.email.toString().substring(0, 20) + "..." ?? ""
-);
+const userProfile = app.user.profile;
 
 // Methods
 
-const goToSetting = () => {
-  router.push("/settings");
+const goToSetting = async () => {
+  await router.push({ name: ROUTER_NAME.SETTINGS });
 };
 
 const doLogout = async function (): Promise<void> {
   await app.user.logout();
-  await router.push({ name: "LOGIN" });
+  await router.push({ name: ROUTER_NAME.LOGIN });
 };
 
 </script>
@@ -126,9 +128,8 @@ const doLogout = async function (): Promise<void> {
   width: 150px
 
 .email-text
-  position: absolute
-  top: 37px
-  left: 63px
+  text-overflow: ellipsis
+  width: 130px
 
 .mini-slot
   transition: background-color .28s
@@ -143,4 +144,11 @@ const doLogout = async function (): Promise<void> {
 
 .headerTool
   padding-top: 0px !important
+
+.icon-account
+  height: 45px
+  width: 55px
+  border-radius: 50%
+  margin-bottom: 10px
+  margin-top: 7px
 </style>

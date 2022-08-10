@@ -21,10 +21,50 @@ import { DEFAULT_LANGUAGE } from "@/constants";
 //   return messages
 // }
 
+const numberFormats = {
+  en: {
+    decimal: {
+      style: 'decimal', minimumFractionDigits: 2, maximumFractionDigits: 2
+    },
+    percent: {
+      style: 'percent', useGrouping: false
+    }
+  },
+  es: {
+    decimal: {
+      style: 'decimal', minimumFractionDigits: 2, maximumFractionDigits: 2
+    },
+    percent: {
+      style: 'percent', useGrouping: false
+    }
+  },
+}
+
 const i18n = createI18n({
   legacy: false,
   locale: DEFAULT_LANGUAGE || "en",
-  fallbackLocale: ["es", "en", "pt"],
+  fallbackLocale: ["es", "en"],
+  numberFormats,
+  datetimeFormats:  {
+    en: {
+      short: {
+        year: 'numeric', month: 'short', day: 'numeric'
+      },
+      long: {
+        year: 'numeric', month: 'numeric', day: 'numeric',
+        hour: 'numeric', minute: 'numeric', second: 'numeric'
+      }
+    },
+    es: {
+      short: {
+        year: 'numeric', month: 'short', day: 'numeric'
+      },
+      long: {
+        year: 'numeric', month: 'numeric', day: 'numeric',
+        hour: 'numeric', minute: 'numeric', second: 'numeric'
+      }
+    }
+  },
   messages: {
     es: es,
     en: en,
