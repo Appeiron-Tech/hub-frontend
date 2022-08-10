@@ -44,3 +44,25 @@ npm run build
 ```sh
 npm run lint
 ```
+
+
+## Build docker image for ADM64
+
+docker build --platform amd64 -t appeiron/hub-frontend .
+
+
+## NGINX certificates docs:
+https://ongkhaiwei.medium.com/generate-lets-encrypt-certificate-with-dns-challenge-and-namecheap-e5999a040708
+
+
+!!! TO RENEW CERTIFICATES IS NEEDED DO IT MANUALLY, repeating all this process
+
+certbot certonly --manual --preferred-challenges=dns --email "appeiron.manager@gmail.com" --server https://acme-v02.api.letsencrypt.org/directory --agree-tos -d "zentreapp.com"
+
+
+accept all
+
+ADD 2 TXT RECORD in namecheap, in the host is not needed put the domain name, (be aware because letsencrypt it will do the domain name added at last of the host name)
+
+cp /etc/letsencrypt/live/zentreapp.com/privkey.pem /root/certs/zentreapp.com.key
+cp /etc/letsencrypt/live/zentreapp.com/fullchain.pem /root/certs/zentreapp.com.crt

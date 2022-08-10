@@ -26,6 +26,7 @@
             <div class="col-12">
               <q-input
                 v-model="login.password"
+                :type="isPwd ? 'password' : 'text'"
                 class="frmInput"
                 outlined
                 color="primary"
@@ -35,7 +36,26 @@
                 :rules="[
                   (val) => (val && val.length > 0) || $t('should-not-be-empty'),
                 ]"
-              />
+              >
+                <template v-slot:append>
+                  <q-icon
+                    :name="isPwd ? 'visibility_off' : 'visibility'"
+                    class="cursor-pointer"
+                    @click="isPwd = !isPwd"
+                  />
+                </template>
+              </q-input>
+
+<!-- <q-input v-model="password" filled :type="isPwd ? 'password' : 'text'" hint="Password with toggle">
+        <template v-slot:append>
+          <q-icon
+            :name="isPwd ? 'visibility_off' : 'visibility'"
+            class="cursor-pointer"
+            @click="isPwd = !isPwd"
+          />
+        </template>
+      </q-input> -->
+
             </div>
             <div class="col-6">
               <div class="text-h6 text-no-pass">¿Olvidaste tu contraseña?</div>
@@ -66,6 +86,8 @@ const login: Login = reactive(new Login());
 const router = useRouter();
 const wrongCredentials: Ref<boolean> = ref(false);
 const app: Controller = injectStrict("appController");
+
+const isPwd: Ref<boolean> = ref(true)
 
 const doLogin = function (): void {
   loginForm.value.validate().then(async (success: boolean) => {

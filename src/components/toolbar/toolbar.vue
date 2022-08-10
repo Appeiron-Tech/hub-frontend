@@ -5,7 +5,7 @@
 
       <!-- Title -->
       <q-toolbar-title>
-        <span style="font-size: 28px;">AppeironHub</span>
+        <span style="font-size: 28px;">Zentre</span>
       </q-toolbar-title>
 
       <q-space />
