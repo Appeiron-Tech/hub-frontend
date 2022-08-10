@@ -16,6 +16,7 @@
                 label="Email"
                 label-color="primary"
                 lazy-rules
+                autofocus
                 :rules="[
                   (val) => (val && val.length > 0) || $t('should-not-be-empty'),
                 ]"
