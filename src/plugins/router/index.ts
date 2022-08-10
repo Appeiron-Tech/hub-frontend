@@ -74,16 +74,16 @@ const routes: Array<RouteRecordRaw> = [
       hide: false
     },
   },
-  {
-    path: "/admin/mypage",
-    name: ROUTER_NAME.MYPAGE,
-    component: () => import("@/views/myPage/MyPage.vue"),
-    meta: {
-      label: "menu-enterprise-my-page",
-      icon: "web",
-      hide: false
-    },
-  },
+  // {
+  //   path: "/admin/mypage",
+  //   name: ROUTER_NAME.MYPAGE,
+  //   component: () => import("@/views/myPage/MyPage.vue"),
+  //   meta: {
+  //     label: "menu-enterprise-my-page",
+  //     icon: "web",
+  //     hide: false
+  //   },
+  // },
   {
     path: "/admin/stats",
     name: ROUTER_NAME.STATS,
@@ -104,16 +104,16 @@ const routes: Array<RouteRecordRaw> = [
       hide: false
     },
   },
-  {
-    path: "/admin/productsconfig",
-    name: ROUTER_NAME.PRODUCTS,
-    component: () => import("@/views/products/Products.vue"),
-    meta: {
-      label: "menu-enterprise-products",
-      icon: "category",
-      hide: false
-    },
-  },
+  // {
+  //   path: "/admin/productsconfig",
+  //   name: ROUTER_NAME.PRODUCTS,
+  //   component: () => import("@/views/products/Products.vue"),
+  //   meta: {
+  //     label: "menu-enterprise-products",
+  //     icon: "category",
+  //     hide: false
+  //   },
+  // },
   {
     path: "/admin/historic",
     name: ROUTER_NAME.HISTORIC,
@@ -124,36 +124,36 @@ const routes: Array<RouteRecordRaw> = [
       hide: false
     },
   },
-  {
-    path: "/admin/charts",
-    name: ROUTER_NAME.CHARTS,
-    component: () => import("@/views/charts/Charts.vue"),
-    meta: {
-      label: "menu-charts",
-      icon: "query_stats",
-      hide: false
-    },
-  },
-  {
-    path: "/admin/settings",
-    name: ROUTER_NAME.SETTINGS,
-    component: () => import("@/views/settings/Settings.vue"),
-    meta: {
-      label: "menu-settings",
-      icon: "settings",
-      hide: false
-    },
-  },
-  {
-    path: "/admin/myenterprise",
-    name: ROUTER_NAME.ENTERPRISE,
-    component: () => import("@/views/settings/myEnterprise/MyEnterprise.vue"),
-    meta: {
-      label: "menu-settings-enterprise",
-      icon: "business",
-      hide: false
-    },
-  },
+  // {
+  //   path: "/admin/charts",
+  //   name: ROUTER_NAME.CHARTS,
+  //   component: () => import("@/views/charts/Charts.vue"),
+  //   meta: {
+  //     label: "menu-charts",
+  //     icon: "query_stats",
+  //     hide: false
+  //   },
+  // },
+  // {
+  //   path: "/admin/settings",
+  //   name: ROUTER_NAME.SETTINGS,
+  //   component: () => import("@/views/settings/Settings.vue"),
+  //   meta: {
+  //     label: "menu-settings",
+  //     icon: "settings",
+  //     hide: false
+  //   },
+  // },
+  // {
+  //   path: "/admin/myenterprise",
+  //   name: ROUTER_NAME.ENTERPRISE,
+  //   component: () => import("@/views/settings/myEnterprise/MyEnterprise.vue"),
+  //   meta: {
+  //     label: "menu-settings-enterprise",
+  //     icon: "business",
+  //     hide: false
+  //   },
+  // },
 ];
 
 const router = createRouter({
