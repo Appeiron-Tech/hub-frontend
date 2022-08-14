@@ -1,5 +1,5 @@
 import TenancyService from "@/services/TenancyService";
-import type { IReqGetPaymentList, IReqGetSummaryStats, IResGetPaymentList, IResGetSummaryStats } from "./IDashboardService";
+import type { IReqGetPaymentList, IReqGetPaymentsByStatus, IReqGetPaymentsByType, IReqGetSummaryStats, IResGetPaymentList, IResGetPaymentsByStatus, IResGetPaymentsByType, IResGetSummaryStats } from "./IDashboardService";
 
 export default class DashboardService extends TenancyService {
   constructor() {
@@ -23,6 +23,22 @@ export default class DashboardService extends TenancyService {
    */
   async getPaymentList(payload: IReqGetPaymentList): Promise<Array<IResGetPaymentList>> {
     return (await this.get("/paymentlist/" + payload.period)).data;
+  }
+
+  /**
+   *
+   * @param payload: IReqGetPaymentsByType
+   */
+   async getPaymentsByType(payload: IReqGetPaymentsByType): Promise<Array<IResGetPaymentsByType>> {
+    return (await this.get("/by_type/" + payload.period)).data;
+  }
+
+  /**
+   *
+   * @param payload: IReqGetPaymentsByStatus
+   */
+  async getPaymentsByStatus(payload: IReqGetPaymentsByStatus): Promise<Array<IResGetPaymentsByStatus>> {
+    return (await this.get("/by_status/" + payload.period)).data;
   }
 
 }

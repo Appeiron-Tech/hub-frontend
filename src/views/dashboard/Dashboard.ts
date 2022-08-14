@@ -1,20 +1,15 @@
 import { reactive } from "vue";
-import type { IPaymentList, ISummaryStats } from "./IDashboard";
+import type { IPaymentList, IPaymentsByStatus, IPaymentsByType, ISummaryStats } from "./IDashboard";
 import DashboardService from "./services/DashboardService";
 
 export class Dashboard {
   private _summaryStats: ISummaryStats | null = null;
 	private _paymentList: Array<IPaymentList> = [];
+  private _paymentsByType: Array<IPaymentsByType> = [];
+  private _paymentsByStatus: Array<IPaymentsByStatus> = [];
 
   // Services
   private _apiService = new DashboardService();
-
-  /**
-   * Cache
-   */
-  // private _cache: boolean = true;
-  // private __dateFilter: IDateRange | null = null;
-  // private __prvDateRange: IDateRange | null = null;
 
   constructor() {
     // Constructor definition
@@ -35,32 +30,50 @@ export class Dashboard {
     this._summaryStats = value;
   }
 
-  // get prvSummaryStats(): ISummaryStats {
-  //   return this._prvSummaryStats;
-  // }
+  get paymentsByType(): Array<IPaymentsByType> {
+    return this._paymentsByType;
+  }
 
-  // set prvSummaryStats(p_val: ISummaryStats) {
-  //   this._prvSummaryStats = p_val;
-  // }
+  set paymentsByType(value: Array<IPaymentsByType>) {
+    this._paymentsByType = value;
+  }
+
+  get paymentsByStatus(): Array<IPaymentsByStatus> {
+    return this._paymentsByStatus;
+  }
+
+  set paymentsByStatus(value: Array<IPaymentsByStatus>) {
+    this._paymentsByStatus = value;
+  }
 
   /***************
    * Methods
    ***************/
-  /**
-   * 
-   */
-  // public killCache(): void {
-	// 	this.__dateFilter = null
-	// }
 
   /**
    *
-   * @param daysAgo: number
+   * @param period: string
    */
-	// public async loadInfo(daysAgo: number): Promise<void> {
 	public async loadInfo(period: string): Promise<void> {
 
-		this._paymentList = await this._apiService.getPaymentList({period: period})
+		this._paymentList = await this._apiService.getPaymentList({period: period});
+
+    this._paymentsByType = await this._apiService.getPaymentsByType({period: period});
+    
+    // const _rs = this._paymentsByType;
+    // _rs.push({
+    //     "payment_type": "credit",
+    //     "amount": Number("140.94000"),
+    //     "quantity": Number("2")
+    // })
+    // _rs.push({
+    //     "payment_type": "credit-2",
+    //     "amount": Number("110.94000"),
+    //     "quantity": Number("2")
+    // })
+    // this._paymentsByType = _rs;
+
+    this._paymentsByStatus = await this._apiService.getPaymentsByStatus({period: period});
 
     const _rsSummaryStats = await this._apiService.getSummaryStats({period: period})
     // Inferring types

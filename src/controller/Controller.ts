@@ -118,6 +118,7 @@ export class Controller {
 		return [
 		{code: ROUTER_NAME.LOGIN, },
 		{code: ROUTER_NAME.DASHBOARD, environment: [ENVIRONMENT.WEB, ENVIRONMENT.PAY]},
+		{code: ROUTER_NAME.PAYMENT, environment: [ENVIRONMENT.PAY]},
 		// {code: ROUTER_NAME.ANALYTICS, environment: [ENVIRONMENT.HUB]},
 		// {code: ROUTER_NAME.PAYMENT_LINK, environment: [ENVIRONMENT.PAY]},
 		// {code: ROUTER_NAME.REPORTS, environment: [ENVIRONMENT.PAY]},

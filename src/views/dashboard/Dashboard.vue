@@ -21,20 +21,23 @@
     <div class="row q-gutter-none q-mb-md">
       <div class="col-12 q-px-xs">
         <ChartTimeSeries v-bind="cardTimeSeries"/>
-        <!-- {{cardTimeSeries}}
-        {{dashboard.summaryStats}} -->
       </div>
     </div>
-    <!-- ==================== -->
-    <!-- === Payment List === -->
-    <!-- ==================== -->
+
     <div class="row q-gutter-none q-mb-md">
-      <div class="col-12 q-px-xs">
-        <PaymentsTable :title="$t('dashboard-payment-list')" :rows="dashboard.paymentList"/>
-      <!-- paymentList: {{ dashboard.paymentList }} -->
+      <!-- ======================== -->
+      <!-- === Payments by Type === -->
+      <!-- ======================== -->
+      <div class="col-12 col-sm-6 q-px-xs">
+        <ChartPie v-bind="cardPaymentsByType"/>
+      </div>
+      <!-- ======================== -->
+      <!-- === Payments by Status === -->
+      <!-- ======================== -->
+      <div class="col-12 col-sm-6 q-px-xs">
+        <ChartPie v-bind="cardPaymentsByStatus"/>
       </div>
     </div>
-		
   </PageWrapper>
 </template>
 
@@ -49,10 +52,13 @@ import { useI18n } from "vue-i18n";
 // Components
 import PageWrapper from "@/components/pageWrapper/PageWrapper.vue";
 import CardArea, { type ICardArea } from "./components/cardArea/CardArea.vue";
-import PaymentsTable from './components/paymentsTable/PaymentsTable.vue'
+
 
 import type { ICardTimeSeries } from "./components/chartTimeSeries/ChartTimeSeries.vue";
 import ChartTimeSeries from "./components/chartTimeSeries/ChartTimeSeries.vue";
+
+import type { ICardPie } from "./components/chartPie/ChartPie.vue";
+import ChartPie from "./components/chartPie/ChartPie.vue";
 
 // ********
 const app: Controller = injectStrict("appController");
@@ -162,7 +168,6 @@ const cardTimeSeries: ICardTimeSeries = reactive({
   },
   ],
   xAxis: computed(() => {
-    // console.log('app.dateFilter:', app.dateFilter);
     if (dashboard.summaryStats)
       return {
         from: new Date(dashboard.summaryStats.current.init_time),
@@ -171,13 +176,46 @@ const cardTimeSeries: ICardTimeSeries = reactive({
     return undefined;
   }),
   xAxisPrv: computed(() => {
-    // console.log('app.prvDateRange:', app.prvDateRange);
     if (dashboard.summaryStats)
       return {
         from: new Date(dashboard.summaryStats.prev.init_time),
         to: new Date(dashboard.summaryStats.prev.finish_time)
       }
     return undefined;
+  })
+})
+
+/*****************************
+ ***    Payment by type    ***
+ *****************************/
+const cardPaymentsByType: ICardPie = reactive({
+  title: computed(() => t('dashboard-payments-type')),
+  tooltipFormatter: "- " + t('chart-pie-amount') + " {point.y}S/. ({point.percentage:.1f}%)<br/> -" + t('chart-pie-quantity') + ": {point.quantity:.1f}",
+  data: computed(() => {
+    return dashboard.paymentsByType.map((payment) => {
+      return {
+        name: payment.payment_type,
+        y: Number(payment.amount),
+        quantity: Number(payment.quantity),
+        // color: "#7dec7c", // It could be sent from server
+      }
+    })
+  })
+})
+
+/*******************************
+ ***    Payment by status    ***
+ *******************************/
+const cardPaymentsByStatus: ICardPie = reactive({
+  title: t('dashboard-payments-status'),
+  tooltipFormatter: "- " + t('chart-pie-quantity') + " {point.y} ({point.percentage:.1f}%)",
+  data: computed(() => {
+    return dashboard.paymentsByStatus.map((payment) => {
+      return {
+        name: payment.status,
+        y: Number(payment.quantity),
+      }
+    })
   })
 })
 

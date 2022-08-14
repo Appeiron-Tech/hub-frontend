@@ -6,6 +6,7 @@
   "should-not-be-empty": "Por favor, ingresa algún valor",
 
   "menu-dashboard": "Dashboard",
+  "menu-payment": "Pagos",
   "menu-charts": "Gráficos",
   "menu-enterprise-stats": "Estadística",
   "menu-enterprise-my-page": "Mi Pígina",
@@ -37,6 +38,11 @@
   "dashboard-card-sales-amount": "Ventas S/.",
   "dashboard-card-tickets": "Ticket medio",
   "dashboard-chart-previous-period": "periodo anterior",
+  "dashboard-payments-type": "Pagos por Tipo",
+  "dashboard-payments-status": "Pagos por Estado",
+
+  "chart-pie-amount": "Importe",
+  "chart-pie-quantity": "Cantidad",
 
   "direccion-tab-new-store-btn": "Nueva tienda",
 

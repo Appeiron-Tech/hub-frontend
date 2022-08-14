@@ -14,6 +14,7 @@ const history = createWebHistory();
 export enum ROUTER_NAME {
   LOGIN = "LOGIN",
   DASHBOARD = "DASHBOARD",
+  PAYMENT = "PAYMENT",
   // ANALYTICS = "ANALYTICS",
   // PAYMENT_LINK = "PAYMENT_LINK",
   // REPORTS = "REPORTS",
@@ -50,8 +51,16 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("@/views/dashboard/Dashboard.vue"),
     meta: {
       label: "menu-dashboard",
-      icon: "home",
-      hide: false
+      icon: "home"
+    },
+  },
+  {
+    path: "/admin/payment",
+    name: ROUTER_NAME.PAYMENT,
+    component: () => import("@/views/payment/Payment.vue"),
+    meta: {
+      label: "menu-payment",
+      icon: "payments"
     },
   },
   {

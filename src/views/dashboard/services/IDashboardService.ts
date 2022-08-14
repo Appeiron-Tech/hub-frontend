@@ -49,3 +49,22 @@ export interface IResGetSummaryStats {
   prev: IPeriodSummaryStats;
   current: IPeriodSummaryStats;
 }
+
+export interface IReqGetPaymentsByType {
+	period: string
+}
+
+export interface IResGetPaymentsByType {
+  payment_type: string
+  amount: number
+  quantity: number
+}
+
+export interface IReqGetPaymentsByStatus {
+	period: string
+}
+
+export interface IResGetPaymentsByStatus {
+  status: string
+  quantity: number
+}

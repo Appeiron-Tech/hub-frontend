@@ -56,6 +56,11 @@
   "dashboard-card-sales-amount": "Sales S/.",
   "dashboard-card-tickets": "Average ticket",
   "dashboard-chart-previous-period": "previous period",
+  "dashboard-payments-type": "Payments by Type",
+  "dashboard-payments-status": "Payments by Status",
+
+  "chart-pie-amount": "Amount",
+  "chart-pie-quantity": "Quantity",
 
   "direccion-tab-new-store-btn": "New shop",
 
@@ -111,6 +116,7 @@
   "sidebar-account": "Account",
   
   "menu-dashboard": "Dashboard",
+  "menu-payment": "Payments",
   "menu-charts": "Charts",
   "menu-enterprise-clients": "Clients",
   "menu-enterprise-historic": "History",

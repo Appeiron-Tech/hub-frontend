@@ -23,7 +23,7 @@
         </div>
         <div class="row q-gutter-none justify-center">
           <span class="app-text-title">
-            {{ cardArea.currency ? 'S/. ' + $n(cardArea.value, 'decimal') : $n(cardArea.value, 'decimal') }}
+            {{ cardArea.currency ? 'S/. ' + $n(cardArea.value, 'decimal') : $n(cardArea.value, isDecimal(cardArea.value) ? 'decimal' : '') }}
           </span>
         </div>
         <div class="row q-gutter-none justify-center">
@@ -62,7 +62,7 @@
 
 <script setup lang="ts">
 import type { CARD_CODES } from '../../IDashboard.js';
-
+import { isDecimal } from '@/utils/validations';
 
 export interface ICardArea{
   code: CARD_CODES;

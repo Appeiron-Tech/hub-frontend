@@ -1,9 +1,11 @@
-import type { IResGetPaymentList } from "./services/IDashboardService";
+import type { IResGetPaymentList, IResGetPaymentsByStatus, IResGetPaymentsByType } from "./services/IDashboardService";
 
 // ***************
 // *** Interfaces
 // ***************
 
+export interface IPaymentsByStatus extends IResGetPaymentsByStatus {}
+export interface IPaymentsByType extends IResGetPaymentsByType {}
 export interface IPaymentList extends IResGetPaymentList {}
 
 interface IStatsByTime {

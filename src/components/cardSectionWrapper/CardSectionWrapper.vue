@@ -8,8 +8,7 @@
       <div class="row justify-start q-my-sm">
         <div class="col">
           <p
-            disabled
-            style="font-weight: bold;"
+            style="font-weight: bold; opacity: 0.6 !important;"
             class="aumentedFontSize"
           >
             {{ cardSection.title }}
