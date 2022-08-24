@@ -130,7 +130,7 @@ export class Controller {
 		{code: ROUTER_NAME.PRODUCTS, environment: []},
 		{code: ROUTER_NAME.HISTORIC, environment: []},
 		{code: ROUTER_NAME.CHARTS, environment: []},
-		// {code: ROUTER_NAME.CONTENT, environment: [ENVIRONMENT.HUB, ENVIRONMENT.WEB, ENVIRONMENT.PAY]},
+		{code: ROUTER_NAME.CONTENT, environment: [ENVIRONMENT.HUB, ENVIRONMENT.WEB, ENVIRONMENT.PAY]},
 		// {code: ROUTER_NAME.APPEARANCE, environment: [ENVIRONMENT.HUB, ENVIRONMENT.WEB, ENVIRONMENT.PAY]},
 		{code: ROUTER_NAME.SETTINGS, environment: [ENVIRONMENT.HUB, ENVIRONMENT.WEB, ENVIRONMENT.PAY], disabled: true},
 		{code: ROUTER_NAME.ENTERPRISE, environment: [ENVIRONMENT.PAY], disabled: true},

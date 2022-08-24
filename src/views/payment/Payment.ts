@@ -1,6 +1,7 @@
 import { reactive } from "vue";
-import type { IPaymentList, ISummaryStats } from "@/views/dashboard/IDashboard";
+import type { IPaymentList } from "@/views/dashboard/IDashboard";
 import DashboardService from "@/views/dashboard/services/DashboardService";
+import { EPeriod, getRangesFromPeriod, type IDateRanges } from "@/utils/dates";
 
 export class Payment {
 	private _paymentList: Array<IPaymentList> = [];
@@ -27,8 +28,13 @@ export class Payment {
    *
    * @param period: string
    */
-	public async loadInfo(period: string): Promise<void> {
-		this._paymentList = await this._apiDashboardService.getPaymentList({period: period})
+	public async loadInfo(period: EPeriod): Promise<void> {
+
+    const ranges: IDateRanges = getRangesFromPeriod(period)
+		this._paymentList = await this._apiDashboardService.getPaymentList({
+      init_date: ranges.actual.from,
+      finish_date: ranges.actual.to
+    })
   }
 }
 

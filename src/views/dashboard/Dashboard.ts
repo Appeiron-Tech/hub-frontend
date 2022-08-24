@@ -1,3 +1,4 @@
+import { EPeriod, getRangesFromPeriod, type IDateRanges } from "@/utils/dates";
 import { reactive } from "vue";
 import type { IPaymentList, IPaymentsByStatus, IPaymentsByType, ISummaryStats } from "./IDashboard";
 import DashboardService from "./services/DashboardService";
@@ -54,11 +55,19 @@ export class Dashboard {
    *
    * @param period: string
    */
-	public async loadInfo(period: string): Promise<void> {
+	public async loadInfo(period: EPeriod): Promise<void> {
 
-		this._paymentList = await this._apiService.getPaymentList({period: period});
+    const ranges: IDateRanges = getRangesFromPeriod(period)
 
-    this._paymentsByType = await this._apiService.getPaymentsByType({period: period});
+    this._paymentList = await this._apiService.getPaymentList({
+      init_date: ranges.actual.from,
+      finish_date: ranges.actual.to
+    });
+
+    this._paymentsByType = await this._apiService.getPaymentsByType({
+      init_date: ranges.actual.from,
+      finish_date: ranges.actual.to
+    });
     
     // const _rs = this._paymentsByType;
     // _rs.push({
@@ -73,14 +82,22 @@ export class Dashboard {
     // })
     // this._paymentsByType = _rs;
 
-    this._paymentsByStatus = await this._apiService.getPaymentsByStatus({period: period});
+    this._paymentsByStatus = await this._apiService.getPaymentsByStatus({
+      init_date: ranges.actual.from,
+      finish_date: ranges.actual.to
+    });
 
-    const _rsSummaryStats = await this._apiService.getSummaryStats({period: period})
+    const _rsSummaryStats = await this._apiService.getSummaryStats({
+      group_type: Dashboard.getGroupType(period),
+      prev_init_date: ranges.previous.from,
+      init_date: ranges.actual.from,
+      finish_date: ranges.actual.to
+    })
     // Inferring types
     this._summaryStats = {
       current: {
-        init_time: _rsSummaryStats.current.init_time,
-        finish_time: _rsSummaryStats.current.finish_time,
+        init_time: ranges.actual.from,
+        finish_time: ranges.actual.to,
         sell_quantity: Number(_rsSummaryStats.current.sell_quantity),
         sells: Number(_rsSummaryStats.current.sells),
         ticket_avg: Number(_rsSummaryStats.current.ticket_avg),
@@ -94,8 +111,8 @@ export class Dashboard {
                                                         })
       },
       prev: {
-        init_time: _rsSummaryStats.prev.init_time,
-        finish_time: _rsSummaryStats.prev.finish_time,
+        init_time: ranges.previous.from,
+        finish_time: ranges.previous.to,
         sell_quantity: Number(_rsSummaryStats.prev.sell_quantity),
         sells: Number(_rsSummaryStats.prev.sells),
         ticket_avg: Number(_rsSummaryStats.prev.ticket_avg),
@@ -109,6 +126,19 @@ export class Dashboard {
                                                         })
       }
     }
+  }
+
+  private static getGroupType(period: EPeriod): string {
+    // - For range equal than 1 day ⇒ group_type = ‘H’ (points: min 1, max 24 )
+    // - For 7 days, 1 month, 3 months  ⇒ group_type = ‘D’ (points: min 7, max 90)
+    // - For 6 months, 1 year  ⇒ group_type = ‘W’ (points: min 24, max 51)
+
+    if(period === EPeriod.TODAY)
+      return 'H'
+    if(period === EPeriod.WEEK || period === EPeriod.MONTH || period === EPeriod.MONTH3)
+      return 'D'
+    // if(period === EPeriod.MONTH6 || period === EPeriod.YEAR)
+    return 'W'
   }
 }
 

@@ -1,5 +1,6 @@
 export interface IReqGetPaymentList {
-	period: string
+	init_date: Date; // Date
+  finish_date?: Date; // Date
 }
 
 export interface IResGetPaymentList {
@@ -26,7 +27,10 @@ export interface IResGetPaymentList {
 }
 
 export interface IReqGetSummaryStats {
-	period: string
+  group_type: string,
+  prev_init_date: Date;
+  init_date: Date;
+  finish_date?: Date;
 }
 
 interface IStatsByTime {
@@ -37,8 +41,8 @@ interface IStatsByTime {
 }
 
 export interface IPeriodSummaryStats {
-  init_time: string; // Date
-  finish_time: string; // Date
+  // init_time: string; // Date
+  // finish_time: string; // Date
   sell_quantity: string; // number
   sells: string; // number
   ticket_avg: string; // number
@@ -51,7 +55,8 @@ export interface IResGetSummaryStats {
 }
 
 export interface IReqGetPaymentsByType {
-	period: string
+	init_date: Date; // Date
+  finish_date?: Date; // Date
 }
 
 export interface IResGetPaymentsByType {
@@ -61,7 +66,8 @@ export interface IResGetPaymentsByType {
 }
 
 export interface IReqGetPaymentsByStatus {
-	period: string
+	init_date: Date; // Date
+  finish_date?: Date; // Date
 }
 
 export interface IResGetPaymentsByStatus {

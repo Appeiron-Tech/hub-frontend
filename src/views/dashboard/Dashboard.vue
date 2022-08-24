@@ -75,8 +75,8 @@ const cardsArea: Array<ICardArea> = reactive([
     title: "dashboard-card-sales-number",
     value: computed(() => dashboard.summaryStats?.current.sell_quantity || 0),
     diffs: computed(() => 100 * ((dashboard.summaryStats?.current.sell_quantity || 0) - (dashboard.summaryStats?.prev.sell_quantity || 0)) / (dashboard.summaryStats?.prev.sell_quantity || 1)),
-    from: computed(() => dashboard.summaryStats?.current.init_time || ""),
-    to: computed(() => dashboard.summaryStats?.current.finish_time || ""),
+    from: computed(() => dashboard.summaryStats?.current.init_time),
+    to: computed(() => dashboard.summaryStats?.current.finish_time),
 
     active: true,
     loading: computed(() => false)
@@ -86,8 +86,8 @@ const cardsArea: Array<ICardArea> = reactive([
     title: "dashboard-card-sales-amount",
     value: computed(() => dashboard.summaryStats?.current.sells || 0),
     diffs: computed(() => 100 * ((dashboard.summaryStats?.current.sells || 0) - (dashboard.summaryStats?.prev.sells || 0)) / (dashboard.summaryStats?.prev.sells || 1)),
-    from: computed(() => dashboard.summaryStats?.current.init_time || ""),
-    to: computed(() => dashboard.summaryStats?.current.finish_time || ""),
+    from: computed(() => dashboard.summaryStats?.current.init_time),
+    to: computed(() => dashboard.summaryStats?.current.finish_time),
     currency: true,
 
     active: false,
@@ -98,8 +98,8 @@ const cardsArea: Array<ICardArea> = reactive([
     title: "dashboard-card-tickets",
     value: computed(() => dashboard.summaryStats?.current.ticket_avg || 0),
     diffs: computed(() => 100 * ((dashboard.summaryStats?.current.ticket_avg || 0) - (dashboard.summaryStats?.prev.ticket_avg || 0)) / (dashboard.summaryStats?.prev.ticket_avg || 1)),
-    from: computed(() => dashboard.summaryStats?.current.init_time || ""),
-    to: computed(() => dashboard.summaryStats?.current.finish_time || ""),
+    from: computed(() => dashboard.summaryStats?.current.init_time),
+    to: computed(() => dashboard.summaryStats?.current.finish_time),
 
     active: false,
     loading: computed(() => false)
@@ -226,7 +226,8 @@ watch(
   () => app.period,
   () => {
     // dashboard.loadInfo(app.getDaysFromPeriod())
-    dashboard.loadInfo(app.period.toString())
+    dashboard.loadInfo(app.period)
+    // dashboard.loadInfo(app.getRangesFromPeriod())
   },
   {immediate: true, deep: true}
 )

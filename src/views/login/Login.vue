@@ -104,7 +104,8 @@ const doLogin = function (): void {
 
       wrongCredentials.value = !successfulLogin;
       //loginForm.value.resetValidation();
-      await router.push("/");
+      if(!wrongCredentials.value)
+        await router.push("/");
     } else {
     }
   });

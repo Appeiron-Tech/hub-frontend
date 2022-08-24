@@ -26,7 +26,7 @@ export enum ROUTER_NAME {
   PRODUCTS = "PRODUCTS",
   HISTORIC = "HISTORIC",
   CHARTS = "CHARTS",
-  // CONTENT = "CONTENT",
+  CONTENT = "CONTENT",
   // APPEARANCE = "APPEARANCE",
   SETTINGS = "SETTINGS",
   ENTERPRISE = "ENTERPRISE"
@@ -61,6 +61,15 @@ const routes: Array<RouteRecordRaw> = [
     meta: {
       label: "menu-payment",
       icon: "payments"
+    },
+  },
+  {
+    path: "/admin/content",
+    name: ROUTER_NAME.CONTENT,
+    component: () => import("@/views/content/Content.vue"),
+    meta: {
+      label: "menu-content",
+      icon: "list"
     },
   },
   {

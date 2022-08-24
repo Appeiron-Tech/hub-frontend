@@ -16,8 +16,8 @@ interface IStatsByTime {
 }
 
 export interface IPeriodSummaryStats {
-  init_time: string; // Date
-  finish_time: string; // Date
+  init_time: Date;// Date
+  finish_time: Date;// Date
   sell_quantity: number;
   sells: number;
   ticket_avg: number;

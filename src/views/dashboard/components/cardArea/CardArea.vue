@@ -46,7 +46,7 @@
             class="app-text-subtitle2 q-mt-xs"
             disabled
           >
-            {{ cardArea.from ? $d(new Date(cardArea.from)) : "" }} - {{ cardArea.to ? $d(new Date(cardArea.to)) : "" }}
+            {{ cardArea.from ? $d(cardArea.from) : "" }} - {{ cardArea.to ? $d(cardArea.to) : "" }}
           </span>
         </div>
       </q-card-section>
@@ -69,8 +69,8 @@ export interface ICardArea{
   title: string;
   value: number;
   diffs: number;
-  from: string;
-  to: string;
+  from?: Date;
+  to?: Date;
   currency?: boolean;
 
   active?: boolean;
