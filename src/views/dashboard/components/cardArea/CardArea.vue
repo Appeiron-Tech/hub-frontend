@@ -33,6 +33,9 @@
             :icon="cardArea.diffs > 0 ? 'arrow_upward' : 'arrow_downward'"
           >
             {{ $n(cardArea.diffs, 'decimal') }}%
+            <q-tooltip anchor="center right" self="center left">
+              {{ $t("dashboard-card-previous-value")}}:             {{ cardArea.currency ? 'S/. ' + $n(prevValue, 'decimal') : $n(prevValue, isDecimal(prevValue) ? 'decimal' : '') }} 
+            </q-tooltip>
           </q-chip>
         </div>
         <div class="row q-gutter-none justify-center">
@@ -68,6 +71,7 @@ export interface ICardArea{
   code: CARD_CODES;
   title: string;
   value: number;
+  prevValue: number;
   diffs: number;
   from?: Date;
   to?: Date;
