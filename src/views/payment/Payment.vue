@@ -29,7 +29,7 @@ watch(
   () => app.period,
   () => {
     // dashboard.loadInfo(app.getDaysFromPeriod())
-    payment.loadInfo(app.period.toString())
+    payment.loadInfo(app.period)
   },
   {immediate: true, deep: true}
 )

@@ -8,13 +8,14 @@
     >
       <template v-slot:top="props">
         <div v-if="$q.screen.gt.xs" class="col">
-          <q-toggle
-            v-for="(column) in columns"
-            v-model="visibleColumns"
-            :val="column.name"
-            :label="column.label"
-            :disable="column.required"
-          />
+          <template v-for="(column) in columns">
+            <q-toggle
+              v-if="!column.required"
+              v-model="visibleColumns"
+              :val="column.name"
+              :label="column.label"
+            />
+          </template>
         </div>
         <q-select
           v-else
@@ -26,7 +27,7 @@
           :display-value="$q.lang.table.columns"
           emit-value
           map-options
-          :options="columns"
+          :options="columns.filter((column) => !column.required)"
           option-value="name"
           style="min-width: 150px"
         />
@@ -100,18 +101,18 @@ export interface IPaymentTable extends ICardSectionWrapper{
 
 const paymentTableRows = defineProps<IPaymentTable>()
 
-const visibleColumns: Ref<Array<string>> = ref([ 'mp_id', 'operation_type', 'card_id_type', 'card_id_number', 'card_first_six_digits' ])
+const visibleColumns: Ref<Array<string>> = ref([ 'mp_id', 'operation_type', 'card_id_type', 'card_id_number', 'date_approved', 'date_created', 'fee_details_amount', 'trans_net_amount', 'trans_total_amount' ])
 
 const columns = [
-  { name: 'mp_id', required: true, label: 'mp_id', field: 'mp_id', sortable: true},
-	{ name: 'operation_type', required: false, label: 'operation_type', field: 'operation_type', sortable: true},
-  { name: 'card_id_type', required: false, label: 'card_id_type', field: 'card_id_type', sortable: true},
-  { name: 'card_id_number', required: false, label: 'card_id_number', field: 'card_id_number', sortable: true},
+  { name: 'mp_id', required: true, label: 'mp_id-label', field: 'mp_id', sortable: true},
+	{ name: 'operation_type', required: true, label: 'operation_type', field: 'operation_type', sortable: true},
+  { name: 'card_id_type', required: true, label: 'card_id_type', field: 'card_id_type', sortable: true},
+  { name: 'card_id_number', required: true, label: 'card_id_number', field: 'card_id_number', sortable: true},
   { name: 'card_first_six_digits', required: false, label: 'card_first_six_digits', field: 'card_first_six_digits', sortable: true},
-  { name: 'date_approved', required: false, label: 'date_approved', field: 'date_approved', sortable: true},
-  { name: 'date_created', required: false, label: 'date_created', field: 'date_created', sortable: true},
+  { name: 'date_approved', required: true, label: 'date_approved', field: 'date_approved', sortable: true},
+  { name: 'date_created', required: true, label: 'date_created', field: 'date_created', sortable: true},
   { name: 'api_call_id', required: false, label: 'api_call_id', field: 'api_call_id', sortable: true},
-  { name: 'fee_details_amount', required: false, label: 'fee_details_amount', field: 'fee_details_amount', sortable: true},
+  { name: 'fee_details_amount', required: true, label: 'fee_details_amount', field: 'fee_details_amount', sortable: true},
   { name: 'fee_details_type', required: false, label: 'fee_details_type', field: 'fee_details_type', sortable: true},
   { name: 'installments', required: false, label: 'installments', field: 'installments', sortable: true},
   { name: 'order_type', required: false, label: 'order_type', field: 'order_type', sortable: true},
@@ -121,7 +122,7 @@ const columns = [
   { name: 'status_detail', required: false, label: 'status_detail', field: 'status_detail', sortable: true},
   { name: 'taxes_amount', required: false, label: 'taxes_amount', field: 'taxes_amount', sortable: true},
   { name: 'transaction_amount', required: false, label: 'transaction_amount', field: 'transaction_amount', sortable: true},
-  { name: 'trans_net_amount', required: false, label: 'trans_net_amount', field: 'trans_net_amount', sortable: true},
-  { name: 'trans_total_amount', required: false, label: 'trans_total_amount', field: 'trans_total_amount', sortable: true}
+  { name: 'trans_net_amount', required: true, label: 'trans_net_amount', field: 'trans_net_amount', sortable: true},
+  { name: 'trans_total_amount', required: true, label: 'trans_total_amount', field: 'trans_total_amount', sortable: true}
 ]
 </script>
