@@ -41,9 +41,19 @@
   "dashboard-chart-previous-period": "periodo anterior",
   "dashboard-payments-type": "Pagos por Tipo",
   "dashboard-payments-status": "Pagos por Estado",
+  "dashboard-card-previous-value": "Valor anterior",
 
   "chart-pie-amount": "Importe",
   "chart-pie-quantity": "Cantidad",
+
+  "content-field-business-title": "Nombre del negocio",
+  "content-field-business-description": "Descripción del negocio",
+  "content-field-phone": "Solicitar teléfono",
+  "content-field-user-types": "Permitir tipo de usuarios",
+
+  "content-dni": "DNI",
+  "content-ruc": "RUC",
+  "content-publish": "Publicar",
 
   "direccion-tab-new-store-btn": "Nueva tienda",
 

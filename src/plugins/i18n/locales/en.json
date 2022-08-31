@@ -58,9 +58,19 @@
   "dashboard-chart-previous-period": "previous period",
   "dashboard-payments-type": "Payments by Type",
   "dashboard-payments-status": "Payments by Status",
+  "dashboard-card-previous-value": "Previous value",
 
   "chart-pie-amount": "Amount",
   "chart-pie-quantity": "Quantity",
+
+  "content-field-business-title": "Business name",
+  "content-field-business-description": "Business description",
+  "content-field-phone": "Request phone",
+  "content-field-user-types": "Allow user types",
+
+  "content-dni": "DNI",
+  "content-ruc": "RUC",
+  "content-publish": "Publish",
 
   "direccion-tab-new-store-btn": "New shop",
 
