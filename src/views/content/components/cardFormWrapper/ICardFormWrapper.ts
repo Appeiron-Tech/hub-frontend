@@ -1,7 +1,7 @@
 export interface ICardFormWrapper{
   title?: string;
   description?: string;
-  show?: boolean;
+  display?: boolean;
 
   loading?: boolean;
 }

@@ -11,33 +11,51 @@
             {{ cardSection.config.title }}
           </p>
         </div>
-        <div v-if="cardSection.config.show !== undefined" class="col-2">
-        show: {{cardSection.config.show}}
-          <q-toggle v-model="cardSection.config.show" style="float: right;"/>
+        <div v-if="cardSection.config.display !== undefined" class="col-2">
+          <q-toggle v-model="cardSection.config.display" style="float: right;"/>
         </div>
       </div>
-      <div v-if="cardSection.config.description" class="row justify-center q-my-sm">
-        <div class="col-4" style="text-align: center;">
-          <q-input
-            borderless
-            input-style="text-align: center;"
-            v-model="cardSection.config.description"
-            autogrow
-          />
+      <div v-if="cardSection.config.description">
+        <div v-if="editingDescription" class="row justify-center q-my-sm">
+          <div class="col-4" style="text-align: center;">
+            <q-input
+              borderless
+              input-style="text-align: center;"
+              v-model="cardSection.config.description"
+              autogrow
+              :autofocus="editingDescription"
+              @blur="editingDescription = false"
+            />
+          </div>
         </div>
-        <div class="col-12" style="text-align: center;">
-          <span>{{cardSection.config.description}}</span><q-icon name="edit" />
+        <div v-else class="row justify-center q-my-sm">
+          <div class="col-6 q-py-sm"
+               style="text-align: center; cursor: pointer !important; width: fit-content;"
+               @click="editingDescription = true"
+          >
+          <!-- <q-input
+              borderless
+              input-style="text-align: center;"
+              v-model="cardSection.config.description"
+              autogrow
+              readonly
+              style="cursor: pointer !important;"
+            >
+              <template v-slot:append>
+                <q-icon name="edit" />
+              </template>
+            </q-input> -->
+            <span >{{cardSection.config.description}}</span><q-icon name="edit" />
+          </div>
         </div>
       </div>
 
       <div
-        class="row q-gutter-none"
+        class="row justify-center q-my-sm"
         style="width: 100%"
       >
-        <div class="col-12">
-          <slot>
-          </slot>
-        </div>
+        <slot>
+        </slot>
         <q-inner-loading
           :showing="cardSection.config.loading"
           label="Please wait..."
@@ -51,7 +69,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Ref } from 'vue';
+import { ref, type Ref } from 'vue';
 import type { CCardFormWrapper } from './CardFormWrapper';
 
 export interface ICardFormWrapper {
@@ -59,5 +77,7 @@ export interface ICardFormWrapper {
 }
 
 const cardSection = defineProps<ICardFormWrapper>()
+
+const editingDescription : Ref<boolean> = ref(false)
 
 </script>
