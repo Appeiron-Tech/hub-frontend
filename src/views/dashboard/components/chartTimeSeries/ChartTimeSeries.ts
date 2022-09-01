@@ -1,4 +1,4 @@
-import Highcharts, {type Options, Chart, type SeriesOptionsType, type SeriesSplineOptions } from 'highcharts';
+import Highcharts, {type Options, Chart, type SeriesOptionsType, type SeriesAreasplineOptions } from 'highcharts';
 // Load the exporting module.
 import Exporting from 'highcharts/modules/exporting';
 // Initialize exporting module.
@@ -9,7 +9,7 @@ import type { IDateRange } from '../../IDashboard';
 export default class ChartTimeSeries{
   private _containerId: string;
   private _chart: Chart | null = null;
-  private _series: Array<SeriesSplineOptions> = [{ type: 'spline',  name: '', data: [] }];
+  private _series: Array<SeriesAreasplineOptions> = [{ type: 'areaspline',  name: '', data: [] }];
   private _title: string = "";
   private _color: string = "#7cb5ec";
   private _units: string = "";
@@ -66,17 +66,17 @@ export default class ChartTimeSeries{
     })
   }
 
-  get series(): Array<SeriesSplineOptions>{
+  get series(): Array<SeriesAreasplineOptions>{
     return this._series
   }
 
-  set series( p_series: Array<SeriesSplineOptions>){
+  set series( p_series: Array<SeriesAreasplineOptions>){
     this._series = p_series;
 
     const _length: number = this._chart?.series.length || 0;
     Array.from({ length: _length }).forEach( () => { this._chart?.series[0]?.remove(true); } )
 
-    p_series.forEach( (_series : SeriesSplineOptions) => {
+    p_series.forEach( (_series : SeriesAreasplineOptions) => {
       this._chart?.addSeries(_series as SeriesOptionsType);
     })
   }

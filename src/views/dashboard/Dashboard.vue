@@ -120,7 +120,7 @@ const cardTimeSeries: ICardTimeSeries = reactive({
   title: computed(() => t(cardsArea.find((card: ICardArea) => card.active)?.title || '')),
   loading: computed(() => false),
   series: [{
-    type: 'spline',
+    type: 'areaspline',
     name: computed(() => t(cardsArea.find((card: ICardArea) => card.active)?.title || '' )),
     // data:  computed(() => dashboard.likes.rows)
     data:  computed(() => {
@@ -145,7 +145,7 @@ const cardTimeSeries: ICardTimeSeries = reactive({
     xAxis: 0
   },
   {
-    type: 'spline',
+    type: 'areaspline',
     name: computed(() => t(cardsArea.find((card: ICardArea) => card.active)?.title || '') + ' (' + t("dashboard-chart-previous-period")+ ')'),
     // data: computed(() => dashboard.prvLikes.rows),
     data:  computed(() => {

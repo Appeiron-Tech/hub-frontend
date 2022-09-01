@@ -32,13 +32,13 @@
 <script setup lang="ts">
 import { onMounted, watch } from 'vue';
 import type { ICardSectionWrapper } from '@/components/cardSectionWrapper/CardSectionWrapper.vue';
-import type { SeriesSplineOptions } from 'highcharts';
+import type { SeriesAreasplineOptions } from 'highcharts';
 import type { IDateRange } from '../../IDashboard';
 import ChartTimeSeries from './ChartTimeSeries'
 
 export interface ICardTimeSeries extends ICardSectionWrapper{
     title: string;
-    series: Array<SeriesSplineOptions>,
+    series: Array<SeriesAreasplineOptions>,
     xAxis?: IDateRange;
     xAxisPrv?: IDateRange;
 }
