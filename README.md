@@ -66,3 +66,15 @@ ADD 2 TXT RECORD in namecheap, in the host is not needed put the domain name, (b
 
 cp /etc/letsencrypt/live/zentreapp.com/privkey.pem /root/certs/zentreapp.com.key
 cp /etc/letsencrypt/live/zentreapp.com/fullchain.pem /root/certs/zentreapp.com.crt
+
+
+
+<!-- Zentre.app apps -->
+
+Nomada:
+
+certbot certonly --manual --preferred-challenges=dns --email "appeiron.manager@gmail.com" --server https://acme-v02.api.letsencrypt.org/directory --agree-tos -d "zentre.app" -d "*.zentre.app"
+
+cp /etc/letsencrypt/live/zentre.app/privkey.pem /root/certs/zentre.app.key
+
+cp /etc/letsencrypt/live/zentre.app/fullchain.pem /root/certs/zentre.app.crt

@@ -162,16 +162,16 @@ const routes: Array<RouteRecordRaw> = [
   //     hide: false
   //   },
   // },
-  // {
-  //   path: "/admin/myenterprise",
-  //   name: ROUTER_NAME.ENTERPRISE,
-  //   component: () => import("@/views/settings/myEnterprise/MyEnterprise.vue"),
-  //   meta: {
-  //     label: "menu-settings-enterprise",
-  //     icon: "business",
-  //     hide: false
-  //   },
-  // },
+  {
+    path: "/admin/myenterprise",
+    name: ROUTER_NAME.ENTERPRISE,
+    component: () => import("@/views/myEnterprise/MyEnterprise.vue"),
+    meta: {
+      label: "menu-settings-enterprise",
+      icon: "business",
+      hide: false
+    },
+  },
 ];
 
 const router = createRouter({
